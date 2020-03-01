@@ -35,6 +35,7 @@ REPAIRS = "CREATE TABLE IF NOT EXISTS REPAIRS (" \
                           "date_exit TEXT," \
                           "final_observations TEXT NOT NULL," \
                           "price REAL NOT NULL," \
+                          "repair_status integer NOT NULL," \
                           "FOREIGN KEY (vehicle_id) REFERENCES vehicle (vehicle_id)," \
                           "FOREIGN KEY (client_id) REFERENCES client (client_id)" \
                           "); """

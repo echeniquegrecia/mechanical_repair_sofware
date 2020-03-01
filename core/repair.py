@@ -62,30 +62,182 @@ class Repair:
         repair = repairs[0] if repairs else {}
         return repair
 
-    def get_repairs_with_vehicles_and_clients_details(self):
+    def get_by_status(self, repair_status):
+        """Get repair by date exit"""
+        self.sql = "SELECT * FROM REPAIRS WHERE repair_status=?"
+        columns = list(map(lambda x: x[0], self.cursor.description))
+        values = self.cursor.execute(self.sql, (repair_status,))
+        repairs = [dict(zip(columns, value)) for value in values]
+        repair = repairs[0] if repairs else {}
+        return repair
+
+    def get_all_repairs_with_details(self):
         """Get repairs with vehicles and clients details."""
         self.sql = "" \
-        "SELECT REPAIRS.repair_id ," \
-                "VEHICLES_TYPE.brand AS brand," \
-                "VEHICLES_TYPE.model AS model," \
-                "VEHICLES_TYPE.year AS year," \
+        "SELECT REPAIRS.repair_id," \
+                "VEHICLES.identity," \
+                "VEHICLES_TYPE.brand," \
+                "VEHICLES_TYPE.model," \
+                "VEHICLES_TYPE.year," \
                 "REPAIRS.date_entry," \
                 "REPAIRS.date_exit," \
-                "CLIENTS.name as client_name," \
-                "CLIENTS.last_name as client_last_name," \
-                "CLIENTS.identity_card as client_identity " \
-                "FROM REPAIRS " \
+                "CLIENTS.name," \
+                "CLIENTS.last_name," \
+                "CLIENTS.identity_card " \
+        "FROM REPAIRS " \
         "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
         "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
-        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id;"
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+        "ORDER BY CLIENTS.last_name ASC;"
         self.cursor.execute(self.sql)
         columns = [
             "repair_id",
+            "identity",
             "brand",
             "model",
             "year",
             "data_entry",
             "data_exit",
+            "client_name",
+            "client_last_name",
+            "client_identity"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_repairs_by_date_entry_with_details(self, date_entry):
+        """Get repairs with vehicles and clients details by model."""
+        self.sql = "" \
+        "SELECT REPAIRS.repair_id," \
+                "VEHICLES.identity," \
+                "VEHICLES_TYPE.brand," \
+                "VEHICLES_TYPE.model," \
+                "VEHICLES_TYPE.year," \
+                "REPAIRS.date_entry," \
+                "REPAIRS.date_exit," \
+                "CLIENTS.name," \
+                "CLIENTS.last_name," \
+                "CLIENTS.identity_card " \
+        "FROM REPAIRS " \
+        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
+        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+        f"WHERE REPAIRS.date_entry = ?;"
+        self.cursor.execute(self.sql, (date_entry,))
+        columns = [
+            "repair_id",
+            "identity",
+            "brand",
+            "model",
+            "year",
+            "date_entry",
+            "date_exit",
+            "client_name",
+            "client_last_name",
+            "client_identity"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_repairs_by_date_exit_with_details(self, date_exit):
+        """Get repairs with vehicles and clients details by model."""
+        self.sql = "" \
+        "SELECT REPAIRS.repair_id," \
+                "VEHICLES.identity," \
+                "VEHICLES_TYPE.brand," \
+                "VEHICLES_TYPE.model," \
+                "VEHICLES_TYPE.year," \
+                "REPAIRS.date_entry," \
+                "REPAIRS.date_exit," \
+                "CLIENTS.name," \
+                "CLIENTS.last_name," \
+                "CLIENTS.identity_card " \
+        "FROM REPAIRS " \
+        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
+        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+        f"WHERE REPAIRS.date_exit = ?;"
+        self.cursor.execute(self.sql, (date_exit,))
+        columns = [
+            "repair_id",
+            "identity",
+            "brand",
+            "model",
+            "year",
+            "date_entry",
+            "date_exit",
+            "client_name",
+            "client_last_name",
+            "client_identity"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_repairs_by_status_with_details(self, repair_status):
+        """Get repairs with vehicles and clients details by model."""
+        self.sql = "" \
+        "SELECT REPAIRS.repair_id," \
+                "VEHICLES.identity," \
+                "VEHICLES_TYPE.brand," \
+                "VEHICLES_TYPE.model," \
+                "VEHICLES_TYPE.year," \
+                "REPAIRS.date_entry," \
+                "REPAIRS.date_exit," \
+                "CLIENTS.name," \
+                "CLIENTS.last_name," \
+                "CLIENTS.identity_card " \
+        "FROM REPAIRS " \
+        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
+        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+        f"WHERE REPAIRS.repair_status = ?;"
+        self.cursor.execute(self.sql, (repair_status,))
+        columns = [
+            "repair_id",
+            "identity",
+            "brand",
+            "model",
+            "year",
+            "date_entry",
+            "date_exit",
+            "client_name",
+            "client_last_name",
+            "client_identity"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_repairs_by_client_last_name_with_details(self, last_name):
+        """Get repairs with vehicles and clients details by model."""
+        self.sql = "" \
+        "SELECT REPAIRS.repair_id," \
+                "VEHICLES.identity," \
+                "VEHICLES_TYPE.brand," \
+                "VEHICLES_TYPE.model," \
+                "VEHICLES_TYPE.year," \
+                "REPAIRS.date_entry," \
+                "REPAIRS.date_exit," \
+                "CLIENTS.name," \
+                "CLIENTS.last_name," \
+                "CLIENTS.identity_card " \
+        "FROM REPAIRS " \
+        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
+        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+        f"WHERE CLIENTS.last_name = ?;"
+        self.cursor.execute(self.sql, (last_name,))
+        columns = [
+            "repair_id",
+            "identity",
+            "brand",
+            "model",
+            "year",
+            "date_entry",
+            "date_exit",
             "client_name",
             "client_last_name",
             "client_identity"
@@ -101,7 +253,6 @@ class Repair:
         placeholders = ','.join(['?'] * len(data))
         try:
             self.sql = f"INSERT INTO REPAIRS({columns}) VALUES({placeholders})"
-            print(self.sql)
             self.cursor.execute(self.sql, values)
             self.connection.commit()
             result = True
