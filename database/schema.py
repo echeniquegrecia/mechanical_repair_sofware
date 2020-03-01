@@ -4,7 +4,8 @@ CLIENTS = "CREATE TABLE IF NOT EXISTS CLIENTS (" \
                           "last_name text NOT NULL," \
                           "identity_card text," \
                           "email text," \
-                          "phone text," \
+                          "phone_1 text," \
+                          "phone_2 text," \
                           "address text NOT NULL" \
                           ");"
 

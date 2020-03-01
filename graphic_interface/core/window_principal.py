@@ -1,4 +1,10 @@
 import tkinter as tk
+from PIL import Image, ImageTk
+
+from graphic_interface.core.client.menu_client import MenuClient
+from settings import IMAGE_MENU
+
+
 class WindowPrincipal:
     """Class for Window Principal."""
 
@@ -11,7 +17,16 @@ class WindowPrincipal:
         buttons_frame = tk.LabelFrame(self.root, text="Menu", width=100, height=10)
         buttons_frame.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')
 
-        button1 = tk.Button(buttons_frame, text="Clientes", font='Helvetica 20 bold')
+        buttons_frame_1 = tk.LabelFrame(self.root, width=300)
+        buttons_frame_1.pack(side='right', ipadx=320, padx=5, pady=11, fill='both')
+
+        image = Image.open(IMAGE_MENU)
+        image = image.resize((950, 800), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        label = tk.Label(buttons_frame_1, image=image)
+        label.pack(side='right', fill='both', expand=True)
+
+        button1 = tk.Button(buttons_frame, text="Clientes", font='Helvetica 20 bold', command=MenuClient)
         button1.pack(fill='both', pady=10, padx=10)
 
         button2 = tk.Button(buttons_frame, text="Vehiculos", font='Helvetica 20 bold')

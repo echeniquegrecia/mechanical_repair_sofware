@@ -28,7 +28,8 @@ client_data= {
     "last_name": "echenique",
     "identity_card": "19265565",
     "email": "grecia@gmail.com",
-    "phone": "0251-48244935",
+    "phone_1": "0251-48244935",
+    "phone_2": "0414-2549632",
     "address": "yaritagua"
 }
 client_data_2= {
@@ -36,7 +37,8 @@ client_data_2= {
     "last_name": "hernandez",
     "identity_card": "7547162",
     "email": "luis@gmail.com",
-    "phone": "0255-568741258",
+    "phone_1": "0255-568741258",
+    "phone_2": "0416-9997841",
     "address": "Acarigua"
 }
 client_data_3= {
@@ -44,7 +46,8 @@ client_data_3= {
     "last_name": "aponte",
     "identity_card": "8741236",
     "email": "marta@gmail.com",
-    "phone": "0251-33378514",
+    "phone_1": "0251-33378514",
+    "phone_2": "0414-44478326",
     "address": "barquisimeto"
 }
 client.create(data=client_data)
@@ -52,7 +55,6 @@ client.create(data=client_data_2)
 client.create(data=client_data_3)
 print(client.get_all())
 print(client.get_by_identity_card(identity_card="7547162"))
-
 
 
 vehicle_type = VehicleType(connection=connection)
