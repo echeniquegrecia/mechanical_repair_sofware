@@ -1,3 +1,5 @@
 from graphic_interface.core.window_principal import WindowPrincipal
+import tkinter as tk
 
-window_principal = WindowPrincipal()
+root = tk.Tk()
+window_principal = WindowPrincipal(root= root)

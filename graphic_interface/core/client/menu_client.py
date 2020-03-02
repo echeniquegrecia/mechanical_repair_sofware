@@ -1,15 +1,17 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
+from graphic_interface.core.client.form_new_client import FormNewClient
+
 from settings import IMAGE_MENU_CLIENT
 
 
 class MenuClient:
     """Class for Window Principal."""
 
-    def __init__(self):
+    def __init__(self, root):
         """Window Principal init"""
-        self.root = tk.Toplevel()
+        self.root = root
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
         self.root.state('zoomed')
 
@@ -26,7 +28,7 @@ class MenuClient:
         label = tk.Label(buttons_frame_1, image=image)
         label.pack(side='right', fill='both', expand=True)
 
-        button1 = tk.Button(buttons_frame, text="Nuevo", font='Helvetica 20 bold')
+        button1 = tk.Button(buttons_frame, text="Nuevo", font='Helvetica 20 bold', command=self.form_new_client)
         button1.pack(fill='both', pady=10, padx=10)
 
         button2 = tk.Button(buttons_frame, text="Editar", font='Helvetica 20 bold')
@@ -36,3 +38,17 @@ class MenuClient:
         button3.pack(fill='both', pady=10, padx=10)
 
         self.root.mainloop()
+
+    def form_new_client(self):
+        self.hide()
+        self.newWindow = tk.Toplevel(self.root)
+        self.app = FormNewClient(self.newWindow)
+
+    def hide(self):
+        self.root.withdraw()
+
+    def show(self):
+        self.root.update()
+        self.root.deiconify()
+
+

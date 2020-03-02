@@ -8,9 +8,10 @@ from settings import IMAGE_MENU
 class WindowPrincipal:
     """Class for Window Principal."""
 
-    def __init__(self):
+    def __init__(self, root):
         """Window Principal init"""
-        self.root = tk.Tk()
+
+        self.root = root
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
         self.root.state('zoomed')
 
@@ -26,7 +27,7 @@ class WindowPrincipal:
         label = tk.Label(buttons_frame_1, image=image)
         label.pack(side='right', fill='both', expand=True)
 
-        button1 = tk.Button(buttons_frame, text="Clientes", font='Helvetica 20 bold', command=MenuClient)
+        button1 = tk.Button(buttons_frame, text="Clientes", font='Helvetica 20 bold', command=self.menu_client)
         button1.pack(fill='both', pady=10, padx=10)
 
         button2 = tk.Button(buttons_frame, text="Vehiculos", font='Helvetica 20 bold')
@@ -44,9 +45,19 @@ class WindowPrincipal:
         buttonW = tk.Button(sub_buttons_frame_2, text="Salir", font='Helvetica 15 bold', width=15)
         buttonW.pack(side='right', fil='x')
 
-        buttonE = tk.Button(sub_buttons_frame_2, text="Configuracion", font='Helvetica 15 bold', width=15)
+        buttonE = tk.Button(sub_buttons_frame_2, text="Reset", font='Helvetica 15 bold', width=15)
         buttonE.pack(side='left', fil='x')
 
         self.root.mainloop()
 
+    def menu_client(self):
+        self.hide()
+        self.newWindow = tk.Toplevel(self.root)
+        self.app = MenuClient(self.newWindow)
 
+    def hide(self):
+        self.root.withdraw()
+
+    def show(self):
+        self.root.update()
+        self.root.deiconify()
