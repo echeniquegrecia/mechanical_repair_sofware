@@ -1,17 +1,17 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-from graphic_interface.core.client.menu_client import MenuClient
+from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.client.menu_client import MenuClient
 from settings import IMAGE_MENU
 
 
-class WindowPrincipal:
+class WindowPrincipal(BaseFrame):
     """Class for Window Principal."""
 
-    def __init__(self, root):
+    def __init__(self, root, connection):
         """Window Principal init"""
-
-        self.root = root
+        super().__init__(root=root, connection=connection)
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
         self.root.state('zoomed')
 
@@ -53,11 +53,4 @@ class WindowPrincipal:
     def menu_client(self):
         self.hide()
         self.newWindow = tk.Toplevel(self.root)
-        self.app = MenuClient(self.newWindow)
-
-    def hide(self):
-        self.root.withdraw()
-
-    def show(self):
-        self.root.update()
-        self.root.deiconify()
+        self.app = MenuClient(root=self.newWindow, connection=self.connection)
