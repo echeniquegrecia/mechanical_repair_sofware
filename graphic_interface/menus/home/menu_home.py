@@ -6,11 +6,11 @@ from graphic_interface.menus.client.menu_client import MenuClient
 from settings import IMAGE_MENU
 
 
-class WindowPrincipal(BaseFrame):
-    """Class for Window Principal."""
+class MenuHome(BaseFrame):
+    """Class for MenuHome."""
 
     def __init__(self, root, connection):
-        """Window Principal init"""
+        """MenuHome init"""
         super().__init__(root=root, connection=connection)
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
         self.root.state('zoomed')
@@ -53,4 +53,4 @@ class WindowPrincipal(BaseFrame):
     def menu_client(self):
         self.hide()
         self.newWindow = tk.Toplevel(self.root)
-        self.app = MenuClient(root=self.newWindow, connection=self.connection)
+        self.app = MenuClient(root=self.newWindow, connection=self.connection, master=self)

@@ -1,7 +1,6 @@
 import tkinter as tk
 
 from database.database import Database
-from database.schema import CLIENTS
 from graphic_interface.menus.base_frame import BaseFrame
 from settings import DATABASE
 
@@ -16,11 +15,12 @@ client = Client(connection=connection)
 class FormNewClient(BaseFrame):
     """Class FormNewClient."""
 
-    def __init__(self, root, connection):
+    def __init__(self, root, connection, master):
         """FormNewClient init."""
         super().__init__(root=root, connection=connection)
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
         self.root.state('zoomed')
+        self.master = master
         self.data = {
             "name": tk.StringVar(),
             "last_name": tk.StringVar(),
@@ -118,5 +118,5 @@ class FormNewClient(BaseFrame):
 
     def go_back(self):
         self.hide()
-        self.show()
+        self.master.show()
 
