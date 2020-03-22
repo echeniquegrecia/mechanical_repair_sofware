@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.client.form_edit_client import FormEditClient
 from graphic_interface.menus.client.form_new_client import FormNewClient
 
 from settings import IMAGE_MENU_CLIENT
@@ -32,7 +33,7 @@ class MenuClient(BaseFrame):
         button1 = tk.Button(buttons_frame, text="Nuevo", font='Helvetica 20 bold', command=self.form_new_client)
         button1.pack(fill='both', pady=10, padx=10)
 
-        button2 = tk.Button(buttons_frame, text="Editar", font='Helvetica 20 bold')
+        button2 = tk.Button(buttons_frame, text="Editar", font='Helvetica 20 bold', command=self.form_edit_client)
         button2.pack(fill='both', pady=10, padx=10)
 
         button3 = tk.Button(buttons_frame, text="Buscar", font='Helvetica 20 bold')
@@ -57,6 +58,11 @@ class MenuClient(BaseFrame):
         self.hide()
         self.newWindow = tk.Toplevel(self.root)
         self.app = FormNewClient(root=self.newWindow, connection=self.connection, master=self)
+
+    def form_edit_client(self):
+        self.hide()
+        self.newWindow = tk.Toplevel(self.root)
+        self.app = FormEditClient(root=self.newWindow, connection=self.connection, master=self)
 
     def go_back(self):
         self.hide()

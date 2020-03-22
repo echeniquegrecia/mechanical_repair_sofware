@@ -32,7 +32,8 @@ class BaseFrame:
 
     def get_all_client(self):
         client = Client(connection=self.connection)
-        client.get_all()
+        clients = client.get_all()
+        return clients
 
     def update_client(self, client_id, data):
         client = Client(connection=self.connection)

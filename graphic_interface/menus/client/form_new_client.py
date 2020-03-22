@@ -1,14 +1,8 @@
 import tkinter as tk
 
-from database.database import Database
 from graphic_interface.menus.base_frame import BaseFrame
-from settings import DATABASE
 
-from core.client import Client
 
-database = Database(database=DATABASE)
-connection = database.get_connection()
-client = Client(connection=connection)
 # Create tables
 
 
@@ -119,4 +113,3 @@ class FormNewClient(BaseFrame):
     def go_back(self):
         self.hide()
         self.master.show()
-
