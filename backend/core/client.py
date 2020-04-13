@@ -26,14 +26,21 @@ class Client:
         client = clients[0] if clients else {}
         return client
 
+    def get_by_name(self, name:str):
+        """Get a client by name."""
+        self.sql = "SELECT * FROM CLIENTS WHERE name=?"
+        columns = list(map(lambda x: x[0], self.cursor.description))
+        values = self.cursor.execute(self.sql, (name,))
+        clients = [dict(zip(columns, value)) for value in values]
+        return clients
+
     def get_by_last_name(self, last_name:str):
         """Get a client by last name."""
         self.sql = "SELECT * FROM CLIENTS WHERE last_name=?"
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (last_name,))
         clients = [dict(zip(columns, value)) for value in values]
-        client = clients[0] if clients else {}
-        return client
+        return clients
 
     def get_by_identity_card(self, identity_card:str):
         """Get a client by identity card."""
@@ -41,8 +48,15 @@ class Client:
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (identity_card,))
         clients = [dict(zip(columns, value)) for value in values]
-        client = clients[0] if clients else {}
-        return client
+        return clients
+
+    def get_by_email(self, email:str):
+        """Get a client by email."""
+        self.sql = "SELECT * FROM CLIENTS WHERE email=?"
+        columns = list(map(lambda x: x[0], self.cursor.description))
+        values = self.cursor.execute(self.sql, (email,))
+        clients = [dict(zip(columns, value)) for value in values]
+        return clients
 
     def create(self, data:dict):
         """Create a client."""
