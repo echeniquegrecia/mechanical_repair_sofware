@@ -1,17 +1,24 @@
 import tkinter as tk
-from tkinter import ttk
-
-
 from graphic_interface.menus.base_frame import BaseFrame
 
 
 class FormEditClient(BaseFrame):
     """Class for Edit Client Window."""
 
-    def __init__(self, root, connection, master):
-        """Edit Client Window init."""
+    def __init__(self, root, connection, master, values):
+        """New Client Window init."""
         super().__init__(root=root, connection=connection)
         self.master = master
+        self.values = {
+            "id": values[0],
+            "name": values[1],
+            "last_name": values[2],
+            "identity_card": values[3],
+            "email": values[4],
+            "phone_1": values[5],
+            "phone_2": values[6],
+            "address": values[7],
+        }
         self.data = {
             "name": tk.StringVar(),
             "last_name": tk.StringVar(),
@@ -22,81 +29,104 @@ class FormEditClient(BaseFrame):
             "address": tk.StringVar()
         }
 
-        frame_1 = tk.LabelFrame(self.root, text="Editar-Borrar Client", width=100, height=10)
-        frame_1.pack(side='left', ipadx=200, padx=5, pady=5, fill='y')
+        frame_1 = tk.LabelFrame(self.root, text="Editar cliente")
+        frame_1.pack(side="left",padx=5, pady=5, fill='both', expand=True)
 
-        frame_2 = tk.LabelFrame(self.root)
-        frame_2.pack(side='right', padx=5, pady=11, fill='both')
+        frame_2 = tk.Frame(frame_1)
+        frame_2.pack(side="top", padx=5, pady=5, fill='x')
 
-        button_1 = tk.Button(frame_1, text="Editar", font='Helvetica 20 bold')
-        button_1.pack(fill='both', pady=10, padx=10)
+        frame_3 = tk.Frame(frame_2)
+        frame_3.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        button_2 = tk.Button(frame_1, text="Borrar", font='Helvetica 20 bold')
-        button_2.pack(fill='both', pady=10, padx=10)
+        frame_4 = tk.Frame(frame_2)
+        frame_4.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_3 = tk.Frame(frame_1)
-        frame_3.pack(side='bottom', fill='x')
+        frame_5 = tk.Frame(frame_2)
+        frame_5.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        button_3 = tk.Button(frame_3, text="Regresar", font='Helvetica 15 bold')
-        button_3.pack(side='left', pady=10, padx=10)
+        frame_6 = tk.Frame(frame_2)
+        frame_6.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        # Define Heading table
-        columns = ("Id", "Nombre", "Apellido", "Cédula", "Email", "Teléfono fijo", "Celular", "Direccion")
-        treeview = ttk.Treeview(frame_2, height=18, show="headings", columns=columns)
-        treeview.heading("Id", text="Id")
-        treeview.heading("Nombre", text="Nombre")
-        treeview.heading("Apellido", text="Apellido")
-        treeview.heading("Cédula", text="Cédula")
-        treeview.heading("Email", text="Email")
-        treeview.heading("Teléfono fijo", text="Teléfono fijo")
-        treeview.heading("Celular", text="Celular")
-        treeview.heading("Direccion", text="Direccion")
+        frame_7 = tk.Frame(frame_1)
+        frame_7.pack(side="top", padx=5, pady=5, fill='x')
 
-        # Define Columns table
-        treeview.column("Id", stretch=0, width=20, anchor='center')
-        treeview.column("Nombre",width=150, anchor='center')
-        treeview.column("Apellido", width=150, anchor='center')
-        treeview.column("Cédula", width=150, anchor='center')
-        treeview.column("Email", width=150, anchor='center')
-        treeview.column("Teléfono fijo", width=150, anchor='center')
-        treeview.column("Celular", width=150, anchor='center')
-        treeview.column("Direccion", width=150, anchor='center')
+        frame_8 = tk.Frame(frame_7)
+        frame_8.pack(side="left", fill='x')
 
-        # Insert Data
-        clients = self.client.get_all()
-        id = [client.get("client_id") for client in clients]
-        name = [client.get("name") for client in clients]
-        last_name = [client.get("last_name") for client in clients]
-        identity_card = [client.get("identity_card") for client in clients]
-        email = [client.get("email") for client in clients]
-        phone_1 = [client.get("phone_1") for client in clients]
-        phone_2 = [client.get("phone_2") for client in clients]
-        address = [client.get("address") for client in clients]
+        frame_9 = tk.Frame(frame_7)
+        frame_9.pack(side="left",fill='x', expand=True)
 
-        for client in range(0, len(clients)):
-            treeview.insert('', client, values=(
-                id[client],
-                name[client],
-                last_name[client],
-                identity_card[client],
-                email[client],
-                phone_1[client],
-                phone_2[client],
-                address[client]))
+        frame_10 = tk.Frame(frame_1)
+        frame_10.pack(side="bottom", padx=5, pady=5, fill='x')
 
-        # Scrollbar Vertical
-        scrollbar_vertical = ttk.Scrollbar(frame_2)
-        scrollbar_vertical.configure(command=treeview.yview)
-        treeview.configure(yscrollcommand=scrollbar_vertical.set)
+        name_label = tk.Label(frame_3, text="Nombre", font='Helvetica 18 bold', anchor='w')
+        name_label.pack(padx=5, pady=5, fill='both')
+        name_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data["name"])
+        self.data["name"].set(self.values.get("name"))
+        name_entry.pack(padx=5, pady=5, fill='both')
 
-        # Scrollbar Horizontal
-        scrollbar_horizontal = ttk.Scrollbar(frame_2, orient="horizontal")
-        scrollbar_horizontal.configure(command=treeview.xview)
-        treeview.configure(xscrollcommand=scrollbar_horizontal.set)
+        last_name_label = tk.Label(frame_5, text="Apellido", font='Helvetica 18 bold', anchor='w')
+        last_name_label.pack(padx=5, pady=5, fill='both')
+        last_name_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data["last_name"])
+        self.data["last_name"].set(self.values.get("last_name"))
+        last_name_entry.pack(padx=5, pady=5, fill='both')
 
-        # Scrollbar Position
-        scrollbar_vertical.pack(side="right", fill="y")
-        scrollbar_horizontal.pack(side="bottom", fill="x")
-        treeview.pack(side="right", fill='both', expand=True)
+        identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 18 bold', anchor='w')
+        identity_card_label.pack(padx=5, pady=5, fill='both')
+        identity_card_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data["identity_card"])
+        self.data["identity_card"].set(self.values.get("identity_card"))
+        identity_card_entry.pack(padx=5, pady=5, fill='both')
+
+        email_label = tk.Label(frame_5, text="Email", font='Helvetica 18 bold', anchor='w')
+        email_label.pack(padx=5, pady=5, fill='both')
+        email_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data["email"])
+        self.data["email"].set(self.values.get("email"))
+        email_entry.pack(padx=5, pady=5, fill='both')
+
+        phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 18 bold', anchor='w')
+        phone_1_label.pack(padx=5, pady=5, fill='both')
+        phone_1_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data["phone_1"])
+        self.data["phone_1"].set(self.values.get("phone_1"))
+        phone_1_entry.pack(padx=5, pady=5, fill='both')
+
+        phone_2_label = tk.Label(frame_5, text="Celular", font='Helvetica 18 bold', anchor='w')
+        phone_2_label.pack(padx=5, pady=5, fill='both')
+        phone_2_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data["phone_2"])
+        self.data["phone_2"].set(self.values.get("phone_2"))
+        phone_2_entry.pack(padx=5, pady=5, fill='both')
+
+        address_label = tk.Label(frame_8, text="Direccion", font='Helvetica 18 bold', anchor='w')
+        address_label.pack(padx=5, pady=5, fill='both')
+        address_entry = tk.Entry(frame_9, font="Helvetica 17", textvariable=self.data["address"])
+        self.data["address"].set(self.values.get("address"))
+        address_entry.pack(padx=5, pady=5, fill='both')
+
+        button_1 = tk.Button(frame_10, text="Editar", font='Helvetica 15 bold', width=15, command=self.edit_client)
+        button_1.pack(side='right', fil='x')
+
+        button_2 = tk.Button(frame_10, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
+        button_2.pack(side='right', fil='x')
 
         self.root.mainloop()
+
+    def edit_client(self):
+        """Create new client."""
+        id = self.values.get("id")
+        data = {
+            "name": self.data["name"].get(),
+            "last_name": self.data["last_name"].get(),
+            "identity_card": self.data["identity_card"].get(),
+            "email": self.data["email"].get(),
+            "phone_1": self.data["phone_1"].get(),
+            "phone_2": self.data["phone_2"].get(),
+            "address": self.data["address"].get()
+        }
+        result = self.client.update(client_id=id, data=data)
+        if result:
+            self.show_info(message="El cliente ha sido registrado exitosamente")
+        else:
+            self.show_info(message="ERROR: El cliente no ha sido creado.")
+
+    def go_back(self):
+        """Go back to Menu Client."""
+        self.hide()

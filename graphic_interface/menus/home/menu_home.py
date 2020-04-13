@@ -12,6 +12,7 @@ class MenuHome(BaseFrame):
     def __init__(self, root, connection):
         """MenuHome init."""
         super().__init__(root=root, connection=connection)
+        self.root.state('zoomed')
 
         frame_1 = tk.LabelFrame(self.root, text="Menu", width=100, height=10)
         frame_1.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')

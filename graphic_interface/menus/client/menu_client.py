@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
-from graphic_interface.menus.client.form_edit_client import FormEditClient
+from graphic_interface.menus.client.table_edit_client import TableEditClient
 from graphic_interface.menus.client.form_new_client import FormNewClient
 
 from settings import IMAGE_MENU_CLIENT
@@ -14,6 +14,7 @@ class MenuClient(BaseFrame):
     def __init__(self, root, connection, master):
         """Menu Client init."""
         super().__init__(root=root, connection=connection)
+        self.root.state('zoomed')
         self.master = master
 
         frame_1 = tk.LabelFrame(self.root, text="Menu", width=100, height=10)
@@ -25,7 +26,7 @@ class MenuClient(BaseFrame):
         button_1 = tk.Button(frame_1, text="Nuevo", font='Helvetica 20 bold', command=self.form_new_client)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_1, text="Editar", font='Helvetica 20 bold', command=self.form_edit_client)
+        button_2 = tk.Button(frame_1, text="Editar", font='Helvetica 20 bold', command=self.table_edit_client)
         button_2.pack(fill='both', pady=10, padx=10)
 
         button_3 = tk.Button(frame_1, text="Buscar", font='Helvetica 20 bold')
@@ -57,11 +58,11 @@ class MenuClient(BaseFrame):
         self.new_window = tk.Toplevel(self.root)
         self.app = FormNewClient(root=self.new_window, connection=self.connection, master=self)
 
-    def form_edit_client(self):
+    def table_edit_client(self):
         """Open window Edit Client."""
         self.hide()
         self.new_window = tk.Toplevel(self.root)
-        self.app = FormEditClient(root=self.new_window, connection=self.connection, master=self)
+        self.app = TableEditClient(root=self.new_window, connection=self.connection, master=self)
 
     def go_back(self):
         """Go back Menu Home."""

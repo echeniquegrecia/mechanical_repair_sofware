@@ -12,7 +12,6 @@ class BaseFrame(BaseDatabase):
         super().__init__(connection=connection)
         self.root = root
         self.root.title('Taller Mecanico Echenique - Programa de gestion')
-        self.root.state('zoomed')
 
     def hide(self):
         """Hide a window."""
@@ -26,4 +25,9 @@ class BaseFrame(BaseDatabase):
     def show_info(self, message):
         """Show info."""
         tk.messagebox.showinfo("Popup Window(Title)", message)
+        self.root.mainloop()
+
+    def show_error(self, message):
+        """Show error."""
+        tk.messagebox.showerror("Popup Window(Title)", message)
         self.root.mainloop()
