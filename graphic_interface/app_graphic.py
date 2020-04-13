@@ -2,23 +2,11 @@ from graphic_interface.menus.home.menu_home import MenuHome
 import tkinter as tk
 
 from settings import DATABASE
-from core.client import Client
-from database.database import Database
-from database.schema import CLIENTS
-from database.schema import VEHICLES_TYPE
-from database.schema import VEHICLES
-from database.schema import REPAIRS
-
+from backend.core.client import Client
+from backend.database.database import Database
 
 database = Database(database=DATABASE)
 connection = database.get_connection()
-
-# Create tables
-table_clients = database.create_table(CLIENTS)
-table_vehicles_type = database.create_table(VEHICLES_TYPE)
-table_vehicles = database.create_table(VEHICLES)
-table_repairs = database.create_table(REPAIRS)
-
 client = Client(connection=connection)
 
 root = tk.Tk()

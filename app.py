@@ -1,15 +1,15 @@
 import datetime
 
 from settings import DATABASE
-from core.client import Client
-from core.vehicle_type import VehicleType
-from core.vehicle import Vehicle
-from core.repair import Repair
-from database.database import Database
-from database.schema import CLIENTS
-from database.schema import VEHICLES_TYPE
-from database.schema import VEHICLES
-from database.schema import REPAIRS
+from backend.core.client import Client
+from backend.core.vehicle_type import VehicleType
+from backend.core.vehicle import Vehicle
+from backend.core.repair import Repair
+from backend.database.database import Database
+from backend.database.schema import CLIENTS
+from backend.database.schema import VEHICLES_TYPE
+from backend.database.schema import VEHICLES
+from backend.database.schema import REPAIRS
 
 database = Database(database=DATABASE)
 connection = database.get_connection()

@@ -7,7 +7,6 @@ class Vehicle:
         self.cursor = self.connection.cursor()
         self.sql = ""
 
-
     def get_all(self):
         """Get all vehicles."""
         self.sql = "SELECT * FROM VEHICLES"

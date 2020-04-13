@@ -1,44 +1,29 @@
 import tkinter as tk
 import tkinter.messagebox
-from core.client import Client
+from backend.core.client import Client
+from graphic_interface.menus.base_connection import BaseDatabase
 
-class BaseFrame:
+
+class BaseFrame(BaseDatabase):
     """Class BaseFrame"""
 
     def __init__(self, root, connection):
         """BaseFrame init."""
+        super().__init__(connection=connection)
         self.root = root
-        self.connection = connection
+        self.root.title('Taller Mecanico Echenique - Programa de gestion')
+        self.root.state('zoomed')
 
     def hide(self):
+        """Hide a window."""
         self.root.withdraw()
 
     def show(self):
+        """Show a window."""
         self.root.update()
         self.root.deiconify()
 
-    def create_client(self, data):
-        """Create Client"""
-        client = Client(connection=self.connection)
-        result = client.create(data=data)
-        print(client.get_all())
-        if result:
-            tk.messagebox.showinfo('Popup Window(Title)', 'Success')
-            self.root.mainloop()
-        else:
-            tk.messagebox.showinfo('Popup Window(Title)', 'Sorry, Client was not created')
-            self.root.mainloop()
-
-
-    def get_all_client(self):
-        client = Client(connection=self.connection)
-        clients = client.get_all()
-        return clients
-
-    def update_client(self, client_id, data):
-        client = Client(connection=self.connection)
-        client.update(client_id=client_id, data=data)
-
-    def delete_client(self, client_id):
-        client = Client(connection=self.connection)
-        client.delete(client_id=client_id)
+    def show_info(self, message):
+        """Show info."""
+        tk.messagebox.showinfo("Popup Window(Title)", message)
+        self.root.mainloop()

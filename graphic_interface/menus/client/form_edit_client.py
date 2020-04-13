@@ -6,13 +6,11 @@ from graphic_interface.menus.base_frame import BaseFrame
 
 
 class FormEditClient(BaseFrame):
-    """Class FormEditClient."""
+    """Class for Edit Client Window."""
 
     def __init__(self, root, connection, master):
-        """FormNewClient init."""
+        """Edit Client Window init."""
         super().__init__(root=root, connection=connection)
-        self.root.title('Taller Mecanico Echenique - Programa de gestion')
-        self.root.state('zoomed')
         self.master = master
         self.data = {
             "name": tk.StringVar(),
@@ -24,28 +22,27 @@ class FormEditClient(BaseFrame):
             "address": tk.StringVar()
         }
 
-        buttons_frame = tk.LabelFrame(self.root, text="Editar-Borrar Client", width=100, height=10)
-        buttons_frame.pack(side='left', ipadx=200, padx=5, pady=5, fill='y')
+        frame_1 = tk.LabelFrame(self.root, text="Editar-Borrar Client", width=100, height=10)
+        frame_1.pack(side='left', ipadx=200, padx=5, pady=5, fill='y')
 
-        buttons_frame_1 = tk.LabelFrame(self.root)
-        buttons_frame_1.pack(side='right', padx=5, pady=11, fill='both')
+        frame_2 = tk.LabelFrame(self.root)
+        frame_2.pack(side='right', padx=5, pady=11, fill='both')
 
+        button_1 = tk.Button(frame_1, text="Editar", font='Helvetica 20 bold')
+        button_1.pack(fill='both', pady=10, padx=10)
 
-        button1 = tk.Button(buttons_frame, text="Editar", font='Helvetica 20 bold')
-        button1.pack(fill='both', pady=10, padx=10)
+        button_2 = tk.Button(frame_1, text="Borrar", font='Helvetica 20 bold')
+        button_2.pack(fill='both', pady=10, padx=10)
 
-        button2 = tk.Button(buttons_frame, text="Borrar", font='Helvetica 20 bold')
-        button2.pack(fill='both', pady=10, padx=10)
+        frame_3 = tk.Frame(frame_1)
+        frame_3.pack(side='bottom', fill='x')
 
-        sub_buttons_frame = tk.Frame(buttons_frame)
-        sub_buttons_frame.pack(side='bottom', fill='x')
+        button_3 = tk.Button(frame_3, text="Regresar", font='Helvetica 15 bold')
+        button_3.pack(side='left', pady=10, padx=10)
 
-        button3 = tk.Button(sub_buttons_frame, text="Regresar", font='Helvetica 15 bold')
-        button3.pack(side='left', pady=10, padx=10)
-
-        # Define Heading
+        # Define Heading table
         columns = ("Id", "Nombre", "Apellido", "Cédula", "Email", "Teléfono fijo", "Celular", "Direccion")
-        treeview = ttk.Treeview(buttons_frame_1, height=18, show="headings", columns=columns)
+        treeview = ttk.Treeview(frame_2, height=18, show="headings", columns=columns)
         treeview.heading("Id", text="Id")
         treeview.heading("Nombre", text="Nombre")
         treeview.heading("Apellido", text="Apellido")
@@ -55,7 +52,7 @@ class FormEditClient(BaseFrame):
         treeview.heading("Celular", text="Celular")
         treeview.heading("Direccion", text="Direccion")
 
-        # Define Column
+        # Define Columns table
         treeview.column("Id", stretch=0, width=20, anchor='center')
         treeview.column("Nombre",width=150, anchor='center')
         treeview.column("Apellido", width=150, anchor='center')
@@ -66,7 +63,7 @@ class FormEditClient(BaseFrame):
         treeview.column("Direccion", width=150, anchor='center')
 
         # Insert Data
-        clients = self.get_all_client()
+        clients = self.client.get_all()
         id = [client.get("client_id") for client in clients]
         name = [client.get("name") for client in clients]
         last_name = [client.get("last_name") for client in clients]
@@ -87,20 +84,19 @@ class FormEditClient(BaseFrame):
                 phone_2[client],
                 address[client]))
 
-        # Scrollbar
-        scrollbar_vertical = ttk.Scrollbar(buttons_frame_1)
+        # Scrollbar Vertical
+        scrollbar_vertical = ttk.Scrollbar(frame_2)
         scrollbar_vertical.configure(command=treeview.yview)
         treeview.configure(yscrollcommand=scrollbar_vertical.set)
 
-        scrollbar_horizontal = ttk.Scrollbar(buttons_frame_1, orient="horizontal")
+        # Scrollbar Horizontal
+        scrollbar_horizontal = ttk.Scrollbar(frame_2, orient="horizontal")
         scrollbar_horizontal.configure(command=treeview.xview)
         treeview.configure(xscrollcommand=scrollbar_horizontal.set)
 
-        # Position
+        # Scrollbar Position
         scrollbar_vertical.pack(side="right", fill="y")
         scrollbar_horizontal.pack(side="bottom", fill="x")
         treeview.pack(side="right", fill='both', expand=True)
 
         self.root.mainloop()
-
-
