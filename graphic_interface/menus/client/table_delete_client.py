@@ -3,8 +3,8 @@ from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
 
 
-class TableSearchClient(BaseFrame):
-    """Class for Table Search Client Window."""
+class TableDeleteClient(BaseFrame):
+    """Class for Table Delete Client Window."""
 
     def __init__(self, root, connection, master):
         """Search Client Window init."""
@@ -21,7 +21,7 @@ class TableSearchClient(BaseFrame):
             "address": tk.StringVar()
         }
 
-        frame_1 = tk.LabelFrame(self.root, text="Buscar Client", width=100, height=10)
+        frame_1 = tk.LabelFrame(self.root, text="Borrar Client", width=100, height=10)
         frame_1.pack(side='top', padx=5, pady=5, fill='both', expand=True)
 
         frame_2 = tk.LabelFrame(frame_1)
@@ -44,14 +44,17 @@ class TableSearchClient(BaseFrame):
         button_3 = tk.Button(frame_2, text="Buscar", font='Helvetica 15 bold', command=self.search_client_by_category)
         button_3.pack(side='left', pady=10, padx=10, fill='x')
 
-        button_4 = tk.Button(frame_2, text="Refrescar", font='Helvetica 15 bold', command=self.clean_table)
+        button_4 = tk.Button(frame_2, text="Borrar", font='Helvetica 15 bold', command=self.delete_client)
         button_4.pack(side='left', pady=10, padx=10, fill='x')
+
+        button_5 = tk.Button(frame_2, text="Refrescar", font='Helvetica 15 bold', command=self.clean_table)
+        button_5.pack(side='left', pady=10, padx=10, fill='x')
 
         frame_4 = tk.Frame(frame_1)
         frame_4.pack(side='bottom', fill='x')
 
-        button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
-        button_5.pack(side='right', pady=10, padx=10)
+        button_6 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
+        button_6.pack(side='right', pady=10, padx=10)
 
         # Define Heading table
         columns = ("Id", "Nombre", "Apellido", "Cédula", "Email", "Teléfono fijo", "Celular", "Direccion")
@@ -175,6 +178,27 @@ class TableSearchClient(BaseFrame):
                 phone_1[client],
                 phone_2[client],
                 address[client]))
+
+    def get_values(self):
+        """Get values."""
+        cur_item = self.treeview.focus()
+        item = self.treeview.item(cur_item)
+        values = item.get("values", [])
+        return values
+
+    def delete_client(self):
+        """Delete client."""
+        client = self.get_values()
+        if not client:
+            self.show_error(message="Por favor seleccione un cliente.")
+        try:
+            client_id = client[0]
+            client_name = client[1]
+            client_last_name = client[2]
+            self.client.delete(client_id=client_id)
+            self.show_info(message=f"El cliente: {client_name} {client_last_name} fue borrado exitosamente.")
+        except Exception as error:
+            self.show_error(message=f"El cliente no pudo ser eliminado. {error}")
 
     def go_back(self):
         """Go back to Menu Client."""

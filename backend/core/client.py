@@ -88,7 +88,7 @@ class Client:
             result = False
         return result
 
-    def delete(self, client_id:int):
+    def delete(self, client_id: int):
         """Delete a client."""
         try:
             self.sql = "DELETE FROM CLIENTS WHERE client_id=?"

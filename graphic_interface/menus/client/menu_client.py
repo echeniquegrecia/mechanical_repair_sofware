@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.client.table_delete_client import TableDeleteClient
 from graphic_interface.menus.client.table_edit_client import TableEditClient
 from graphic_interface.menus.client.table_search_client import TableSearchClient
 from graphic_interface.menus.client.form_new_client import FormNewClient
@@ -33,7 +34,7 @@ class MenuClient(BaseFrame):
         button_3 = tk.Button(frame_1, text="Buscar", font='Helvetica 20 bold', command=self.table_search_client)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_1, text="Borrar", font='Helvetica 20 bold')
+        button_4 = tk.Button(frame_1, text="Borrar", font='Helvetica 20 bold', command=self.table_delete_client)
         button_4.pack(fill='both', pady=10, padx=10)
 
         frame_3 = tk.Frame(frame_1, height=100)
@@ -70,6 +71,12 @@ class MenuClient(BaseFrame):
         self.hide()
         self.new_window = tk.Toplevel(self.root)
         self.app = TableSearchClient(root=self.new_window, connection=self.connection, master=self)
+
+    def table_delete_client(self):
+        """Open window Delete Client."""
+        self.hide()
+        self.new_window = tk.Toplevel(self.root)
+        self.app = TableDeleteClient(root=self.new_window, connection=self.connection, master=self)
 
     def go_back(self):
         """Go back Menu Home."""
