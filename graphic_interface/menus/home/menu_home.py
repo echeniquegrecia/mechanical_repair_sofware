@@ -3,6 +3,8 @@ from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.menu_client import MenuClient
+from graphic_interface.menus.vehicle.menu_vehicle import MenuVehicle
+from graphic_interface.menus.vehicle_type.menu_vehicle_type import MenuVehicleType
 from settings import IMAGE_MENU
 
 
@@ -23,11 +25,14 @@ class MenuHome(BaseFrame):
         button_1 = tk.Button(frame_1, text="Clientes", font='Helvetica 20 bold', command=self.menu_client)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_1, text="Vehiculos", font='Helvetica 20 bold')
+        button_2 = tk.Button(frame_1, text="Vehiculos", font='Helvetica 20 bold', command=self.menu_vehicle)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold')
+        button_3 = tk.Button(frame_1, text="Tipo de Vehiculos", font='Helvetica 20 bold', command=self.menu_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
+
+        button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold')
+        button_4.pack(fill='both', pady=10, padx=10)
 
         frame_3 = tk.Frame(frame_1, height=100)
         frame_3.pack(fill='both', pady=10, padx=10, expand=True)
@@ -35,8 +40,8 @@ class MenuHome(BaseFrame):
         frame_4 = tk.Frame(frame_3)
         frame_4.pack(side='bottom', fill='x')
 
-        button_4 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15)
-        button_4.pack(side='right', fil='x')
+        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15)
+        button_5.pack(side='right', fil='x')
 
         button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', width=15)
         button_5.pack(side='left', fil='x')
@@ -54,3 +59,16 @@ class MenuHome(BaseFrame):
         self.hide()
         self.new_window = tk.Toplevel(self.root)
         self.app = MenuClient(root=self.new_window, connection=self.connection, master=self)
+
+    def menu_vehicle(self):
+        """Open menu vehicle."""
+        self.hide()
+        self.new_window = tk.Toplevel(self.root)
+        self.app = MenuVehicle(root=self.new_window, connection=self.connection, master=self)
+
+    def menu_vehicle_type(self):
+        """Open menu vehicle type."""
+        self.hide()
+        self.new_window = tk.Toplevel(self.root)
+        self.app = MenuVehicleType(root=self.new_window, connection=self.connection, master=self)
+

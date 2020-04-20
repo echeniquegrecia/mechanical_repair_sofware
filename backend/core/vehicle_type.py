@@ -31,27 +31,24 @@ class VehicleType:
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE brand=?"
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (brand,))
-        vehicles_type = [dict(zip(columns, value)) for value in values]
-        vehicle_type = vehicles_type[0] if vehicles_type else {}
-        return vehicle_type
+        vehicle_types = [dict(zip(columns, value)) for value in values]
+        return vehicle_types
 
     def get_by_model(self, model:str):
         """Get vehicle type by model."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE model=?"
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (model,))
-        vehicles_type = [dict(zip(columns, value)) for value in values]
-        vehicle_type = vehicles_type[0] if vehicles_type else {}
-        return vehicle_type
+        vehicle_types = [dict(zip(columns, value)) for value in values]
+        return vehicle_types
 
     def get_by_year(self, year:int):
         """Get vehicle type by year."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE year=?"
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (year,))
-        vehicles_type = [dict(zip(columns, value)) for value in values]
-        vehicle_type = vehicles_type[0] if vehicles_type else {}
-        return vehicle_type
+        vehicle_types = [dict(zip(columns, value)) for value in values]
+        return vehicle_types
 
 
     def create(self, data:dict):

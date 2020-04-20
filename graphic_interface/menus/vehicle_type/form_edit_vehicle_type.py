@@ -1,0 +1,76 @@
+import tkinter as tk
+from graphic_interface.menus.base_frame import BaseFrame
+
+
+class FormEditVehicleType(BaseFrame):
+    """Class for Edit Vehicle Type Window."""
+
+    def __init__(self, root, connection, master, values):
+        """New Client Window init."""
+        super().__init__(root=root, connection=connection)
+        self.master = master
+        self.values = {
+            "id": values[0],
+            "brand": values[1],
+            "model": values[2],
+            "year": values[3]
+        }
+        self.data = {
+            "id": tk.StringVar(),
+            "brand": tk.StringVar(),
+            "model": tk.StringVar(),
+            "year": tk.StringVar()
+        }
+
+        frame_1 = tk.LabelFrame(self.root, text="Nuevo Tipo de Vehiculo")
+        frame_1.pack(side="left", padx=5, pady=5, fill='both', expand=True)
+
+        frame_2 = tk.Frame(frame_1)
+        frame_2.pack(side="top", padx=5, pady=5, fill='x')
+
+        frame_3 = tk.Frame(frame_1)
+        frame_3.pack(side="bottom", padx=5, pady=5, fill='x')
+
+        brand_label = tk.Label(frame_2, text="Marca", font='Helvetica 18 bold', anchor='w')
+        brand_label.pack(padx=5, pady=5, fill='both')
+        brand_entry = tk.Entry(frame_2, font="Helvetica 17", textvariable=self.data["brand"])
+        self.data["brand"].set(self.values.get("brand"))
+        brand_entry.pack(padx=5, pady=5, fill='both')
+
+        model_label = tk.Label(frame_2, text="Modelo", font='Helvetica 18 bold', anchor='w')
+        model_label.pack(padx=5, pady=5, fill='both')
+        model_entry = tk.Entry(frame_2, font="Helvetica 17", textvariable=self.data["model"])
+        self.data["model"].set(self.values.get("model"))
+        model_entry.pack(padx=5, pady=5, fill='both')
+
+        year_label = tk.Label(frame_2, text="Año", font='Helvetica 18 bold', anchor='w')
+        year_label.pack(padx=5, pady=5, fill='both')
+        year_entry = tk.Entry(frame_2, font="Helvetica 17", textvariable=self.data["year"])
+        self.data["year"].set(self.values.get("year"))
+        year_entry.pack(padx=5, pady=5, fill='both')
+
+        button_1 = tk.Button(frame_3, text="Guardar", font='Helvetica 15 bold', width=15, command=self.edit_vehicle_type)
+        button_1.pack(side='right', fil='x')
+
+        button_2 = tk.Button(frame_3, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
+        button_2.pack(side='right', fil='x')
+
+        self.root.mainloop()
+
+    def edit_vehicle_type(self):
+        """Edit vehicle type."""
+        id = self.values.get("id")
+        data = {
+            "brand": self.data["brand"].get(),
+            "model": self.data["model"].get(),
+            "year": self.data["year"].get()
+        }
+        result = self.vehicle_type.update(vehicle_type_id=id, data=data)
+        if result:
+            self.show_info(message="El tipo de vehiculo ha sido editado exitosamente")
+        else:
+            self.show_info(message="ERROR: El tipo de vehiculo no ha sido editado.")
+
+    def go_back(self):
+        """Go back to Menu Client."""
+        self.hide()
