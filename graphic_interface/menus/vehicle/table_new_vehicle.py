@@ -1,17 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
-from graphic_interface.menus.vehicle.table_new_vehicle import TableNewVehicle
-from graphic_interface.menus.vehicle_type.form_edit_vehicle_type import FormEditVehicleType
+from graphic_interface.menus.vehicle.form_new_vehicle import FormNewVehicle
 
 
-class MenuVehicle(BaseFrame):
-    """Class for Menu Vehicle Window."""
+class TableNewVehicle(BaseFrame):
+    """Class for Table new vehicle."""
 
     def __init__(self, root, connection, master):
         """Menu Vehicle Window init."""
         super().__init__(root=root, connection=connection)
-        self.root.state('zoomed')
         self.master = master
         self.data = {
             "brand": tk.StringVar(),
@@ -23,7 +21,7 @@ class MenuVehicle(BaseFrame):
         frame_1.pack(side='top', padx=5, pady=5, fill='x')
 
         frame_2 = tk.LabelFrame(self.root, width=100, height=10)
-        frame_2.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')
+        frame_2.pack(side='left', padx=5, pady=5, fill='both', expand=True)
 
         frame_3 = tk.LabelFrame(self.root)
         frame_3.pack(side='left', padx=5, pady=5, fill='both', expand=True)
@@ -31,14 +29,8 @@ class MenuVehicle(BaseFrame):
         button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, command=self.create_new_vehicle)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15)
+        button_2 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
         button_2.pack(fill='both', pady=10, padx=10)
-
-        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15)
-        button_3.pack(fill='both', pady=10, padx=10)
-
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold')
-        button_4.pack(fill='both', pady=10, padx=10)
 
         frame_4 = tk.Frame(frame_2)
         frame_4.pack(side='bottom', fill='x')
@@ -63,32 +55,48 @@ class MenuVehicle(BaseFrame):
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
-        columns = ("Id", "Marca", "Modelo", "Año")
+        columns = ("Id", "Nombre", "Apellido", "Cédula", "Email", "Teléfono fijo", "Celular", "Direccion")
         self.treeview = ttk.Treeview(frame_3, height=18, show="headings", columns=columns)
         self.treeview.heading("Id", text="Id")
-        self.treeview.heading("Marca", text="Marca")
-        self.treeview.heading("Modelo", text="Modelo")
-        self.treeview.heading("Año", text="Año")
+        self.treeview.heading("Nombre", text="Nombre")
+        self.treeview.heading("Apellido", text="Apellido")
+        self.treeview.heading("Cédula", text="Cédula")
+        self.treeview.heading("Email", text="Email")
+        self.treeview.heading("Teléfono fijo", text="Teléfono fijo")
+        self.treeview.heading("Celular", text="Celular")
+        self.treeview.heading("Direccion", text="Direccion")
 
         # Define Columns table
         self.treeview.column("Id", stretch=0, width=20, anchor='center')
-        self.treeview.column("Marca",width=150, anchor='center')
-        self.treeview.column("Modelo", width=150, anchor='center')
-        self.treeview.column("Año", width=150, anchor='center')
+        self.treeview.column("Nombre", width=150, anchor='center')
+        self.treeview.column("Apellido", width=150, anchor='center')
+        self.treeview.column("Cédula", width=150, anchor='center')
+        self.treeview.column("Email", width=150, anchor='center')
+        self.treeview.column("Teléfono fijo", width=150, anchor='center')
+        self.treeview.column("Celular", width=150, anchor='center')
+        self.treeview.column("Direccion", width=150, anchor='center')
 
         # Insert Data
-        vehicle_types = self.vehicle_type.get_all()
-        id = [vehicle_type.get("vehicle_type_id") for vehicle_type in vehicle_types]
-        brand = [vehicle_type.get("brand") for vehicle_type in vehicle_types]
-        model = [vehicle_type.get("model") for vehicle_type in vehicle_types]
-        year = [vehicle_type.get("year") for vehicle_type in vehicle_types]
+        clients = self.client.get_all()
+        id = [client.get("client_id") for client in clients]
+        name = [client.get("name") for client in clients]
+        last_name = [client.get("last_name") for client in clients]
+        identity_card = [client.get("identity_card") for client in clients]
+        email = [client.get("email") for client in clients]
+        phone_1 = [client.get("phone_1") for client in clients]
+        phone_2 = [client.get("phone_2") for client in clients]
+        address = [client.get("address") for client in clients]
 
-        for vehicle_type in range(0, len(vehicle_types)):
-            self.treeview.insert('', vehicle_type, values=(
-                id[vehicle_type],
-                brand[vehicle_type],
-                model[vehicle_type],
-                year[vehicle_type]))
+        for client in range(0, len(clients)):
+            self.treeview.insert('', client, values=(
+                id[client],
+                name[client],
+                last_name[client],
+                identity_card[client],
+                email[client],
+                phone_1[client],
+                phone_2[client],
+                address[client]))
 
         # Scrollbar Vertical
         scrollbar_vertical = ttk.Scrollbar(frame_3)
@@ -109,8 +117,12 @@ class MenuVehicle(BaseFrame):
 
     def create_new_vehicle(self):
         """Create new vehicle."""
+        values = self.get_values()
+        if not values:
+            self.show_error(message="Por favor seleccione un cliente.")
         self.new_window = tk.Toplevel(self.root)
-        self.app = TableNewVehicle(root=self.new_window, connection=self.connection, master=self)
+        self.app = FormNewVehicle(root=self.new_window, connection=self.connection, master=self, values=values)
+
 
     def form_edit_vehicle_type(self):
         """Open Form Edit Vehicle Edit."""
