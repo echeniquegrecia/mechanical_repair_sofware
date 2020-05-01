@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
-from graphic_interface.menus.vehicle.table_new_vehicle import TableNewVehicle
+from graphic_interface.menus.vehicle.form_new_vehicle import FormNewVehicle
 from graphic_interface.menus.vehicle_type.form_edit_vehicle_type import FormEditVehicleType
 
 
@@ -110,7 +110,7 @@ class MenuVehicle(BaseFrame):
     def create_new_vehicle(self):
         """Create new vehicle."""
         self.new_window = tk.Toplevel(self.root)
-        self.app = TableNewVehicle(root=self.new_window, connection=self.connection, master=self)
+        self.app = FormNewVehicle(root=self.new_window, connection=self.connection, master=self)
 
     def form_edit_vehicle_type(self):
         """Open Form Edit Vehicle Edit."""

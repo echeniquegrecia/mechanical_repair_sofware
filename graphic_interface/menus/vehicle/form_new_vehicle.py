@@ -5,34 +5,27 @@ from graphic_interface.menus.base_frame import BaseFrame
 class FormNewVehicle(BaseFrame):
     """Class for Form New Vehicle window."""
 
-    def __init__(self, root, connection, master, values):
+    def __init__(self, root, connection, master):
         """FornNewVehicle init."""
         super().__init__(root=root, connection=connection)
         self.master = master
-        self.values = {
-            "id": values[0],
-            "name": values[1],
-            "last_name": values[2],
-            "identity_card": values[3],
-            "email": values[4],
-            "phone_1": values[5],
-            "phone_2": values[6],
-            "address": values[7],
-        }
-        self.data_client = {
-            "name": tk.StringVar(),
-            "last_name": tk.StringVar(),
-            "identity_card": tk.StringVar(),
-            "email": tk.StringVar(),
-            "phone_1": tk.StringVar(),
-            "phone_2": tk.StringVar(),
-            "address": tk.StringVar()
-        }
+
+        self.name = tk.StringVar()
+        self.last_name = tk.StringVar()
+        self.identity_card = tk.StringVar()
+        self.email = tk.StringVar()
+        self.phone_1 = tk.StringVar()
+        self.phone_2 = tk.StringVar()
+        self.address = tk.StringVar()
 
         self.data_vehicle = {
             "identity": tk.StringVar(),
             "mileage": tk.StringVar()
         }
+
+        # Frame search clients
+        frame = tk.LabelFrame(self.root, text="Buscar cliente", font='Helvetica 12 bold')
+        frame.pack(side="top", padx=5, pady=5, fill='x')
 
         # Frame Clients
         frame_1 = tk.LabelFrame(self.root, text="Datos del cliente", font='Helvetica 12 bold')
@@ -88,56 +81,61 @@ class FormNewVehicle(BaseFrame):
         frame_10 = tk.Frame(self.root)
         frame_10.pack(side="bottom", padx=5, pady=5, fill='x')
 
+        # Frame tests
+        frame_18 = tk.Frame(self.root)
+        frame_18.pack(side="top", padx=5, pady=5, fill='x')
+
+        # Testing
+        self.test = tk.StringVar()
+        self.test.trace_add("write", self.callback_test)
+
+        self.test_chosen = ttk.Combobox(frame, width=20, font='Helvetica 18 bold', state="readonly",
+                                        textvariable=self.test)
+        self.test_chosen["values"] = self.test_client()
+        self.test_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
+
         # Client Data
         name_label = tk.Label(frame_3, text="Nombre", font='Helvetica 18 bold', anchor='w')
         name_label.pack(padx=5, pady=5, fill='both')
-        name_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data_client["name"])
+        name_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.name)
         name_entry.config(state='readonly')
-        self.data_client["name"].set(self.values.get("name"))
         name_entry.pack(padx=5, pady=5, fill='both')
 
         last_name_label = tk.Label(frame_5, text="Apellido", font='Helvetica 18 bold', anchor='w')
         last_name_label.pack(padx=5, pady=5, fill='both')
-        last_name_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data_client["last_name"])
+        last_name_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.last_name)
         last_name_entry.config(state='readonly')
-        self.data_client["last_name"].set(self.values.get("last_name"))
         last_name_entry.pack(padx=5, pady=5, fill='both')
 
         identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 18 bold', anchor='w')
         identity_card_label.pack(padx=5, pady=5, fill='both')
-        identity_card_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data_client["identity_card"])
+        identity_card_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.identity_card)
         identity_card_entry.config(state='readonly')
-        self.data_client["identity_card"].set(self.values.get("identity_card"))
         identity_card_entry.pack(padx=5, pady=5, fill='both')
 
         email_label = tk.Label(frame_5, text="Email", font='Helvetica 18 bold', anchor='w')
         email_label.pack(padx=5, pady=5, fill='both')
-        email_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data_client["email"])
+        email_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.email)
         email_entry.config(state='readonly')
-        self.data_client["email"].set(self.values.get("email"))
         email_entry.pack(padx=5, pady=5, fill='both')
 
         phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 18 bold', anchor='w')
         phone_1_label.pack(padx=5, pady=5, fill='both')
-        phone_1_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data_client["phone_1"])
+        phone_1_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.phone_1)
         phone_1_entry.config(state='readonly')
-        self.data_client["phone_1"].set(self.values.get("phone_1"))
         phone_1_entry.pack(padx=5, pady=5, fill='both')
 
         phone_2_label = tk.Label(frame_5, text="Celular", font='Helvetica 18 bold', anchor='w')
         phone_2_label.pack(padx=5, pady=5, fill='both')
-        phone_2_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data_client["phone_2"])
+        phone_2_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.phone_2)
         phone_2_entry.config(state='readonly')
-        self.data_client["phone_2"].set(self.values.get("phone_2"))
         phone_2_entry.pack(padx=5, pady=5, fill='both')
 
         address_label = tk.Label(frame_8, text="Direccion", font='Helvetica 18 bold', anchor='w')
         address_label.pack(padx=5, pady=5, fill='both')
-        address_entry = tk.Entry(frame_9, font="Helvetica 17", textvariable=self.data_client["address"])
+        address_entry = tk.Entry(frame_9, font="Helvetica 17", textvariable=self.address)
         address_entry.config(state='readonly')
-        self.data_client["address"].set(self.values.get("address"))
         address_entry.pack(padx=5, pady=5, fill='both')
-
 
         # Vehicle Data
         identity_label = tk.Label(frame_13, text="Placa", font='Helvetica 18 bold', anchor='w')
@@ -208,3 +206,34 @@ class FormNewVehicle(BaseFrame):
         model = self.model.get()
         self.model_chosen.config(values=self.get_vehicle_type_models(brand=brand))
         self.year_chosen.config(values=self.get_vehicle_type_year(model=model))
+
+    def callback_test(self, *args):
+        test = self.test.get()
+        print(f"test: {test}")
+
+        list = test.split(' ')
+        # print(list)
+        client = self.client.get_by_id(client_id=list[0])
+        self.name.set(client.get("name"))
+        self.last_name.set(client.get("last_name"))
+        self.identity_card.set(client.get("identity_card"))
+        self.email.set(client.get("email"))
+        self.phone_1.set(client.get("phone_1"))
+        self.phone_2.set(client.get("phone_2"))
+        self.address.set(client.get("address"))
+
+
+    def test_client(self):
+        list = []
+        clients = self.client.get_all()
+        for client in clients:
+            list.append([
+                client.get("client_id"),
+                client.get("name"),
+                client.get("last_name"),
+                client.get("identity_card"),
+                client.get("email"),
+                client.get("address")
+            ])
+        return list
+
