@@ -6,10 +6,10 @@ class FormNewVehicle(BaseFrame):
     """Class for Form New Vehicle window."""
 
     def __init__(self, root, connection, master):
-        """FornNewVehicle init."""
+        """FormNewVehicle init."""
         super().__init__(root=root, connection=connection)
         self.master = master
-
+        self.client_id = tk.StringVar()
         self.name = tk.StringVar()
         self.last_name = tk.StringVar()
         self.identity_card = tk.StringVar()
@@ -17,17 +17,15 @@ class FormNewVehicle(BaseFrame):
         self.phone_1 = tk.StringVar()
         self.phone_2 = tk.StringVar()
         self.address = tk.StringVar()
+        self.vehicle_type_id = tk.StringVar()
+        self.identity = tk.StringVar()
+        self.mileage = tk.StringVar()
 
-        self.data_vehicle = {
-            "identity": tk.StringVar(),
-            "mileage": tk.StringVar()
-        }
-
-        # Frame search clients
+        # Frame Search clients
         frame = tk.LabelFrame(self.root, text="Buscar cliente", font='Helvetica 12 bold')
         frame.pack(side="top", padx=5, pady=5, fill='x')
 
-        # Frame Clients
+        # Frame Details Clients
         frame_1 = tk.LabelFrame(self.root, text="Datos del cliente", font='Helvetica 12 bold')
         frame_1.pack(side="top", padx=5, pady=5, fill='x')
 
@@ -56,30 +54,30 @@ class FormNewVehicle(BaseFrame):
         frame_9.pack(side="left", fill='x', expand=True)
 
         # Frame Vehicle
-        frame_11 = tk.LabelFrame(self.root, text="Inserte los datos del vehiculo", font='Helvetica 12 bold')
+        frame_10 = tk.LabelFrame(self.root, text="Inserte los datos del vehiculo", font='Helvetica 12 bold')
+        frame_10.pack(side="top", padx=5, pady=5, fill='x')
+
+        frame_11 = tk.Frame(frame_10)
         frame_11.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_12 = tk.Frame(frame_11)
-        frame_12.pack(side="top", padx=5, pady=5, fill='x')
+        frame_12.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_13 = tk.Frame(frame_12)
+        frame_13 = tk.Frame(frame_11)
         frame_13.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_14 = tk.Frame(frame_12)
+        frame_14 = tk.Frame(frame_11)
         frame_14.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_15 = tk.Frame(frame_12)
+        frame_15 = tk.Frame(frame_11)
         frame_15.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_16 = tk.Frame(frame_12)
-        frame_16.pack(side="left", fill='x', padx=5, pady=5, expand=True)
-
-        frame_17 = tk.Frame(frame_11)
-        frame_17.pack(side="top", fill='x', padx=5, pady=5, expand=True)
+        frame_16 = tk.Frame(frame_10)
+        frame_16.pack(side="top", fill='x', padx=5, pady=5, expand=True)
 
         # Frame Buttons
-        frame_10 = tk.Frame(self.root)
-        frame_10.pack(side="bottom", padx=5, pady=5, fill='x')
+        frame_17 = tk.Frame(self.root)
+        frame_17.pack(side="bottom", padx=5, pady=5, fill='x')
 
         # Frame tests
         frame_18 = tk.Frame(self.root)
@@ -138,17 +136,17 @@ class FormNewVehicle(BaseFrame):
         address_entry.pack(padx=5, pady=5, fill='both')
 
         # Vehicle Data
-        identity_label = tk.Label(frame_13, text="Placa", font='Helvetica 18 bold', anchor='w')
+        identity_label = tk.Label(frame_12, text="Placa", font='Helvetica 18 bold', anchor='w')
         identity_label.pack(padx=5, pady=5, fill='both')
-        identity_entry = tk.Entry(frame_14, font="Helvetica 17", textvariable=self.data_vehicle["identity"])
+        identity_entry = tk.Entry(frame_13, font="Helvetica 17", textvariable=self.identity)
         identity_entry.pack(padx=5, pady=5, fill='both')
 
-        mileage_label = tk.Label(frame_15, text="Kilometraje", font='Helvetica 18 bold', anchor='w')
+        mileage_label = tk.Label(frame_14, text="Kilometraje", font='Helvetica 18 bold', anchor='w')
         mileage_label.pack(padx=5, pady=5, fill='both')
-        mileage_entry = tk.Entry(frame_16, font="Helvetica 17", textvariable=self.data_vehicle["mileage"])
+        mileage_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.mileage)
         mileage_entry.pack(padx=5, pady=5, fill='both')
 
-        number_label = tk.Label(frame_17, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
+        number_label = tk.Label(frame_16, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
         number_label.pack(side='left', padx=5, pady=5, fill='both')
 
 
@@ -158,23 +156,42 @@ class FormNewVehicle(BaseFrame):
         self.model.trace_add("write", self.callback)
         self.year = tk.StringVar()
 
-        self.brand_chosen = ttk.Combobox(frame_17, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
+        self.brand_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
         self.brand_chosen["values"] = self.get_vehicle_type_brands()
         self.brand_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        self.model_chosen = ttk.Combobox(frame_17, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
+        self.model_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
         self.model_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        self.year_chosen = ttk.Combobox(frame_17, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
+        self.year_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
         self.year_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        button_1 = tk.Button(frame_10, text="Crear", font='Helvetica 15 bold', width=15, command=self.get_vehicle_type_brands)
+        button_1 = tk.Button(frame_17, text="Crear", font='Helvetica 15 bold', width=15, command=self.create_new_vehicle)
         button_1.pack(side='right', fil='x')
 
-        button_2 = tk.Button(frame_10, text="Regresar", font='Helvetica 15 bold', width=15)
+        button_2 = tk.Button(frame_17, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
         button_2.pack(side='right', fil='x')
 
         self.root.mainloop()
+
+    def create_new_vehicle(self):
+        """Create a new vehicle."""
+        vehicle_type_id = self.vehicle_type.get_vehicle_type_id(
+            brand=self.brand.get(),
+            model=self.model.get(),
+            year=int(self.year.get())
+        )
+        data = {
+            "client_id": self.client_id.get(),
+            "vehicle_type_id": vehicle_type_id,
+            "identity": self.identity.get(),
+            "mileage": self.mileage.get()
+        }
+        vehicle = self.vehicle.create(data=data)
+        if vehicle:
+            self.show_info(message="El vehiculo ha sido registrado exitosamente")
+        else:
+            self.show_info(message="ERROR: El vehiculo no ha sido creado.")
 
 
     def get_vehicle_type_brands(self):
@@ -212,8 +229,8 @@ class FormNewVehicle(BaseFrame):
         print(f"test: {test}")
 
         list = test.split(' ')
-        # print(list)
         client = self.client.get_by_id(client_id=list[0])
+        self.client_id.set(client.get("client_id"))
         self.name.set(client.get("name"))
         self.last_name.set(client.get("last_name"))
         self.identity_card.set(client.get("identity_card"))
@@ -221,6 +238,11 @@ class FormNewVehicle(BaseFrame):
         self.phone_1.set(client.get("phone_1"))
         self.phone_2.set(client.get("phone_2"))
         self.address.set(client.get("address"))
+
+    def go_back(self):
+        """Go back to Menu Client."""
+        self.hide()
+        self.master.show()
 
 
     def test_client(self):

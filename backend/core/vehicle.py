@@ -41,8 +41,7 @@ class Vehicle:
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (vehicle_type_id,))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicle = vehicles[0] if vehicles else {}
-        return vehicle
+        return vehicles
 
     def get_by_identity(self, identity: int):
         """Get vehicle by identity."""
@@ -50,8 +49,7 @@ class Vehicle:
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (identity,))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicle = vehicles[0] if vehicles else {}
-        return vehicle
+        return vehicles
 
     def get_by_mileage(self, mileage: int):
         """Get vehicle by mileage."""
@@ -59,8 +57,7 @@ class Vehicle:
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (mileage,))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicle = vehicles[0] if vehicles else {}
-        return vehicle
+        return vehicles
 
     def get_vehicles_with_type_details(self):
         """Get vehicles with type details."""
@@ -95,6 +92,38 @@ class Vehicle:
         "INNER JOIN VEHICLES ON VEHICLES.vehicle_type_id = VEHICLES_TYPE.vehicle_type_id " \
         "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id;"
         self.cursor.execute(self.sql)
+        columns = [
+            "vehicle_id",
+            "vehicle_identity",
+            "mileage",
+            "model",
+            "brand",
+            "year",
+            "client_name",
+            "client_last_name",
+            "client_identity"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_vehicles_by_item(self, item: str, value):
+        """Get vehicles by an item specific with client details."""
+        self.sql = "" \
+                   "SELECT VEHICLES.vehicle_id ," \
+                   "VEHICLES.identity AS vehicle_identity," \
+                   "VEHICLES.mileage AS mileage," \
+                   "VEHICLES_TYPE.model AS model," \
+                   "VEHICLES_TYPE.brand AS brand," \
+                   "VEHICLES_TYPE.year AS year," \
+                   "CLIENTS.name as client_name," \
+                   "CLIENTS.last_name as client_last_name," \
+                   "CLIENTS.identity_card as client_identity " \
+                   "FROM VEHICLES_TYPE " \
+                   "INNER JOIN VEHICLES ON VEHICLES.vehicle_type_id = VEHICLES_TYPE.vehicle_type_id " \
+                   "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
+                   f"WHERE {item} =?;"
+        self.cursor.execute(self.sql, (value,))
         columns = [
             "vehicle_id",
             "vehicle_identity",
