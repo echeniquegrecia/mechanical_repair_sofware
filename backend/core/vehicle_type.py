@@ -20,8 +20,8 @@ class VehicleType:
     def get_by_id(self, vehicle_type_id:int):
         """Get vehicle type by vehicle_type_id."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE vehicle_type_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (vehicle_type_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles_type = [dict(zip(columns, value)) for value in values]
         vehicle_type = vehicles_type[0] if vehicles_type else {}
         return vehicle_type
@@ -29,24 +29,24 @@ class VehicleType:
     def get_by_brand(self, brand:str):
         """Get vehicle type by brand."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE brand=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (brand,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicle_types = [dict(zip(columns, value)) for value in values]
         return vehicle_types
 
     def get_by_model(self, model:str):
         """Get vehicle type by model."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE model=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (model,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicle_types = [dict(zip(columns, value)) for value in values]
         return vehicle_types
 
     def get_by_year(self, year:int):
         """Get vehicle type by year."""
         self.sql = "SELECT * FROM VEHICLES_TYPE WHERE year=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (year,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicle_types = [dict(zip(columns, value)) for value in values]
         return vehicle_types
 
