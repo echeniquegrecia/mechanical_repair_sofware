@@ -11,8 +11,8 @@ class Repair:
         """Get all the repairs."""
         self.sql = "SELECT * FROM REPAIRS"
         self.cursor.execute(self.sql)
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = list(self.cursor.fetchall())
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repairs = repairs if repairs else []
         return repairs
@@ -20,8 +20,8 @@ class Repair:
     def get_by_id(self, repair_id: int):
         """Get repair by repair_id."""
         self.sql = "SELECT * FROM REPAIRS WHERE repair_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (repair_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
@@ -29,8 +29,8 @@ class Repair:
     def get_by_vehicle_id(self, vehicle_id: int):
         """Get repair by vehicle id."""
         self.sql = "SELECT * FROM REPAIRS WHERE vehicle_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (vehicle_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
@@ -38,8 +38,8 @@ class Repair:
     def get_by_client_id(self, client_id: int):
         """Get repair by client id."""
         self.sql = "SELECT * FROM REPAIRS WHERE client_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (client_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
@@ -47,8 +47,8 @@ class Repair:
     def get_by_date_entry(self, date_entry):
         """Get repair by date entry"""
         self.sql = "SELECT * FROM REPAIRS WHERE date_entry=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (date_entry,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
@@ -56,8 +56,8 @@ class Repair:
     def get_by_date_exit(self, date_exit):
         """Get repair by date exit"""
         self.sql = "SELECT * FROM REPAIRS WHERE date_exit=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (date_exit,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
@@ -65,8 +65,8 @@ class Repair:
     def get_by_status(self, repair_status):
         """Get repair by date exit"""
         self.sql = "SELECT * FROM REPAIRS WHERE repair_status=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (repair_status,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         repairs = [dict(zip(columns, value)) for value in values]
         repair = repairs[0] if repairs else {}
         return repair
