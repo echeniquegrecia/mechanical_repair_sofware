@@ -11,8 +11,8 @@ class Client:
         """Get all the clients."""
         self.sql = "SELECT * FROM CLIENTS"
         self.cursor.execute(self.sql)
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = list(self.cursor.fetchall())
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         clients = clients if clients else []
         return clients
@@ -20,41 +20,40 @@ class Client:
     def get_by_id(self, client_id:int):
         """Get a client by client id."""
         self.sql = "SELECT * FROM CLIENTS WHERE client_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = list(self.cursor.execute(self.sql, (client_id,)))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
-        client = clients[0] if clients else {}
-        return client
+        return clients
 
     def get_by_name(self, name:str):
         """Get a client by name."""
         self.sql = "SELECT * FROM CLIENTS WHERE name=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (name,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
 
     def get_by_last_name(self, last_name:str):
         """Get a client by last name."""
         self.sql = "SELECT * FROM CLIENTS WHERE last_name=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (last_name,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
 
     def get_by_identity_card(self, identity_card:str):
         """Get a client by identity card."""
         self.sql = "SELECT * FROM CLIENTS WHERE identity_card=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (identity_card,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
 
     def get_by_email(self, email:str):
         """Get a client by email."""
         self.sql = "SELECT * FROM CLIENTS WHERE email=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (email,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
 
