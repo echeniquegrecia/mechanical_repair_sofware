@@ -11,8 +11,8 @@ class Vehicle:
         """Get all vehicles."""
         self.sql = "SELECT * FROM VEHICLES"
         self.cursor.execute(self.sql)
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = list(self.cursor.fetchall())
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
         vehicles= vehicles if vehicles else []
         return vehicles
@@ -20,17 +20,16 @@ class Vehicle:
     def get_by_id(self, vehicle_id: int):
         """Get vehicle by vehicle_id."""
         self.sql = "SELECT * FROM VEHICLES WHERE vehicle_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (vehicle_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicle = vehicles[0] if vehicles else {}
-        return vehicle
+        return vehicles
 
     def get_by_client_id(self, client_id: int):
         """Get vehicle by client id."""
         self.sql = "SELECT * FROM VEHICLES WHERE client_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (client_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
         vehicle = vehicles[0] if vehicles else {}
         return vehicle
@@ -38,24 +37,24 @@ class Vehicle:
     def get_by_vehicle_type_id(self, vehicle_type_id: int):
         """Get vehicle by vehicle type id."""
         self.sql = "SELECT * FROM VEHICLES WHERE vehicle_type_id=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (vehicle_type_id,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
     def get_by_identity(self, identity: int):
         """Get vehicle by identity."""
         self.sql = "SELECT * FROM VEHICLES WHERE identity=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (identity,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
     def get_by_mileage(self, mileage: int):
         """Get vehicle by mileage."""
         self.sql = "SELECT * FROM VEHICLES WHERE mileage=?"
-        columns = list(map(lambda x: x[0], self.cursor.description))
         values = self.cursor.execute(self.sql, (mileage,))
+        columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
@@ -85,6 +84,7 @@ class Vehicle:
                 "VEHICLES_TYPE.model AS model," \
                 "VEHICLES_TYPE.brand AS brand," \
                 "VEHICLES_TYPE.year AS year," \
+                "CLIENTS.client_id as client_id," \
                 "CLIENTS.name as client_name," \
                 "CLIENTS.last_name as client_last_name," \
                 "CLIENTS.identity_card as client_identity " \
@@ -99,6 +99,7 @@ class Vehicle:
             "model",
             "brand",
             "year",
+            "client_id",
             "client_name",
             "client_last_name",
             "client_identity"
@@ -116,6 +117,7 @@ class Vehicle:
                    "VEHICLES_TYPE.model AS model," \
                    "VEHICLES_TYPE.brand AS brand," \
                    "VEHICLES_TYPE.year AS year," \
+                   "CLIENTS.client_id as client_id," \
                    "CLIENTS.name as client_name," \
                    "CLIENTS.last_name as client_last_name," \
                    "CLIENTS.identity_card as client_identity " \
@@ -131,6 +133,7 @@ class Vehicle:
             "model",
             "brand",
             "year",
+            "client_id",
             "client_name",
             "client_last_name",
             "client_identity"
