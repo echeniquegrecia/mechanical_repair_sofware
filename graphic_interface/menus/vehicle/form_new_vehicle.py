@@ -84,13 +84,21 @@ class FormNewVehicle(BaseFrame):
         frame_18.pack(side="top", padx=5, pady=5, fill='x')
 
         # Testing
-        self.test = tk.StringVar()
-        self.test.trace_add("write", self.callback_test)
+        # Choose Client
+        self._client = tk.StringVar()
+        self._client.trace_add("write", self.callback_client)
+        self.client_chosen = ttk.Combobox(frame, width=20, font='Helvetica 18 bold', state="readonly",textvariable=self._client)
+        self.client_chosen["values"] = self.get_clients()
+        self.client_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
 
-        self.test_chosen = ttk.Combobox(frame, width=20, font='Helvetica 18 bold', state="readonly",
-                                        textvariable=self.test)
-        self.test_chosen["values"] = self.test_client()
-        self.test_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
+
+        # self.test = tk.StringVar()
+        # self.test.trace_add("write", self.callback_test)
+        #
+        # self.test_chosen = ttk.Combobox(frame, width=20, font='Helvetica 18 bold', state="readonly",
+        #                                 textvariable=self.test)
+        # self.test_chosen["values"] = self.test_client()
+        # self.test_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
 
         # Client Data
         name_label = tk.Label(frame_3, text="Nombre", font='Helvetica 18 bold', anchor='w')
@@ -224,12 +232,10 @@ class FormNewVehicle(BaseFrame):
         self.model_chosen.config(values=self.get_vehicle_type_models(brand=brand))
         self.year_chosen.config(values=self.get_vehicle_type_year(model=model))
 
-    def callback_test(self, *args):
-        test = self.test.get()
-        print(f"test: {test}")
-
-        list = test.split(' ')
-        client = self.client.get_by_id(client_id=list[0])
+    def callback_client(self, *args):
+        client = self._client.get()
+        list = client.split(' ')
+        client = self.client.get_by_id(client_id=list[0])[0]
         self.client_id.set(client.get("client_id"))
         self.name.set(client.get("name"))
         self.last_name.set(client.get("last_name"))
@@ -245,7 +251,7 @@ class FormNewVehicle(BaseFrame):
         self.master.show()
 
 
-    def test_client(self):
+    def get_clients(self):
         list = []
         clients = self.client.get_all()
         for client in clients:
