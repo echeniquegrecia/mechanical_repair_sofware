@@ -101,7 +101,7 @@ class FormEditClient(BaseFrame):
         self.data["address"].set(self.values.get("address"))
         address_entry.pack(padx=5, pady=5, fill='both')
 
-        button_1 = tk.Button(frame_10, text="Editar", font='Helvetica 15 bold', width=15, command=self.edit_client)
+        button_1 = tk.Button(frame_10, text="Guardar", font='Helvetica 15 bold', width=15, command=self.edit_client)
         button_1.pack(side='right', fil='x')
 
         button_2 = tk.Button(frame_10, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)

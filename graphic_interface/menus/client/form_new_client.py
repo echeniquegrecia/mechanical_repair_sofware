@@ -8,7 +8,6 @@ class FormNewClient(BaseFrame):
     def __init__(self, root, connection, master):
         """New Client Window init."""
         super().__init__(root=root, connection=connection)
-        self.root.state('zoomed')
         self.master = master
         self.data = {
             "name": tk.StringVar(),

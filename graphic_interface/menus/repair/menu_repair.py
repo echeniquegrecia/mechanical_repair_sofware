@@ -1,22 +1,20 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
-from graphic_interface.menus.vehicle.form_edit_vehicle import FormEditVehicle
-from graphic_interface.menus.vehicle.form_new_vehicle import FormNewVehicle
 
 
-class MenuVehicle(BaseFrame):
-    """Class for Menu Vehicle Window."""
+class MenuRepair(BaseFrame):
+    """Class for Menu Repair Window."""
 
     def __init__(self, root, connection, master):
-        """Menu Vehicle Window init."""
+        """Menu Repair Window init."""
         super().__init__(root=root, connection=connection)
         self.root.state('zoomed')
         self.master = master
         self.option_var = tk.StringVar()
         self.entry_var = tk.StringVar()
 
-        frame_1 = tk.LabelFrame(self.root, text="Menu Vehiculo", width=100, height=10)
+        frame_1 = tk.LabelFrame(self.root, text="Menu Reparacion", width=100, height=10)
         frame_1.pack(side='top', padx=5, pady=5, fill='x')
 
         frame_2 = tk.LabelFrame(self.root, width=100, height=10)
@@ -28,16 +26,16 @@ class MenuVehicle(BaseFrame):
         frame_4 = tk.Frame(frame_2)
         frame_4.pack(side='bottom', fill='x')
 
-        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, command=self.create_new_vehicle)
+        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15, command=self.form_edit_vehicle)
+        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_vehicle)
+        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
+        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold')
         button_4.pack(fill='both', pady=10, padx=10)
 
         button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
@@ -45,7 +43,7 @@ class MenuVehicle(BaseFrame):
 
         # Define search frame
         self.option_var.set("--Seleccione una busqueda--")
-        contents = {"Placa", "Kilometraje", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula"}
+        contents = {"Estado"}
         self.options = tk.OptionMenu(frame_1, self.option_var, *contents)
         self.options.config(font=('Helvetica', 15))
         self.options.pack(side='left', pady=10, padx=10, fill='x')
