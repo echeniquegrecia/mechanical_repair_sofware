@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.vehicle.form_edit_vehicle import FormEditVehicle
 from graphic_interface.menus.vehicle.form_new_vehicle import FormNewVehicle
 from graphic_interface.menus.vehicle_type.form_edit_vehicle_type import FormEditVehicleType
 
@@ -31,10 +32,10 @@ class MenuVehicle(BaseFrame):
         button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, command=self.create_new_vehicle)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15)
+        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15, command=self.form_edit_vehicle)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15)
+        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_vehicle)
         button_3.pack(fill='both', pady=10, padx=10)
 
         button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
@@ -51,54 +52,57 @@ class MenuVehicle(BaseFrame):
         self.options.pack(side='left', pady=10, padx=10, fill='x')
         entry = tk.Entry(frame_1, font="Helvetica 15", textvariable=self.entry_var)
         entry.pack(side='left', pady=10, padx=10, fill='x')
-
         button_6 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_vehicle_by_category)
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
-        columns = ("Id", "Placa", "Kilometraje", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula")
+        columns = ("Vehiculo Id", "Placa", "Kilometraje", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cedula")
         self.treeview = ttk.Treeview(frame_3, height=18, show="headings", columns=columns)
-        self.treeview.heading("Id", text="Id")
+        self.treeview.heading("Vehiculo Id", text="Vehiculo Id")
         self.treeview.heading("Placa", text="Placa")
         self.treeview.heading("Kilometraje", text="Kilometraje")
         self.treeview.heading("Modelo", text="Modelo")
         self.treeview.heading("Marca", text="Marca")
         self.treeview.heading("Año", text="Año")
+        self.treeview.heading("Client Id", text="Client Id")
         self.treeview.heading("Nombre", text="Nombre")
         self.treeview.heading("Apellido", text="Apellido")
         self.treeview.heading("Cedula", text="Cedula")
 
         # Define Columns table
-        self.treeview.column("Id", stretch=0, width=20, anchor='center')
+        self.treeview.column("Vehiculo Id", stretch=0, width=80, anchor='center')
         self.treeview.column("Placa",width=150, anchor='center')
         self.treeview.column("Kilometraje", width=150, anchor='center')
         self.treeview.column("Modelo", width=150, anchor='center')
         self.treeview.column("Marca", width=150, anchor='center')
         self.treeview.column("Año", width=150, anchor='center')
+        self.treeview.column("Client Id", stretch=0, width=80, anchor='center')
         self.treeview.column("Nombre", width=150, anchor='center')
         self.treeview.column("Apellido", width=150, anchor='center')
         self.treeview.column("Cedula", width=150, anchor='center')
 
         # Insert Data
         vehicles = self.vehicle.get_vehicles_with_clients_details()
-        id = [vehicle.get("vehicle_id") for vehicle in vehicles]
-        vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
-        model = [vehicle.get("model") for vehicle in vehicles]
-        brand = [vehicle.get("brand") for vehicle in vehicles]
-        year = [vehicle.get("year") for vehicle in vehicles]
-        client_name = [vehicle.get("client_name") for vehicle in vehicles]
-        client_last_name = [vehicle.get("client_last_name") for vehicle in vehicles]
-        client_identity = [vehicle.get("client_identity") for vehicle in vehicles]
+        vehicle_id = [vehicle.get("vehicle_id", "test") for vehicle in vehicles]
+        vehicle_identity = [vehicle.get("vehicle_identity", "test") for vehicle in vehicles]
+        mileage = [vehicle.get("mileage", "test") for vehicle in vehicles]
+        model = [vehicle.get("model", "test") for vehicle in vehicles]
+        brand = [vehicle.get("brand", "test") for vehicle in vehicles]
+        year = [vehicle.get("year", "test") for vehicle in vehicles]
+        client_id = [vehicle.get("client_id", "test") for vehicle in vehicles]
+        client_name = [vehicle.get("client_name", "test") for vehicle in vehicles]
+        client_last_name = [vehicle.get("client_last_name", "test") for vehicle in vehicles]
+        client_identity = [vehicle.get("client_identity", "test") for vehicle in vehicles]
 
         for vehicle in range(0, len(vehicles)):
             self.treeview.insert('', vehicle, values=(
-                id[vehicle],
+                vehicle_id[vehicle],
                 vehicle_identity[vehicle],
                 mileage[vehicle],
                 model[vehicle],
                 brand[vehicle],
                 year[vehicle],
+                client_id[vehicle],
                 client_name[vehicle],
                 client_last_name[vehicle],
                 client_identity[vehicle]
@@ -163,12 +167,13 @@ class MenuVehicle(BaseFrame):
     def search_vehicle_by_category(self):
         """Search vehicle by category."""
         vehicles = self.get_vehicle_by_item()
-        id = [vehicle.get("vehicle_id") for vehicle in vehicles]
+        vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
         mileage = [vehicle.get("mileage") for vehicle in vehicles]
         model = [vehicle.get("model") for vehicle in vehicles]
         brand = [vehicle.get("brand") for vehicle in vehicles]
         year = [vehicle.get("year") for vehicle in vehicles]
+        client_id = [vehicle.get("client_id") for vehicle in vehicles]
         client_name = [vehicle.get("client_name") for vehicle in vehicles]
         client_last_name = [vehicle.get("client_last_name") for vehicle in vehicles]
         client_identity = [vehicle.get("client_identity") for vehicle in vehicles]
@@ -178,12 +183,13 @@ class MenuVehicle(BaseFrame):
 
         for vehicle in range(0, len(vehicles)):
             self.treeview.insert('', vehicle, values=(
-                id[vehicle],
+                vehicle_id[vehicle],
                 vehicle_identity[vehicle],
                 mileage[vehicle],
                 model[vehicle],
                 brand[vehicle],
                 year[vehicle],
+                client_id[vehicle],
                 client_name[vehicle],
                 client_last_name[vehicle],
                 client_identity[vehicle]
@@ -204,28 +210,49 @@ class MenuVehicle(BaseFrame):
     def update_table(self):
         """Update table."""
         vehicles = self.vehicle.get_vehicles_with_clients_details()
-        id = [vehicle.get("vehicle_id") for vehicle in vehicles]
-        vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
-        model = [vehicle.get("model") for vehicle in vehicles]
-        brand = [vehicle.get("brand") for vehicle in vehicles]
-        year = [vehicle.get("year") for vehicle in vehicles]
-        client_name = [vehicle.get("client_name") for vehicle in vehicles]
-        client_last_name = [vehicle.get("client_last_name") for vehicle in vehicles]
-        client_identity = [vehicle.get("client_identity") for vehicle in vehicles]
+        vehicle_id = [vehicle.get("vehicle_id", "test") for vehicle in vehicles]
+        vehicle_identity = [vehicle.get("vehicle_identity", "test") for vehicle in vehicles]
+        mileage = [vehicle.get("mileage", "test") for vehicle in vehicles]
+        model = [vehicle.get("model", "test") for vehicle in vehicles]
+        brand = [vehicle.get("brand", "test") for vehicle in vehicles]
+        year = [vehicle.get("year", "test") for vehicle in vehicles]
+        client_id = [vehicle.get("client_id", "test") for vehicle in vehicles]
+        client_name = [vehicle.get("client_name", "test") for vehicle in vehicles]
+        client_last_name = [vehicle.get("client_last_name", "test") for vehicle in vehicles]
+        client_identity = [vehicle.get("client_identity", "test") for vehicle in vehicles]
 
         for i in self.treeview.get_children():
             self.treeview.delete(i)
 
         for vehicle in range(0, len(vehicles)):
             self.treeview.insert('', vehicle, values=(
-                id[vehicle],
+                vehicle_id[vehicle],
                 vehicle_identity[vehicle],
                 mileage[vehicle],
                 model[vehicle],
                 brand[vehicle],
                 year[vehicle],
+                client_id[vehicle],
                 client_name[vehicle],
                 client_last_name[vehicle],
                 client_identity[vehicle]
             ))
+
+    def form_edit_vehicle(self):
+        """Open Form Edit Vehicle."""
+        values = self.get_values()
+        if not values:
+            self.show_error(message="Por favor seleccione un vehiculo.")
+        self.new_window = tk.Toplevel(self.root)
+        self.app = FormEditVehicle(root=self.new_window, connection=self.connection, master=self, values=values)
+
+    def delete_vehicle(self):
+        """Delete vehicle."""
+        values = self.get_values()
+        if not values:
+            self.show_error(message="Por favor seleccione un vehiculo.")
+        else:
+            vehicle_id = values[0]
+            identity = values[1]
+            self.vehicle.delete(vehicle_id=vehicle_id)
+            self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
