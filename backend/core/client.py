@@ -14,7 +14,6 @@ class Client:
         values = list(self.cursor.fetchall())
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
-        clients = clients if clients else []
         return clients
 
     def get_by_id(self, client_id:int):

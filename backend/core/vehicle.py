@@ -14,7 +14,6 @@ class Vehicle:
         values = list(self.cursor.fetchall())
         columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicles= vehicles if vehicles else []
         return vehicles
 
     def get_by_id(self, vehicle_id: int):

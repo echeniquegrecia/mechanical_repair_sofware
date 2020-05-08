@@ -13,9 +13,8 @@ class VehicleType:
         self.cursor.execute(self.sql)
         columns = list(map(lambda x: x[0], self.cursor.description))
         values = list(self.cursor.fetchall())
-        vehicles_type = [dict(zip(columns, value)) for value in values]
-        vehicles_type = vehicles_type if vehicles_type else []
-        return vehicles_type
+        vehicles_types = [dict(zip(columns, value)) for value in values]
+        return vehicles_types
 
     def get_by_id(self, vehicle_type_id:int):
         """Get vehicle type by vehicle_type_id."""
@@ -23,8 +22,7 @@ class VehicleType:
         values = self.cursor.execute(self.sql, (vehicle_type_id,))
         columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles_type = [dict(zip(columns, value)) for value in values]
-        vehicle_type = vehicles_type[0] if vehicles_type else {}
-        return vehicle_type
+        return vehicles_type
 
     def get_by_brand(self, brand:str):
         """Get vehicle type by brand."""
