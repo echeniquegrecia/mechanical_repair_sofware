@@ -32,11 +32,12 @@ REPAIRS = "CREATE TABLE IF NOT EXISTS REPAIRS (" \
                           "vehicle_id integer NOT NULL," \
                           "client_id integer NOT NULL," \
                           "mileage real NOT NULL, " \
-                          "diagnostic TEXT NOT NULL," \
+                          "client_observations TEXT," \
+                          "mechanical_observations TEXT," \
                           "date_entry TEXT NOT NULL," \
                           "date_exit TEXT," \
-                          "final_observations TEXT NOT NULL," \
-                          "price REAL NOT NULL," \
+                          "other_observations TEXT," \
+                          "price REAL," \
                           "repair_status integer NOT NULL," \
                           "FOREIGN KEY (vehicle_id) REFERENCES vehicle (vehicle_id)," \
                           "FOREIGN KEY (client_id) REFERENCES client (client_id)" \
