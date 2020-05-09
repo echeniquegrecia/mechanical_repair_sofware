@@ -23,6 +23,7 @@ VEHICLES = "CREATE TABLE IF NOT EXISTS VEHICLES (" \
                           "vehicle_type_id integer NOT NULL," \
                           "identity text NOT NULL," \
                           "mileage real NOT NULL, " \
+                          "color text NOT NULL, " \
                           "FOREIGN KEY (client_id) REFERENCES CLIENTS (client_id)" \
                           "FOREIGN KEY (vehicle_type_id) REFERENCES VEHICLES_TYPE(vehicle_type_id)" \
                           ");"
