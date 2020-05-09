@@ -22,7 +22,6 @@ VEHICLES = "CREATE TABLE IF NOT EXISTS VEHICLES (" \
                           "client_id integer NOT NULL," \
                           "vehicle_type_id integer NOT NULL," \
                           "identity text NOT NULL," \
-                          "mileage real NOT NULL, " \
                           "color text NOT NULL, " \
                           "FOREIGN KEY (client_id) REFERENCES CLIENTS (client_id)" \
                           "FOREIGN KEY (vehicle_type_id) REFERENCES VEHICLES_TYPE(vehicle_type_id)" \
@@ -32,6 +31,7 @@ REPAIRS = "CREATE TABLE IF NOT EXISTS REPAIRS (" \
                           "repair_id integer PRIMARY KEY UNIQUE NOT NULL," \
                           "vehicle_id integer NOT NULL," \
                           "client_id integer NOT NULL," \
+                          "mileage real NOT NULL, " \
                           "diagnostic TEXT NOT NULL," \
                           "date_entry TEXT NOT NULL," \
                           "date_exit TEXT," \

@@ -19,7 +19,6 @@ class FormNewVehicle(BaseFrame):
         self.address = tk.StringVar()
         self.vehicle_type_id = tk.StringVar()
         self.identity = tk.StringVar()
-        self.mileage = tk.StringVar()
         self.color = tk.StringVar()
 
         # Frame Search clients
@@ -73,18 +72,12 @@ class FormNewVehicle(BaseFrame):
         frame_15 = tk.Frame(frame_11)
         frame_15.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_16 = tk.Frame(frame_11)
+        frame_16 = tk.Frame(frame_10)
         frame_16.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_17 = tk.Frame(frame_11)
-        frame_17.pack(side="left", fill='x', padx=5, pady=5, expand=True)
-
-        frame_18 = tk.Frame(frame_10)
-        frame_18.pack(side="top", fill='x', padx=5, pady=5, expand=True)
-
         # Frame Buttons
-        frame_19 = tk.Frame(self.root)
-        frame_19.pack(side="bottom", padx=5, pady=5, fill='x')
+        frame_17 = tk.Frame(self.root)
+        frame_17.pack(side="bottom", padx=5, pady=5, fill='x')
 
         # Choose Client
         self._client = tk.StringVar()
@@ -142,17 +135,12 @@ class FormNewVehicle(BaseFrame):
         identity_entry = tk.Entry(frame_13, font="Helvetica 17", textvariable=self.identity)
         identity_entry.pack(padx=5, pady=5, fill='both')
 
-        mileage_label = tk.Label(frame_14, text="Kilometraje", font='Helvetica 18 bold', anchor='w')
-        mileage_label.pack(padx=5, pady=5, fill='both')
-        mileage_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.mileage)
-        mileage_entry.pack(padx=5, pady=5, fill='both')
-
-        color_label = tk.Label(frame_16, text="Color", font='Helvetica 18 bold', anchor='w')
+        color_label = tk.Label(frame_14, text="Color", font='Helvetica 18 bold', anchor='w')
         color_label.pack(padx=5, pady=5, fill='both')
-        color_entry = tk.Entry(frame_17, font="Helvetica 17", textvariable=self.color)
+        color_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.color)
         color_entry.pack(padx=5, pady=5, fill='both')
 
-        number_label = tk.Label(frame_18, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
+        number_label = tk.Label(frame_16, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
         number_label.pack(side='left', padx=5, pady=5, fill='both')
 
         # Vehicle Type Data
@@ -162,20 +150,20 @@ class FormNewVehicle(BaseFrame):
         self.model.trace_add("write", self.callback)
         self.year = tk.StringVar()
 
-        self.brand_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
+        self.brand_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
         self.brand_chosen["values"] = self.get_vehicle_type_brands()
         self.brand_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        self.model_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
+        self.model_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
         self.model_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        self.year_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
+        self.year_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
         self.year_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        button_1 = tk.Button(frame_19, text="Crear", font='Helvetica 15 bold', width=15, command=self.create_new_vehicle)
+        button_1 = tk.Button(frame_17, text="Crear", font='Helvetica 15 bold', width=15, command=self.create_new_vehicle)
         button_1.pack(side='right', fil='x')
 
-        button_2 = tk.Button(frame_19, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
+        button_2 = tk.Button(frame_17, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
         button_2.pack(side='right', fil='x')
 
         self.root.mainloop()
@@ -191,7 +179,6 @@ class FormNewVehicle(BaseFrame):
             "client_id": self.client_id.get(),
             "vehicle_type_id": vehicle_type_id,
             "identity": self.identity.get(),
-            "mileage": self.mileage.get(),
             "color": self.color.get()
         }
         vehicle = self.vehicle.create(data=data)

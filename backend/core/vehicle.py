@@ -49,14 +49,6 @@ class Vehicle:
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
-    def get_by_mileage(self, mileage: int):
-        """Get vehicle by mileage."""
-        self.sql = "SELECT * FROM VEHICLES WHERE mileage=?"
-        values = self.cursor.execute(self.sql, (mileage,))
-        columns = list(map(lambda x: x[0], self.cursor.description))
-        vehicles = [dict(zip(columns, value)) for value in values]
-        return vehicles
-
     def get_by_color(self, color:str):
         """Get vehicle by color."""
         self.sql = "SELECT * FROM VEHICLES WHERE color=?"
@@ -70,7 +62,6 @@ class Vehicle:
         self.sql = "" \
         "SELECT VEHICLES.vehicle_id," \
                 "identity," \
-                "mileage," \
                 "color," \
                 "brand," \
                 "model," \
@@ -78,7 +69,7 @@ class Vehicle:
         "FROM VEHICLES "\
         "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_type_id;"
         self.cursor.execute(self.sql)
-        columns = ["vehicle_id", "identity", "mileage", "color", "brand", "model", "year"]
+        columns = ["vehicle_id", "identity", "color", "brand", "model", "year"]
         values = list(self.cursor.fetchall())
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
@@ -88,7 +79,6 @@ class Vehicle:
         self.sql = "" \
         "SELECT VEHICLES.vehicle_id ," \
                 "VEHICLES.identity AS vehicle_identity," \
-                "VEHICLES.mileage AS mileage," \
                 "VEHICLES.color AS color," \
                 "VEHICLES_TYPE.model AS model," \
                 "VEHICLES_TYPE.brand AS brand," \
@@ -104,7 +94,6 @@ class Vehicle:
         columns = [
             "vehicle_id",
             "vehicle_identity",
-            "mileage",
             "color",
             "model",
             "brand",
@@ -123,7 +112,6 @@ class Vehicle:
         self.sql = "" \
                    "SELECT VEHICLES.vehicle_id ," \
                    "VEHICLES.identity AS vehicle_identity," \
-                   "VEHICLES.mileage AS mileage," \
                    "VEHICLES.color AS color," \
                    "VEHICLES_TYPE.model AS model," \
                    "VEHICLES_TYPE.brand AS brand," \
@@ -140,7 +128,6 @@ class Vehicle:
         columns = [
             "vehicle_id",
             "vehicle_identity",
-            "mileage",
             "color",
             "model",
             "brand",
