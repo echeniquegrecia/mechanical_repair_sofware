@@ -12,10 +12,10 @@ database = Database(database=DATABASE)
 connection = database.get_connection()
 
 # Create tables
-# table_clients = database.create_table(CLIENTS)
-# table_vehicles_type = database.create_table(VEHICLES_TYPE)
-# table_vehicles = database.create_table(VEHICLES)
-# table_repairs = database.create_table(REPAIRS)
+table_clients = database.create_table(CLIENTS)
+table_vehicles_type = database.create_table(VEHICLES_TYPE)
+table_vehicles = database.create_table(VEHICLES)
+table_repairs = database.create_table(REPAIRS)
 
 root = tk.Tk()
 window_principal = MenuHome(root= root, connection=connection)

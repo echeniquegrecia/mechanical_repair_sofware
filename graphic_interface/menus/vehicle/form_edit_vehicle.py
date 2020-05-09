@@ -10,14 +10,13 @@ class FormEditVehicle(BaseFrame):
         """FormEditVehicle init."""
         super().__init__(root=root, connection=connection)
         print(values)
-        id = values[0]
         self.master = master
         # Get Client details
-        client_id = int(values[7])
+        client_id = int(values[6])
         client = self.client.get_by_id(client_id=client_id)
         self._client = tk.StringVar()
         self.client_id = tk.StringVar()
-        self.client_id.set(values[7])
+        self.client_id.set(values[6])
         self.name = tk.StringVar()
         self.last_name = tk.StringVar()
         self.identity_card = tk.StringVar()
@@ -29,7 +28,6 @@ class FormEditVehicle(BaseFrame):
         #Get Vehicle details
         self.vehicle_id = values[0]
         self.identity = tk.StringVar()
-        self.mileage = tk.StringVar()
         self.color = tk.StringVar()
 
         # Get Vehicle type details
@@ -89,22 +87,16 @@ class FormEditVehicle(BaseFrame):
         frame_15 = tk.Frame(frame_11)
         frame_15.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_16 = tk.Frame(frame_11)
+        frame_16 = tk.Frame(frame_10)
         frame_16.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_17 = tk.Frame(frame_11)
-        frame_17.pack(side="left", fill='x', padx=5, pady=5, expand=True)
-
-        frame_18 = tk.Frame(frame_10)
-        frame_18.pack(side="top", fill='x', padx=5, pady=5, expand=True)
-
         # Frame Buttons
-        frame_19 = tk.Frame(self.root)
-        frame_19.pack(side="bottom", padx=5, pady=5, fill='x')
+        frame_17 = tk.Frame(self.root)
+        frame_17.pack(side="bottom", padx=5, pady=5, fill='x')
 
         # Choose Client
         self.client_chosen = ttk.Combobox(frame, width=20, font='Helvetica 18 bold', state="readonly", textvariable=self._client)
-        self._client.set(self.get_client_by_id(client_id=values[7]))
+        self._client.set(self.get_client_by_id(client_id=values[6]))
         self._client.trace_add("write", self.callback_client)
         self.client_chosen["values"] = self.get_clients()
         self.client_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
@@ -166,43 +158,37 @@ class FormEditVehicle(BaseFrame):
         self.identity.set(values[1])
         identity_entry.pack(padx=5, pady=5, fill='both')
 
-        mileage_label = tk.Label(frame_14, text="Kilometraje", font='Helvetica 18 bold', anchor='w')
-        mileage_label.pack(padx=5, pady=5, fill='both')
-        mileage_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.mileage)
-        self.mileage.set(values[2])
-        mileage_entry.pack(padx=5, pady=5, fill='both')
-
-        color_label = tk.Label(frame_16, text="Color", font='Helvetica 18 bold', anchor='w')
+        color_label = tk.Label(frame_14, text="Color", font='Helvetica 18 bold', anchor='w')
         color_label.pack(padx=5, pady=5, fill='both')
-        color_entry = tk.Entry(frame_17, font="Helvetica 17", textvariable=self.color)
-        self.color.set(values[3])
+        color_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.color)
+        self.color.set(values[2])
         color_entry.pack(padx=5, pady=5, fill='both')
 
-        number_label = tk.Label(frame_18, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
+        number_label = tk.Label(frame_16, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w')
         number_label.pack(side='left', padx=5, pady=5, fill='both')
 
-        self.brand_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
-        self.brand.set(values[5])
+        self.brand_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.brand, state="readonly")
+        self.brand.set(values[4])
         self.brand_chosen["values"] = self.get_vehicle_type_brands()
         self.brand_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
-        self.model_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
-        self.model.set(values[4])
+        self.model_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.model, state="readonly")
+        self.model.set(values[3])
         self.model_chosen.pack(side='left', padx=5, pady=5, expand=True)
         # Choose Vehicle type (Brand, Model, Year).
         self.brand.trace_add("write", self.callback_vehicle_type)
         self.model.trace_add("write", self.callback_vehicle_type)
 
-        self.year_chosen = ttk.Combobox(frame_18, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
-        self.year.set(values[6])
+        self.year_chosen = ttk.Combobox(frame_16, width=20, font='Helvetica 18 bold', textvariable=self.year, state="readonly")
+        self.year.set(values[5])
         self.year_chosen.pack(side='left', padx=5, pady=5, expand=True)
 
 
         # Buttons
-        button_1 = tk.Button(frame_19, text="Guardar", font='Helvetica 15 bold', width=15, command=self.edit_vehicle)
+        button_1 = tk.Button(frame_17, text="Guardar", font='Helvetica 15 bold', width=15, command=self.edit_vehicle)
         button_1.pack(side='right', fil='x')
 
-        button_2 = tk.Button(frame_19, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
+        button_2 = tk.Button(frame_17, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
         button_2.pack(side='right', fil='x')
 
         self.root.mainloop()
@@ -218,7 +204,7 @@ class FormEditVehicle(BaseFrame):
             "client_id": self.client_id.get(),
             "vehicle_type_id": vehicle_type_id,
             "identity": self.identity.get(),
-            "mileage": self.mileage.get()
+            "color": self.color.get()
         }
         vehicle = self.vehicle.update(vehicle_id=self.vehicle_id, data=data)
 

@@ -45,7 +45,7 @@ class MenuVehicle(BaseFrame):
 
         # Define search frame
         self.option_var.set("--Seleccione una busqueda--")
-        contents = {"Placa", "Kilometraje", "Color", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula"}
+        contents = {"Placa", "Color", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula"}
         self.options = tk.OptionMenu(frame_1, self.option_var, *contents)
         self.options.config(font=('Helvetica', 15))
         self.options.pack(side='left', pady=10, padx=10, fill='x')
@@ -55,11 +55,10 @@ class MenuVehicle(BaseFrame):
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
-        columns = ("Vehiculo Id", "Placa", "Kilometraje", "Color", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cedula")
+        columns = ("Vehiculo Id", "Placa", "Color", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cedula")
         self.treeview = ttk.Treeview(frame_3, height=18, show="headings", columns=columns)
         self.treeview.heading("Vehiculo Id", text="Vehiculo Id")
         self.treeview.heading("Placa", text="Placa")
-        self.treeview.heading("Kilometraje", text="Kilometraje")
         self.treeview.heading("Color", text="Color")
         self.treeview.heading("Modelo", text="Modelo")
         self.treeview.heading("Marca", text="Marca")
@@ -72,7 +71,6 @@ class MenuVehicle(BaseFrame):
         # Define Columns table
         self.treeview.column("Vehiculo Id", stretch=0, width=80, anchor='center')
         self.treeview.column("Placa",width=150, anchor='center')
-        self.treeview.column("Kilometraje", width=150, anchor='center')
         self.treeview.column("Color", width=150, anchor='center')
         self.treeview.column("Modelo", width=150, anchor='center')
         self.treeview.column("Marca", width=150, anchor='center')
@@ -86,7 +84,6 @@ class MenuVehicle(BaseFrame):
         vehicles = self.vehicle.get_vehicles_with_clients_details()
         vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
         color = [vehicle.get("color") for vehicle in vehicles]
         model = [vehicle.get("model") for vehicle in vehicles]
         brand = [vehicle.get("brand") for vehicle in vehicles]
@@ -100,7 +97,6 @@ class MenuVehicle(BaseFrame):
             self.treeview.insert('', vehicle, values=(
                 vehicle_id[vehicle],
                 vehicle_identity[vehicle],
-                mileage[vehicle],
                 color[vehicle],
                 model[vehicle],
                 brand[vehicle],
@@ -142,9 +138,7 @@ class MenuVehicle(BaseFrame):
         value = self.entry_var.get()
         item = self.option_var.get()
         try:
-            if item == "Kilometraje":
-                value = float(self.entry_var.get())
-            elif item == "Año":
+            if item == "Año":
                 value = int(self.entry_var.get())
         except Exception:
             self.show_error(message=f"ERROR: El valor: {value} no corresponde con la categoria: {item}.")
@@ -154,7 +148,6 @@ class MenuVehicle(BaseFrame):
         """Get vehicle by item."""
         item = {
             "Placa": "vehicle_identity",
-            "Kilometraje": "mileage",
             "Color": "color",
             "Modelo": "model",
             "Marca": "brand",
@@ -173,7 +166,6 @@ class MenuVehicle(BaseFrame):
         vehicles = self.get_vehicle_by_item()
         vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
         color = [vehicle.get("color") for vehicle in vehicles]
         model = [vehicle.get("model") for vehicle in vehicles]
         brand = [vehicle.get("brand") for vehicle in vehicles]
@@ -190,7 +182,6 @@ class MenuVehicle(BaseFrame):
             self.treeview.insert('', vehicle, values=(
                 vehicle_id[vehicle],
                 vehicle_identity[vehicle],
-                mileage[vehicle],
                 color[vehicle],
                 model[vehicle],
                 brand[vehicle],
@@ -218,7 +209,6 @@ class MenuVehicle(BaseFrame):
         vehicles = self.vehicle.get_vehicles_with_clients_details()
         vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
         color = [vehicle.get("color") for vehicle in vehicles]
         model = [vehicle.get("model") for vehicle in vehicles]
         brand = [vehicle.get("brand") for vehicle in vehicles]
@@ -235,7 +225,6 @@ class MenuVehicle(BaseFrame):
             self.treeview.insert('', vehicle, values=(
                 vehicle_id[vehicle],
                 vehicle_identity[vehicle],
-                mileage[vehicle],
                 color[vehicle],
                 model[vehicle],
                 brand[vehicle],
