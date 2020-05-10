@@ -1,6 +1,11 @@
 import os
 import sqlite3
 
+from backend.database.schema import CLIENTS
+from backend.database.schema import VEHICLES_TYPE
+from backend.database.schema import VEHICLES
+from backend.database.schema import REPAIRS
+
 
 class Database:
 
@@ -12,12 +17,13 @@ class Database:
     def get_connection(self):
         """Get Database connection."""
         try:
-            if os.path.isfile(self.database):
-                connection = sqlite3.connect(self.database)
-            else:
-                connection = sqlite3.connect(self.database)
-            self.connection = connection
-            return connection
+            self.connection = sqlite3.connect(self.database)
+            if not os.path.isfile(self.database):
+                self.create_table(CLIENTS)
+                self.create_table(VEHICLES_TYPE)
+                self.create_table(VEHICLES)
+                self.create_table(REPAIRS)
+            return self.connection
         except ConnectionError as error:
             return error
         finally:

@@ -9,7 +9,6 @@ class FormEditVehicle(BaseFrame):
     def __init__(self, root, connection, master, values):
         """FormEditVehicle init."""
         super().__init__(root=root, connection=connection)
-        print(values)
         self.master = master
         # Get Client details
         client_id = int(values[6])
