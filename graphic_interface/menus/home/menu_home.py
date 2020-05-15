@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.menu_client import MenuClient
+from graphic_interface.menus.repair.menu_repair import MenuRepair
 from graphic_interface.menus.vehicle.menu_vehicle import MenuVehicle
 from graphic_interface.menus.vehicle_type.menu_vehicle_type import MenuVehicleType
 from settings import IMAGE_MENU
@@ -31,7 +32,7 @@ class MenuHome(BaseFrame):
         button_3 = tk.Button(frame_1, text="Tipo de Vehiculos", font='Helvetica 20 bold', command=self.menu_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold')
+        button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', command=self.menu_repair)
         button_4.pack(fill='both', pady=10, padx=10)
 
         frame_3 = tk.Frame(frame_1, height=100)
@@ -71,4 +72,10 @@ class MenuHome(BaseFrame):
         self.hide()
         self.new_window = tk.Toplevel(self.root)
         self.app = MenuVehicleType(root=self.new_window, connection=self.connection, master=self)
+
+    def menu_repair(self):
+        """Open menu repair."""
+        self.hide()
+        self.new_window = tk.Toplevel(self.root)
+        self.app = MenuRepair(root=self.new_window, connection=self.connection, master=self)
 

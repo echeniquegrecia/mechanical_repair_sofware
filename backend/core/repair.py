@@ -67,37 +67,41 @@ class Repair:
     def get_all_repairs_with_details(self):
         """Get repairs with vehicles and clients details."""
         self.sql = "" \
-        "SELECT REPAIRS.repair_id," \
-                "VEHICLES.identity," \
-                "VEHICLES_TYPE.brand," \
-                "VEHICLES_TYPE.model," \
-                "VEHICLES_TYPE.year," \
-                "REPAIRS.date_entry," \
-                "REPAIRS.date_exit," \
+        "SELECT REPAIRS.repair_id, " \
+                "REPAIRS.status, " \
+                "REPAIRS.mileage, " \
+                "VEHICLES.identity, " \
+                "VEHICLES_TYPE.brand, " \
+                "VEHICLES_TYPE.model, " \
+                "VEHICLES_TYPE.year, " \
+                "REPAIRS.date_entry, " \
+                "REPAIRS.date_exit, " \
                 "CLIENTS.name," \
                 "CLIENTS.last_name," \
                 "CLIENTS.identity_card " \
         "FROM REPAIRS " \
         "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
         "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
-        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
-        "ORDER BY CLIENTS.last_name ASC;"
+        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id;"
+        print(self.sql)
         self.cursor.execute(self.sql)
         columns = [
             "repair_id",
+            "status",
+            "mileage",
             "identity",
             "brand",
             "model",
             "year",
-            "data_entry",
-            "data_exit",
+            "date_entry",
+            "date_exit",
             "client_name",
             "client_last_name",
             "client_identity"
         ]
         values = list(self.cursor.fetchall())
-        vehicles = [dict(zip(columns, value)) for value in values]
-        return vehicles
+        repairs = [dict(zip(columns, value)) for value in values]
+        return repairs
 
     def get_repairs_by_date_entry_with_details(self, date_entry):
         """Get repairs with vehicles and clients details by model."""

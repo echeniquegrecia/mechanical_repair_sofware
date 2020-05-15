@@ -17,12 +17,14 @@ class Database:
     def get_connection(self):
         """Get Database connection."""
         try:
-            self.connection = sqlite3.connect(self.database)
+            # import pdb; pdb.set_trace()
             if not os.path.isfile(self.database):
+                self.connection = sqlite3.connect(self.database)
                 self.create_table(CLIENTS)
                 self.create_table(VEHICLES_TYPE)
                 self.create_table(VEHICLES)
                 self.create_table(REPAIRS)
+            self.connection = sqlite3.connect(self.database)
             return self.connection
         except ConnectionError as error:
             return error

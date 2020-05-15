@@ -53,56 +53,78 @@ class MenuRepair(BaseFrame):
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
-        columns = ("Vehiculo Id", "Placa", "Kilometraje", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cedula")
+        columns = (
+            "Reparacion Id",
+            "Estado",
+            "Fecha de entrada",
+            "Fecha de salida",
+            "Placa",
+            "Marca",
+            "Modelo",
+            "Año",
+            "Kilometraje",
+            "Nombre",
+            "Apellido",
+            "Cedula"
+        )
         self.treeview = ttk.Treeview(frame_3, height=18, show="headings", columns=columns)
-        self.treeview.heading("Vehiculo Id", text="Vehiculo Id")
+        self.treeview.heading("Reparacion Id", text="Reparacion Id")
+        self.treeview.heading("Estado", text="Estado")
+        self.treeview.heading("Fecha de entrada", text="Fecha de entrada")
+        self.treeview.heading("Fecha de salida", text="Fecha de salida")
         self.treeview.heading("Placa", text="Placa")
-        self.treeview.heading("Kilometraje", text="Kilometraje")
-        self.treeview.heading("Modelo", text="Modelo")
         self.treeview.heading("Marca", text="Marca")
+        self.treeview.heading("Modelo", text="Modelo")
         self.treeview.heading("Año", text="Año")
-        self.treeview.heading("Client Id", text="Client Id")
+        self.treeview.heading("Kilometraje", text="Kilometraje")
         self.treeview.heading("Nombre", text="Nombre")
         self.treeview.heading("Apellido", text="Apellido")
         self.treeview.heading("Cedula", text="Cedula")
 
         # Define Columns table
-        self.treeview.column("Vehiculo Id", stretch=0, width=80, anchor='center')
-        self.treeview.column("Placa",width=150, anchor='center')
-        self.treeview.column("Kilometraje", width=150, anchor='center')
+        self.treeview.column("Reparacion Id", stretch=0, width=80, anchor='center')
+        self.treeview.column("Estado",width=80, anchor='center')
+        self.treeview.column("Fecha de entrada", width=100, anchor='center')
+        self.treeview.column("Fecha de salida", width=100, anchor='center')
+        self.treeview.column("Placa", width=80, anchor='center')
+        self.treeview.column("Marca", width=120, anchor='center')
         self.treeview.column("Modelo", width=150, anchor='center')
-        self.treeview.column("Marca", width=150, anchor='center')
-        self.treeview.column("Año", width=150, anchor='center')
-        self.treeview.column("Client Id", stretch=0, width=80, anchor='center')
+        self.treeview.column("Año", width=50, anchor='center')
+        self.treeview.column("Kilometraje", width=120, anchor='center')
         self.treeview.column("Nombre", width=150, anchor='center')
         self.treeview.column("Apellido", width=150, anchor='center')
         self.treeview.column("Cedula", width=150, anchor='center')
 
         # Insert Data
-        vehicles = self.vehicle.get_vehicles_with_clients_details()
-        vehicle_id = [vehicle.get("vehicle_id", "test") for vehicle in vehicles]
-        vehicle_identity = [vehicle.get("vehicle_identity", "test") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage", "test") for vehicle in vehicles]
-        model = [vehicle.get("model", "test") for vehicle in vehicles]
-        brand = [vehicle.get("brand", "test") for vehicle in vehicles]
-        year = [vehicle.get("year", "test") for vehicle in vehicles]
-        client_id = [vehicle.get("client_id", "test") for vehicle in vehicles]
-        client_name = [vehicle.get("client_name", "test") for vehicle in vehicles]
-        client_last_name = [vehicle.get("client_last_name", "test") for vehicle in vehicles]
-        client_identity = [vehicle.get("client_identity", "test") for vehicle in vehicles]
+        repairs = self.repair.get_all_repairs_with_details()
+        repair_id = [repair.get("repair_id") for repair in repairs]
+        status = [repair.get("status") for repair in repairs]
+        date_entry = [repair.get("date_entry") for repair in repairs]
+        date_exit = [repair.get("date_exit") for repair in repairs]
+        identity = [repair.get("identity") for repair in repairs]
+        brand = [repair.get("brand") for repair in repairs]
+        model = [repair.get("model") for repair in repairs]
+        year = [repair.get("year") for repair in repairs]
+        mileage = [repair.get("mileage") for repair in repairs]
+        client_name = [repair.get("client_name") for repair in repairs]
+        client_last_name = [repair.get("client_last_name") for repair in repairs]
+        client_identity = [repair.get("client_identity") for repair in repairs]
 
-        for vehicle in range(0, len(vehicles)):
-            self.treeview.insert('', vehicle, values=(
-                vehicle_id[vehicle],
-                vehicle_identity[vehicle],
-                mileage[vehicle],
-                model[vehicle],
-                brand[vehicle],
-                year[vehicle],
-                client_id[vehicle],
-                client_name[vehicle],
-                client_last_name[vehicle],
-                client_identity[vehicle]
+        for repair in range(0, len(repairs)):
+            self.treeview.insert('', repair, values=(
+                repair_id[repair],
+                status[repair],
+                date_entry[repair],
+                date_exit[repair],
+                identity[repair],
+                brand[repair],
+                model[repair],
+                year[repair],
+                mileage[repair],
+                client_name[repair],
+                client_last_name[repair],
+                client_identity[repair],
+
             ))
 
         # Scrollbar Vertical
@@ -206,33 +228,38 @@ class MenuRepair(BaseFrame):
 
     def update_table(self):
         """Update table."""
-        vehicles = self.vehicle.get_vehicles_with_clients_details()
-        vehicle_id = [vehicle.get("vehicle_id", "test") for vehicle in vehicles]
-        vehicle_identity = [vehicle.get("vehicle_identity", "test") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage", "test") for vehicle in vehicles]
-        model = [vehicle.get("model", "test") for vehicle in vehicles]
-        brand = [vehicle.get("brand", "test") for vehicle in vehicles]
-        year = [vehicle.get("year", "test") for vehicle in vehicles]
-        client_id = [vehicle.get("client_id", "test") for vehicle in vehicles]
-        client_name = [vehicle.get("client_name", "test") for vehicle in vehicles]
-        client_last_name = [vehicle.get("client_last_name", "test") for vehicle in vehicles]
-        client_identity = [vehicle.get("client_identity", "test") for vehicle in vehicles]
+        repairs = self.repair.get_all_repairs_with_details()
+        repair_id = [repair.get("repair_id") for repair in repairs]
+        status = [repair.get("status") for repair in repairs]
+        date_entry = [repair.get("date_entry") for repair in repairs]
+        date_exit = [repair.get("date_exit") for repair in repairs]
+        identity = [repair.get("identity") for repair in repairs]
+        brand = [repair.get("brand") for repair in repairs]
+        model = [repair.get("model") for repair in repairs]
+        year = [repair.get("year") for repair in repairs]
+        mileage = [repair.get("mileage") for repair in repairs]
+        client_name = [repair.get("client_name") for repair in repairs]
+        client_last_name = [repair.get("client_last_name") for repair in repairs]
+        client_identity = [repair.get("client_identity") for repair in repairs]
 
         for i in self.treeview.get_children():
             self.treeview.delete(i)
 
-        for vehicle in range(0, len(vehicles)):
-            self.treeview.insert('', vehicle, values=(
-                vehicle_id[vehicle],
-                vehicle_identity[vehicle],
-                mileage[vehicle],
-                model[vehicle],
-                brand[vehicle],
-                year[vehicle],
-                client_id[vehicle],
-                client_name[vehicle],
-                client_last_name[vehicle],
-                client_identity[vehicle]
+        for repair in range(0, len(repairs)):
+            self.treeview.insert('', repair, values=(
+                repair_id[repair],
+                status[repair],
+                date_entry[repair],
+                date_exit[repair],
+                identity[repair],
+                brand[repair],
+                model[repair],
+                year[repair],
+                mileage[repair],
+                client_name[repair],
+                client_last_name[repair],
+                client_identity[repair],
+
             ))
 
     def form_edit_vehicle(self):
