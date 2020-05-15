@@ -83,7 +83,6 @@ class Repair:
         "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
         "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
         "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id;"
-        print(self.sql)
         self.cursor.execute(self.sql)
         columns = [
             "repair_id",

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.repair.form_new_repair import FormNewRepair
 
 
 class MenuRepair(BaseFrame):
@@ -26,7 +27,7 @@ class MenuRepair(BaseFrame):
         frame_4 = tk.Frame(frame_2)
         frame_4.pack(side='bottom', fill='x')
 
-        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15)
+        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, command=self.create_new_repair)
         button_1.pack(fill='both', pady=10, padx=10)
 
         button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15)
@@ -144,10 +145,10 @@ class MenuRepair(BaseFrame):
 
         self.root.mainloop()
 
-    def create_new_vehicle(self):
+    def create_new_repair(self):
         """Create new vehicle."""
         self.new_window = tk.Toplevel(self.root)
-        self.app = FormNewVehicle(
+        self.app = FormNewRepair(
             root=self.new_window,
             connection=self.connection,
             master=self

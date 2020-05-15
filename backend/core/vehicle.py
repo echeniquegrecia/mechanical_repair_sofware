@@ -30,8 +30,7 @@ class Vehicle:
         values = self.cursor.execute(self.sql, (client_id,))
         columns = list(map(lambda x: x[0], self.cursor.description))
         vehicles = [dict(zip(columns, value)) for value in values]
-        vehicle = vehicles[0] if vehicles else {}
-        return vehicle
+        return vehicles
 
     def get_by_vehicle_type_id(self, vehicle_type_id: int):
         """Get vehicle by vehicle type id."""
@@ -54,6 +53,24 @@ class Vehicle:
         self.sql = "SELECT * FROM VEHICLES WHERE color=?"
         values = self.cursor.execute(self.sql, (color,))
         columns = list(map(lambda x: x[0], self.cursor.description))
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
+
+    def get_by_vehicle_type_id_with_details(self, vehicle_id: int):
+        """Get vehicle by vehicle type id."""
+        self.sql = "" \
+                   "SELECT VEHICLES.vehicle_id," \
+                   "identity," \
+                   "color," \
+                   "brand," \
+                   "model," \
+                   "year " \
+                   "FROM VEHICLES " \
+                   "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_type_id " \
+                   f"WHERE VEHICLES.vehicle_id = ?;"
+        self.cursor.execute(self.sql, (vehicle_id,))
+        columns = ["vehicle_id", "identity", "color", "brand", "model", "year"]
+        values = list(self.cursor.fetchall())
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
