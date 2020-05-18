@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkcalendar import DateEntry
 from graphic_interface.menus.base_frame import BaseFrame
 
 class FormNewRepair(BaseFrame):
@@ -172,41 +173,67 @@ class FormNewRepair(BaseFrame):
         frame_17.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_18 = tk.Frame(frame_17)
-        frame_18.pack(side="top", fill='both', padx=5, pady=5, expand=True)
+        frame_18.pack(side="left", fill='x', padx=5, pady=5, expand=True)
+        frame_19 = tk.Frame(frame_17)
+        frame_19.pack(side="left", fill='x', padx=5, pady=5, expand=True)
 
-        frame_19 = tk.Frame(frame_18)
-        frame_19.pack(side="left", fill='both', padx=5, pady=5, expand=True)
-
+        # Date Entry
         frame_20 = tk.Frame(frame_18)
-        frame_20.pack(side="left", fill='both', padx=5, pady=5, expand=True)
+        frame_20.pack(side="top", fill='x', padx=5, pady=5, expand=True)
+        date_entry_label = tk.Label(frame_20, text="Fecha de entrada", font='Helvetica 11 bold', anchor='w')
+        date_entry_label.pack(side="left", padx=5, pady=5, fill='x', expand=True)
+        date_entry = DateEntry(frame_20, width=12, background='darkblue',foreground='white', borderwidth=2)
+        date_entry.pack(side="left", padx=10, pady=10, fill='x', expand=True)
 
-        frame_21 = tk.Frame(frame_17)
-        frame_21.pack(side="top", fill='both', padx=5, pady=5, expand=True)
-
-        client_observation_label = tk.Label(frame_19, text="Observaciones del Cliente:", font='Helvetica 11 bold', anchor='w')
-        client_observation_label.pack(side="top",padx=5, pady=5, fill='both')
-
-        # Scrollbar Vertical
-        text_client = tk.Text(frame_19)
-        scrollbar_client = tk.Scrollbar(frame_19)
+        # Client observations
+        client_observation_label = tk.Label(frame_18, text="Observaciones del Cliente:", font='Helvetica 11 bold', anchor='w')
+        client_observation_label.pack(side="top",padx=5, pady=5, fill='x', expand=True)
+        text_client = tk.Text(frame_18, height=4)
+        scrollbar_client = tk.Scrollbar(frame_18)
         scrollbar_client.pack(side="right", fill="y")
-        text_client.pack(side="top", fill="x", expand=True)
+        text_client.pack(side="top")
         scrollbar_client.config(command=text_client.yview)
         text_client.config(yscrollcommand=scrollbar_client.set)
 
-        text_label = tk.Label(frame_19, text="text", font='Helvetica 11 bold', anchor='w')
-        text_label.pack(side="top", padx=5, pady=5, fill='both')
+        # S = tk.Scrollbar(root)
+        # T = tk.Text(root, height=4, width=50)
+        # S.pack(side=tk.RIGHT, fill=tk.Y)
+        # T.pack(side=tk.LEFT, fill=tk.Y)
+        # S.config(command=T.yview)
+        # T.config(yscrollcommand=S.set)
+        # quote = """HAMLET: To be, or not to be--that is the question:
+        # Whether 'tis nobler in the mind to suffer
+        # The slings and arrows of outrageous fortune
+        # Or to take arms against a sea of troubles
+        # And by opposing end them. To die, to sleep--
+        # No more--and by a sleep to say we end
+        # The heartache, and the thousand natural shocks
+        # That flesh is heir to. 'Tis a consummation
+        # Devoutly to be wished."""
+        # T.insert(tk.END, quote)
+        # tk.mainloop()
 
-        mechanical_observation_label = tk.Label(frame_20, text="Observaciones del Mecanico:", font='Helvetica 11 bold', anchor='w')
+        # Date Exit
+        frame_21 = tk.Frame(frame_19)
+        frame_21.pack(side="top", fill='x', padx=5, pady=5, expand=True)
+        date_exit_label = tk.Label(frame_21, text="Fecha de salida", font='Helvetica 11 bold', anchor='w')
+        date_exit_label.pack(side="left", padx=5, pady=5, fill='x', expand=True)
+        date_exit = DateEntry(frame_21, width=12, background='darkblue', foreground='white', borderwidth=2)
+        date_exit.pack(side="left", padx=10, pady=10, fill='x', expand=True)
+
+        # Mechanical observations
+        mechanical_observation_label = tk.Label(frame_19, text="Observaciones del Mecanico:", font='Helvetica 11 bold', anchor='w')
         mechanical_observation_label.pack(padx=5, pady=5, fill='both')
-
-        # Scrollbar Vertical
-        text_mechanical = tk.Text(frame_20)
-        scrollbar_mechanical = tk.Scrollbar(frame_20)
+        text_mechanical = tk.Text(frame_19, height=4)
+        scrollbar_mechanical = tk.Scrollbar(frame_19)
         scrollbar_mechanical.pack(side="right", fill="y")
         text_mechanical.pack(fill="x", expand=True)
         scrollbar_mechanical.config(command=text_mechanical.yview)
         text_mechanical.config(yscrollcommand=scrollbar_mechanical.set)
+
+
+
+
 
         self.root.mainloop()
 
