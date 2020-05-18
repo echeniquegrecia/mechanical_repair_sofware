@@ -118,16 +118,16 @@ class FormNewRepair(BaseFrame):
         frame_11.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_13 = tk.Frame(frame_11)
-        frame_13.pack(side="left", fill='x', padx=5, pady=5, expand=True)
+        frame_13.pack(side="left", fill='both', padx=5, pady=5, expand=True)
 
         frame_14 = tk.Frame(frame_11)
-        frame_14.pack(side="left", fill='x', padx=5, pady=5, expand=True)
+        frame_14.pack(side="left", fill='both', padx=5, pady=5, expand=True)
 
         frame_15 = tk.Frame(frame_11)
-        frame_15.pack(side="left", fill='x', padx=5, pady=5, expand=True)
+        frame_15.pack(side="left", fill='both', padx=5, pady=5, expand=True)
 
         frame_16 = tk.Frame(frame_11)
-        frame_16.pack(side="left", fill='x', padx=5, pady=5, expand=True)
+        frame_16.pack(side="left", fill='both', padx=5, pady=5, expand=True)
 
         self.vehicle_identity.trace_add("write", self.callback_test)
         self.color.trace_add("write", self.callback_test)
@@ -148,7 +148,7 @@ class FormNewRepair(BaseFrame):
         color_entry.pack(padx=5, pady=5, fill='both')
 
         vehicle_type_label = tk.Label(frame_13, text="Tipo de Vehiculo", font='Helvetica 12 bold', anchor='w')
-        vehicle_type_label.pack(side='left', padx=5, pady=5, fill='both')
+        vehicle_type_label.pack(padx=5, pady=5, fill='both')
 
         brand_entry = tk.Entry(frame_14, font="Helvetica 12", textvariable=self.brand)
         brand_entry.config(state='readonly')
@@ -161,6 +161,11 @@ class FormNewRepair(BaseFrame):
         year_entry = tk.Entry(frame_16, font="Helvetica 12", textvariable=self.year)
         year_entry.config(state='readonly')
         year_entry.pack(padx=5, pady=5, fill='both')
+
+        mileage_label = tk.Label(frame_13, text="Kilometraje", font='Helvetica 12 bold', anchor='w')
+        mileage_label.pack(padx=5, pady=5, fill='both')
+        mileage_entry = tk.Entry(frame_14, font="Helvetica 12")
+        mileage_entry.pack(padx=5, pady=5, fill='both')
 
 
 
