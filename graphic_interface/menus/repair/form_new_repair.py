@@ -26,17 +26,17 @@ class FormNewRepair(BaseFrame):
         self.year = tk.StringVar()
 
         # Frame Search clients
-        frame = tk.LabelFrame(self.root, text="Buscar cliente", font='Helvetica 12 bold')
+        frame = tk.LabelFrame(self.root, text="Buscar cliente", font='Helvetica 11 bold')
         frame.pack(side="top", padx=5, pady=5, fill='x')
 
         self._client.trace_add("write", self.callback)
-        self.client_chosen = ttk.Combobox(frame, width=20, font='Helvetica 12 bold', state="readonly",
+        self.client_chosen = ttk.Combobox(frame, width=20, font='Helvetica 11 bold', state="readonly",
                                           textvariable=self._client)
         self.client_chosen["values"] = self.get_clients()
         self.client_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
 
         # Frame Details Clients
-        frame_1 = tk.LabelFrame(self.root, text="Datos del cliente", font='Helvetica 12 bold')
+        frame_1 = tk.LabelFrame(self.root, text="Datos del cliente", font='Helvetica 11 bold')
         frame_1.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_2 = tk.Frame(frame_1)
@@ -63,58 +63,58 @@ class FormNewRepair(BaseFrame):
         frame_9 = tk.Frame(frame_7)
         frame_9.pack(side="left", fill='x', expand=True)
 
-        name_label = tk.Label(frame_3, text="Nombre", font='Helvetica 12 bold', anchor='w')
+        name_label = tk.Label(frame_3, text="Nombre", font='Helvetica 11 bold', anchor='w')
         name_label.pack(padx=5, pady=5, fill='both')
         name_entry = tk.Entry(frame_4, font="Helvetica 12", textvariable=self.name)
         name_entry.config(state='readonly')
         name_entry.pack(padx=5, pady=5, fill='both')
 
-        last_name_label = tk.Label(frame_5, text="Apellido", font='Helvetica 12 bold', anchor='w')
+        last_name_label = tk.Label(frame_5, text="Apellido", font='Helvetica 11 bold', anchor='w')
         last_name_label.pack(padx=5, pady=5, fill='both')
         last_name_entry = tk.Entry(frame_6, font="Helvetica 12", textvariable=self.last_name)
         last_name_entry.config(state='readonly')
         last_name_entry.pack(padx=5, pady=5, fill='both')
 
-        identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 12 bold', anchor='w')
+        identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 11 bold', anchor='w')
         identity_card_label.pack(padx=5, pady=5, fill='both')
         identity_card_entry = tk.Entry(frame_4, font="Helvetica 12", textvariable=self.identity_card)
         identity_card_entry.config(state='readonly')
         identity_card_entry.pack(padx=5, pady=5, fill='both')
 
-        email_label = tk.Label(frame_5, text="Email", font='Helvetica 12 bold', anchor='w')
+        email_label = tk.Label(frame_5, text="Email", font='Helvetica 11 bold', anchor='w')
         email_label.pack(padx=5, pady=5, fill='both')
         email_entry = tk.Entry(frame_6, font="Helvetica 12", textvariable=self.email)
         email_entry.config(state='readonly')
         email_entry.pack(padx=5, pady=5, fill='both')
 
-        phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 12 bold', anchor='w')
+        phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 11 bold', anchor='w')
         phone_1_label.pack(padx=5, pady=5, fill='both')
         phone_1_entry = tk.Entry(frame_4, font="Helvetica 12", textvariable=self.phone_1)
         phone_1_entry.config(state='readonly')
         phone_1_entry.pack(padx=5, pady=5, fill='both')
 
-        phone_2_label = tk.Label(frame_5, text="Celular", font='Helvetica 12 bold', anchor='w')
+        phone_2_label = tk.Label(frame_5, text="Celular", font='Helvetica 11 bold', anchor='w')
         phone_2_label.pack(padx=5, pady=5, fill='both')
         phone_2_entry = tk.Entry(frame_6, font="Helvetica 12", textvariable=self.phone_2)
         phone_2_entry.config(state='readonly')
         phone_2_entry.pack(padx=5, pady=5, fill='both')
 
-        address_label = tk.Label(frame_8, text="Direccion", font='Helvetica 12 bold', anchor='w')
+        address_label = tk.Label(frame_8, text="Direccion", font='Helvetica 11 bold', anchor='w')
         address_label.pack(padx=5, pady=5, fill='both')
         address_entry = tk.Entry(frame_9, font="Helvetica 12", textvariable=self.address)
         address_entry.config(state='readonly')
         address_entry.pack(padx=5, pady=5, fill='both')
 
         # Frame Search vehicle
-        frame_10 = tk.LabelFrame(self.root, text="Buscar vehiculo", font='Helvetica 12 bold')
+        frame_10 = tk.LabelFrame(self.root, text="Buscar vehiculo", font='Helvetica 11 bold')
         frame_10.pack(side="top", padx=5, pady=5, fill='x')
 
         self._vehicle.trace_add("write", self.callback_test)
-        self.vehicle_chosen = ttk.Combobox(frame_10, width=20, font='Helvetica 12 bold', state="readonly",textvariable=self._vehicle)
+        self.vehicle_chosen = ttk.Combobox(frame_10, width=20, font='Helvetica 11 bold', state="readonly",textvariable=self._vehicle)
         self.vehicle_chosen.pack(side="top", padx=5, pady=5, fill='x', expand=True)
 
         # Frame Vehicle details
-        frame_11 = tk.LabelFrame(self.root, text="Datos del vehiculo", font='Helvetica 12 bold')
+        frame_11 = tk.LabelFrame(self.root, text="Datos del vehiculo", font='Helvetica 11 bold')
         frame_11.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_13 = tk.Frame(frame_11)
@@ -135,40 +135,78 @@ class FormNewRepair(BaseFrame):
         self.model.trace_add("write", self.callback_test)
         self.year.trace_add("write", self.callback_test)
 
-        vehicle_identity_label = tk.Label(frame_13, text="Placa", font='Helvetica 12 bold', anchor='w')
+        vehicle_identity_label = tk.Label(frame_13, text="Placa", font='Helvetica 11 bold', anchor='w')
         vehicle_identity_label.pack(padx=5, pady=5, fill='both')
         vehicle_identity_entry = tk.Entry(frame_14, font="Helvetica 12", textvariable=self.vehicle_identity)
         vehicle_identity_entry.config(state='readonly')
         vehicle_identity_entry.pack(padx=5, pady=5, fill='both')
 
-        color_label = tk.Label(frame_15, text="Color", font='Helvetica 12 bold', anchor='w')
+        color_label = tk.Label(frame_15, text="Color", font='Helvetica 11 bold', anchor='w')
         color_label.pack(padx=5, pady=5, fill='both')
         color_entry = tk.Entry(frame_16, font="Helvetica 12", textvariable=self.color)
         color_entry.config(state='readonly')
         color_entry.pack(padx=5, pady=5, fill='both')
 
-        vehicle_type_label = tk.Label(frame_13, text="Tipo de Vehiculo", font='Helvetica 12 bold', anchor='w')
+        vehicle_type_label = tk.Label(frame_13, text="Tipo de Vehiculo", font='Helvetica 11 bold', anchor='w')
         vehicle_type_label.pack(padx=5, pady=5, fill='both')
 
         brand_entry = tk.Entry(frame_14, font="Helvetica 12", textvariable=self.brand)
         brand_entry.config(state='readonly')
         brand_entry.pack(padx=5, pady=5, fill='both')
 
-        model_entry = tk.Entry(frame_15, font="Helvetica 12", textvariable=self.model)
+        model_entry = tk.Entry(frame_15, font="Helvetica 11", textvariable=self.model)
         model_entry.config(state='readonly')
         model_entry.pack(padx=5, pady=5, fill='both')
 
-        year_entry = tk.Entry(frame_16, font="Helvetica 12", textvariable=self.year)
+        year_entry = tk.Entry(frame_16, font="Helvetica 11", textvariable=self.year)
         year_entry.config(state='readonly')
         year_entry.pack(padx=5, pady=5, fill='both')
 
-        mileage_label = tk.Label(frame_13, text="Kilometraje", font='Helvetica 12 bold', anchor='w')
+        mileage_label = tk.Label(frame_13, text="Kilometraje", font='Helvetica 11 bold', anchor='w')
         mileage_label.pack(padx=5, pady=5, fill='both')
-        mileage_entry = tk.Entry(frame_14, font="Helvetica 12")
+        mileage_entry = tk.Entry(frame_14, font="Helvetica 11")
         mileage_entry.pack(padx=5, pady=5, fill='both')
 
+        # Repair details
+        frame_17 = tk.LabelFrame(self.root, text="Detalles de la Reparacion", font='Helvetica 11 bold')
+        frame_17.pack(side="top", padx=5, pady=5, fill='x')
 
+        frame_18 = tk.Frame(frame_17)
+        frame_18.pack(side="top", fill='both', padx=5, pady=5, expand=True)
 
+        frame_19 = tk.Frame(frame_18)
+        frame_19.pack(side="left", fill='both', padx=5, pady=5, expand=True)
+
+        frame_20 = tk.Frame(frame_18)
+        frame_20.pack(side="left", fill='both', padx=5, pady=5, expand=True)
+
+        frame_21 = tk.Frame(frame_17)
+        frame_21.pack(side="top", fill='both', padx=5, pady=5, expand=True)
+
+        client_observation_label = tk.Label(frame_19, text="Observaciones del Cliente:", font='Helvetica 11 bold', anchor='w')
+        client_observation_label.pack(side="top",padx=5, pady=5, fill='both')
+
+        # Scrollbar Vertical
+        text_client = tk.Text(frame_19)
+        scrollbar_client = tk.Scrollbar(frame_19)
+        scrollbar_client.pack(side="right", fill="y")
+        text_client.pack(side="top", fill="x", expand=True)
+        scrollbar_client.config(command=text_client.yview)
+        text_client.config(yscrollcommand=scrollbar_client.set)
+
+        text_label = tk.Label(frame_19, text="text", font='Helvetica 11 bold', anchor='w')
+        text_label.pack(side="top", padx=5, pady=5, fill='both')
+
+        mechanical_observation_label = tk.Label(frame_20, text="Observaciones del Mecanico:", font='Helvetica 11 bold', anchor='w')
+        mechanical_observation_label.pack(padx=5, pady=5, fill='both')
+
+        # Scrollbar Vertical
+        text_mechanical = tk.Text(frame_20)
+        scrollbar_mechanical = tk.Scrollbar(frame_20)
+        scrollbar_mechanical.pack(side="right", fill="y")
+        text_mechanical.pack(fill="x", expand=True)
+        scrollbar_mechanical.config(command=text_mechanical.yview)
+        text_mechanical.config(yscrollcommand=scrollbar_mechanical.set)
 
         self.root.mainloop()
 
