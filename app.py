@@ -80,7 +80,6 @@ repair_data = {
     "mechanical_observations": "Cortocircuito en el motor",
     "date_entry": str(datetime.date.today()),
     "date_exit": "",
-    "other_observations": "Se requiere chequeo cada 6 meses.",
     "price": 10000,
     "status": 1
 }
