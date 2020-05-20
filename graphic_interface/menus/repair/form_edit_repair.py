@@ -185,7 +185,7 @@ class FormEditRepair(BaseFrame):
         frame_20.pack(side="top", fill='x', padx=5, pady=5, expand=True)
         date_entry_label = tk.Label(frame_20, text="Fecha de entrada:", font='Helvetica 11 bold', anchor='w')
         date_entry_label.pack(side="left", padx=5, pady=5, fill='x', expand=True)
-        date_entry = DateEntry(frame_20, width=4, font="Helvetica 12", background='darkblue', foreground='white', borderwidth=1, textvariable=self.date_entry)
+        date_entry = DateEntry(frame_20, width=4, font="Helvetica 12", background='darkblue', foreground='white', borderwidth=1, date_pattern='dd/mm/y', textvariable=self.date_entry)
         self.date_entry.set(self.data.get("date_entry"))
         date_entry.pack(side="left", padx=5, pady=5, fill='x', expand=True)
 
