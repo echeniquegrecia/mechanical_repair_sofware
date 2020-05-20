@@ -74,10 +74,10 @@ vehicle.create(data=vehicle_data)
 repair = Repair(connection=connection)
 repair_data = {
     "vehicle_id": 1,
-    # "client_id": 1,
     "mileage": 28512.25,
     "client_observations": "Ruido en la caja",
     "mechanical_observations": "Cortocircuito en el motor",
+    "final_observations": "test",
     "date_entry": str(datetime.date.today()),
     "date_exit": "",
     "price": 10000,
