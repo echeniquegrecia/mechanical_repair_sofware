@@ -21,12 +21,19 @@ class FormNewRepair(BaseFrame):
         self.phone_1 = tk.StringVar()
         self.phone_2 = tk.StringVar()
         self.address = tk.StringVar()
+        self.vehicle_id = tk.StringVar()
         self.vehicle_identity = tk.StringVar()
         self.color = tk.StringVar()
         self.brand = tk.StringVar()
         self.model = tk.StringVar()
         self.year = tk.StringVar()
         self.status = tk.StringVar()
+        self.mileage = tk.StringVar()
+        self.client_obs = tk.StringVar()
+        self.mechanical_obs = tk.StringVar()
+        self.price = tk.StringVar()
+        self.date_entry = tk.StringVar()
+
 
         # Frame Search clients
         frame = tk.LabelFrame(self.root, text="Buscar cliente", font='Helvetica 10 bold')
@@ -167,7 +174,7 @@ class FormNewRepair(BaseFrame):
 
         mileage_label = tk.Label(frame_13, text="Kilometraje", font='Helvetica 10 bold', anchor='w')
         mileage_label.pack(padx=5, pady=5, fill='both')
-        mileage_entry = tk.Entry(frame_14, font="Helvetica 10")
+        mileage_entry = tk.Entry(frame_14, font="Helvetica 10", textvariable=self.mileage)
         mileage_entry.pack(padx=5, pady=5, fill='both')
 
         # Repair details
@@ -190,42 +197,42 @@ class FormNewRepair(BaseFrame):
         frame_20.pack(side="top", fill='x', padx=5, pady=5, expand=True)
         date_entry_label = tk.Label(frame_20, text="Fecha de entrada:", font='Helvetica 10 bold', anchor='w')
         date_entry_label.pack(side="left", padx=5, pady=5, fill='x', expand=True)
-        date_entry = DateEntry(frame_20, width=4, background='darkblue', foreground='white', borderwidth=1)
+        date_entry = DateEntry(frame_20, width=4, background='darkblue', foreground='white', borderwidth=1, textvariable=self.date_entry)
         date_entry.pack(side="left", padx=5, pady=5, fill='x', expand=True)
 
         # Client observations
-        client_observation_label = tk.Label(frame_18, text="Observaciones del Cliente:", font='Helvetica 10 bold', anchor='w')
-        client_observation_label.pack(side="top", padx=5, pady=5, fill='x', expand=True)
-        observations_clients = tk.Text(frame_18, height=4)
-        observations_clients.pack(side="left", fill="x", expand=True)
+        client_obs_label = tk.Label(frame_18, text="Observaciones del Cliente:", font='Helvetica 10 bold', anchor='w')
+        client_obs_label.pack(side="top", padx=5, pady=5, fill='x', expand=True)
+        self.client_obs = tk.Text(frame_18, height=4)
+        self.client_obs.pack(side="left", fill="x", expand=True)
         scrollbar_client = tk.Scrollbar(frame_18)
         scrollbar_client.pack(side="left", fill="y")
-        scrollbar_client.config(command=observations_clients.yview)
-        observations_clients.config(yscrollcommand=scrollbar_client.set)
+        scrollbar_client.config(command=self.client_obs.yview)
+        self.client_obs.config(yscrollcommand=scrollbar_client.set)
 
         # Price
         frame_21 = tk.Frame(frame_19)
         frame_21.pack(side="top", fill='x', padx=5, pady=5, expand=True)
         price_label = tk.Label(frame_21, text="Precio:", font='Helvetica 10 bold', anchor='w')
         price_label.pack(side="left", padx=5, pady=5, fill='x', expand=True)
-        price_entry = tk.Entry(frame_21, font="Helvetica 10 bold")
+        price_entry = tk.Entry(frame_21, font="Helvetica 10 bold", textvariable=self.price)
         price_entry.pack(side="left", padx=5, pady=5, fill='x', expand=True)
 
         # Mechanical observations
-        mechanical_observation_label = tk.Label(frame_19, text="Observaciones del Mecanico:", font='Helvetica 10 bold', anchor='w')
-        mechanical_observation_label.pack(side="top", padx=5, pady=5, fill='x', expand=True)
+        mechanical_obs_label = tk.Label(frame_19, text="Observaciones del Mecanico:", font='Helvetica 10 bold', anchor='w')
+        mechanical_obs_label.pack(side="top", padx=5, pady=5, fill='x', expand=True)
         scrollbar_mechanical = tk.Scrollbar(frame_19)
-        observations_mechanical = tk.Text(frame_19, height=4)
-        observations_mechanical.pack(side="left", fill="x", expand=True)
+        self.mechanical_obs = tk.Text(frame_19, height=4)
+        self.mechanical_obs.pack(side="left", fill="x", expand=True)
         scrollbar_mechanical.pack(side="left", fill="y")
-        scrollbar_mechanical.config(command=observations_mechanical.yview)
-        observations_mechanical.config(yscrollcommand=scrollbar_mechanical.set)
+        scrollbar_mechanical.config(command=self.mechanical_obs.yview)
+        self.mechanical_obs.config(yscrollcommand=scrollbar_mechanical.set)
 
         # Buttons
         frame_buttons = tk.Frame(self.root)
         frame_buttons.pack(side="bottom", padx=5, pady=5, fill='x')
 
-        button_1 = tk.Button(frame_buttons, text="Crear", font='Helvetica 15 bold', width=15)
+        button_1 = tk.Button(frame_buttons, text="Crear", font='Helvetica 15 bold', width=15, command=self.create_repair)
         button_1.pack(side='right', fil='x', padx=5, pady=5)
 
         button_2 = tk.Button(frame_buttons, text="Regresar", font='Helvetica 15 bold', width=15)
@@ -251,6 +258,7 @@ class FormNewRepair(BaseFrame):
     def callback_test(self, *args):
         vehicle = self._vehicle.get()
         vehicle_id = vehicle.split(' ')[0]
+        self.vehicle_id.set(vehicle_id)
         vehicle = self.vehicle.get_by_vehicle_type_id_with_details(vehicle_id=vehicle_id)[0]
         self.vehicle_identity.set(vehicle.get("identity"))
         self.color.set(vehicle.get("color"))
@@ -291,3 +299,22 @@ class FormNewRepair(BaseFrame):
                     vehicle.get("vehicle_identity"),
                 ])
         return list
+
+    def create_repair(self):
+        """Create repair."""
+        repair_data = {
+            "vehicle_id": self.vehicle_id.get(),
+            "mileage": self.mileage.get(),
+            "client_observations": self.client_obs.get("1.0", "end"),
+            "mechanical_observations": self.mechanical_obs.get("1.0", "end"),
+            "final_observations": "",
+            "date_entry": self.date_entry.get(),
+            "date_exit": "",
+            "price": self.price.get(),
+            "status": "EN TALLER"
+        }
+        repair = self.repair.create(data=repair_data)
+        if repair:
+            self.show_info(message="La reparacion ha sido registrada exitosamente.")
+        else:
+            self.show_error(message="ERROR: La reparacion no ha sido creada.")

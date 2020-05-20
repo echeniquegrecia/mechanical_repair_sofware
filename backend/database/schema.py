@@ -33,9 +33,10 @@ REPAIRS = "CREATE TABLE IF NOT EXISTS REPAIRS (" \
                           "mileage real NOT NULL, " \
                           "client_observations TEXT," \
                           "mechanical_observations TEXT," \
+                          "final_observations TEXT," \
                           "date_entry TEXT NOT NULL," \
                           "date_exit TEXT," \
                           "price REAL," \
-                          "status integer NOT NULL," \
+                          "status TEXT NOT NULL," \
                           "FOREIGN KEY (vehicle_id) REFERENCES vehicle (vehicle_id)" \
                           "); """
