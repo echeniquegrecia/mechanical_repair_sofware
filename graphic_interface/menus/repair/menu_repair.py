@@ -49,13 +49,13 @@ class MenuRepair(BaseFrame):
 
         # Define search frame
         self.option_var.set("--Seleccione una busqueda--")
-        contents = {"Estado"}
+        contents = {"Estado", "Fecha de entrada", "Fecha de salida", "Placa", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula"}
         self.options = tk.OptionMenu(frame_1, self.option_var, *contents)
         self.options.config(font=('Helvetica', 15))
         self.options.pack(side='left', pady=10, padx=10, fill='x')
         entry = tk.Entry(frame_1, font="Helvetica 15", textvariable=self.entry_var)
         entry.pack(side='left', pady=10, padx=10, fill='x')
-        button_7 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_vehicle_by_category)
+        button_7 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_repair_by_category)
         button_7.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
@@ -172,52 +172,59 @@ class MenuRepair(BaseFrame):
             self.show_error(message=f"ERROR: El valor: {value} no corresponde con la categoria: {item}.")
         return value
 
-    def get_vehicle_by_item(self):
-        """Get vehicle by item."""
+    def get_repair_by_item(self):
+        """Get repair by item."""
         item = {
-            "Placa": "vehicle_identity",
-            "Kilometraje": "mileage",
+            "Estado": "status",
+            "Fecha de entrada": "date_entry",
+            "Fecha de salida": "date_exit",
+            "Placa": "identity",
             "Modelo": "model",
             "Marca": "brand",
             "Año": "year",
-            "Nombre": "client_name",
-            "Apellido": "client_last_name",
-            "Cedula": "client_identity",
+            "Nombre": "name",
+            "Apellido": "last_name",
+            "Cedula": "identity_card"
         }
         item = item.get(self.option_var.get(), "")
         value = self.get_entry_value()
-        vehicles = self.vehicle.get_vehicles_by_item(item=item, value=value)
-        return vehicles
+        repairs = self.repair.get_repairs_by_item(item=item, value=value)
+        return repairs
 
-    def search_vehicle_by_category(self):
-        """Search vehicle by category."""
-        vehicles = self.get_vehicle_by_item()
-        vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
-        vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
-        mileage = [vehicle.get("mileage") for vehicle in vehicles]
-        model = [vehicle.get("model") for vehicle in vehicles]
-        brand = [vehicle.get("brand") for vehicle in vehicles]
-        year = [vehicle.get("year") for vehicle in vehicles]
-        client_id = [vehicle.get("client_id") for vehicle in vehicles]
-        client_name = [vehicle.get("client_name") for vehicle in vehicles]
-        client_last_name = [vehicle.get("client_last_name") for vehicle in vehicles]
-        client_identity = [vehicle.get("client_identity") for vehicle in vehicles]
+    def search_repair_by_category(self):
+        """Search repair by category."""
+        repairs = self.get_repair_by_item()
+        repair_id = [repair.get("repair_id") for repair in repairs]
+        status = [repair.get("status") for repair in repairs]
+        date_entry = [repair.get("date_entry") for repair in repairs]
+        date_exit = [repair.get("date_exit") for repair in repairs]
+        identity = [repair.get("identity") for repair in repairs]
+        brand = [repair.get("brand") for repair in repairs]
+        model = [repair.get("model") for repair in repairs]
+        year = [repair.get("year") for repair in repairs]
+        mileage = [repair.get("mileage") for repair in repairs]
+        client_name = [repair.get("client_name") for repair in repairs]
+        client_last_name = [repair.get("client_last_name") for repair in repairs]
+        client_identity = [repair.get("client_identity") for repair in repairs]
 
         for i in self.treeview.get_children():
             self.treeview.delete(i)
 
-        for vehicle in range(0, len(vehicles)):
-            self.treeview.insert('', vehicle, values=(
-                vehicle_id[vehicle],
-                vehicle_identity[vehicle],
-                mileage[vehicle],
-                model[vehicle],
-                brand[vehicle],
-                year[vehicle],
-                client_id[vehicle],
-                client_name[vehicle],
-                client_last_name[vehicle],
-                client_identity[vehicle]
+        for repair in range(0, len(repairs)):
+            self.treeview.insert('', repair, values=(
+                repair_id[repair],
+                status[repair],
+                date_entry[repair],
+                date_exit[repair],
+                identity[repair],
+                brand[repair],
+                model[repair],
+                year[repair],
+                mileage[repair],
+                client_name[repair],
+                client_last_name[repair],
+                client_identity[repair],
+
             ))
 
     def get_values(self):
