@@ -270,8 +270,11 @@ class MenuRepair(BaseFrame):
         values = self.get_values()
         if not values:
             self.show_error(message="Por favor seleccione un vehiculo.")
-        self.new_window = tk.Toplevel(self.root)
-        self.app = FormEditRepair(root=self.new_window, connection=self.connection, master=self, values=values)
+        # if values[1] == "FINALIZADO":
+        #     self.show_error(message="No se puede editar una reparacion finalizada.")
+        else:
+            self.new_window = tk.Toplevel(self.root)
+            self.app = FormEditRepair(root=self.new_window, connection=self.connection, master=self, values=values)
 
     def finish_repair(self):
         """Open Form Finish Repair."""
