@@ -282,5 +282,4 @@ class MenuRepair(BaseFrame):
             repair_id = values[0]
             self.repair.delete(repair_id=repair_id)
             self.update_table()
-            print("hello")
             self.show_info(message=f"La reparacion ha sido borrada exitosamente.")

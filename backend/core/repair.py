@@ -72,9 +72,9 @@ class Repair:
                 "CLIENTS.last_name," \
                 "CLIENTS.identity_card " \
         "FROM REPAIRS " \
-        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
-        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
-        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id;"
+        "INNER JOIN VEHICLES USING(vehicle_id) " \
+        "INNER JOIN VEHICLES_TYPE USING(vehicle_type_id) " \
+        "INNER JOIN CLIENTS USING(client_id) "
         self.cursor.execute(self.sql)
         columns = [
             "repair_id",
@@ -227,10 +227,10 @@ class Repair:
                 "CLIENTS.phone_2," \
                 "CLIENTS.address " \
         "FROM REPAIRS " \
-        "INNER JOIN VEHICLES ON VEHICLES.vehicle_id = REPAIRS.vehicle_id " \
-        "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_id " \
-        "INNER JOIN CLIENTS ON CLIENTS.client_id = VEHICLES.client_id " \
-        f"WHERE REPAIRS.repair_id = ?;"
+        "INNER JOIN VEHICLES USING(vehicle_id) " \
+        "INNER JOIN VEHICLES_TYPE USING(vehicle_type_id) " \
+        "INNER JOIN CLIENTS USING(client_id) " \
+        "WHERE REPAIRS.repair_id = ?;"
         self.cursor.execute(self.sql, (repair_id,))
         columns = [
             "repair_id",
@@ -302,3 +302,68 @@ class Repair:
         except Exception:
             result = False
         return result
+
+
+    def get_by_id_test(self, repair_id):
+        """Get repair by id."""
+        """Get repair by id."""
+        self.sql = "" \
+                   "SELECT REPAIRS.repair_id," \
+                   "REPAIRS.mileage," \
+                   "REPAIRS.client_observations," \
+                   "REPAIRS.mechanical_observations," \
+                   "REPAIRS.final_observations," \
+                   "REPAIRS.date_entry," \
+                   "REPAIRS.date_exit," \
+                   "REPAIRS.price," \
+                   "REPAIRS.status," \
+                   "VEHICLES.vehicle_id," \
+                   "VEHICLES.identity," \
+                   "VEHICLES.color," \
+                   "VEHICLES_TYPE.vehicle_type_id," \
+                   "VEHICLES_TYPE.brand," \
+                   "VEHICLES_TYPE.model," \
+                   "VEHICLES_TYPE.year," \
+                   "CLIENTS.client_id," \
+                   "CLIENTS.name," \
+                   "CLIENTS.last_name," \
+                   "CLIENTS.identity_card," \
+                   "CLIENTS.email," \
+                   "CLIENTS.phone_1," \
+                   "CLIENTS.phone_2," \
+                   "CLIENTS.address " \
+                   "FROM REPAIRS " \
+                   "INNER JOIN VEHICLES USING(vehicle_id) " \
+                   "INNER JOIN VEHICLES_TYPE USING(vehicle_type_id) " \
+                   "INNER JOIN CLIENTS USING(client_id) " \
+            f"WHERE REPAIRS.repair_id = ?;"
+        self.cursor.execute(self.sql, (repair_id,))
+        columns = [
+            "repair_id",
+            "mileage",
+            "client_observations",
+            "mechanical_observations",
+            "final_observations",
+            "date_entry",
+            "date_exit",
+            "price",
+            "status",
+            "vehicle_id",
+            "vehicle_identity",
+            "vehicle_color",
+            "vehicle_type_id",
+            "vehicle_type_brand",
+            "vehicle_type_model",
+            "vehicle_type_year",
+            "client_id",
+            "client_name",
+            "client_last_name",
+            "client_identity_card",
+            "client_email",
+            "client_phone_1",
+            "client_phone_2",
+            "client_address"
+        ]
+        values = list(self.cursor.fetchall())
+        vehicles = [dict(zip(columns, value)) for value in values]
+        return vehicles
