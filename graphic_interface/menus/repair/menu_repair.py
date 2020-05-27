@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
+from graphic_interface.menus.repair.form_check_details_repair import FormCheckDetailsRepair
 from graphic_interface.menus.repair.form_edit_repair import FormEditRepair
 from graphic_interface.menus.repair.form_new_repair import FormNewRepair
 
@@ -37,11 +38,14 @@ class MenuRepair(BaseFrame):
         button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_repair)
         button_3.pack(fill='both', pady=10, padx=10)
 
+        button_5 = tk.Button(frame_2, text="Ver Detalles", font='Helvetica 20 bold', width=15, command=self.check_details_repair)
+        button_5.pack(fill='both', pady=10, padx=10)
+
         button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', width=15, command=self.update_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
-        button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
-        button_5.pack(side='left', pady=10, padx=10)
+        button_6 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
+        button_6.pack(side='left', pady=10, padx=10)
 
         # Define search frame
         self.option_var.set("--Seleccione una busqueda--")
@@ -51,8 +55,8 @@ class MenuRepair(BaseFrame):
         self.options.pack(side='left', pady=10, padx=10, fill='x')
         entry = tk.Entry(frame_1, font="Helvetica 15", textvariable=self.entry_var)
         entry.pack(side='left', pady=10, padx=10, fill='x')
-        button_6 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_vehicle_by_category)
-        button_6.pack(side='left', pady=10, padx=10, fill='x')
+        button_7 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_vehicle_by_category)
+        button_7.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
         columns = (
@@ -272,6 +276,15 @@ class MenuRepair(BaseFrame):
         else:
             self.new_window = tk.Toplevel(self.root)
             self.app = FormEditRepair(root=self.new_window, connection=self.connection, master=self, values=values)
+
+    def check_details_repair(self):
+        """Open Form Edit Repair."""
+        values = self.get_values()
+        if not values:
+            self.show_error(message="Por favor seleccione un vehiculo.")
+        else:
+            self.new_window = tk.Toplevel(self.root)
+            self.app = FormCheckDetailsRepair(root=self.new_window, connection=self.connection, master=self, values=values)
 
     def delete_repair(self):
         """Delete repair."""
