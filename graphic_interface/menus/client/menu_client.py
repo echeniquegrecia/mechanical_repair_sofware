@@ -85,7 +85,7 @@ class MenuClient(BaseFrame):
         self.treeview.column("Email", width=150, anchor='center')
         self.treeview.column("Teléfono fijo", width=150, anchor='center')
         self.treeview.column("Celular", width=150, anchor='center')
-        self.treeview.column("Direccion", width=150, anchor='center')
+        self.treeview.column("Direccion", width=250, anchor='center')
 
         # Insert Data
         clients = self.client.get_all()
