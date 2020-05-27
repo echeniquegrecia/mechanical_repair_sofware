@@ -204,12 +204,12 @@ class FormEditRepair(BaseFrame):
         frame_details_repair_3_a = tk.Frame(frame_details_repair_3)
         frame_details_repair_3_a.pack(side="left", padx=5, pady=5, fill='x', expand=True)
 
-        # Date Entry
-        date_entry_label = tk.Label(frame_details_repair_1_a_a, text="Fecha de entrada:", font='Helvetica 12 bold', anchor='w')
-        date_entry_label.pack(side="left", padx=5, pady=5, fill='x')
-        date_entry = DateEntry(frame_details_repair_1_a_a, width=10, background='darkblue', foreground='white', borderwidth=1, date_pattern='dd/mm/y', font='Helvetica 12 bold',textvariable=self.date_entry)
+        # Date start
+        date_start_label = tk.Label(frame_details_repair_1_a_a, text="Fecha de entrada:", font='Helvetica 12 bold', anchor='w')
+        date_start_label.pack(side="left", padx=5, pady=5, fill='x')
+        self.date_start = DateEntry(frame_details_repair_1_a_a, width=10, background='darkblue', foreground='white', borderwidth=1, date_pattern='dd/mm/y', font='Helvetica 12 bold',textvariable=self.date_entry)
         self.date_entry.set(self.data.get("date_entry"))
-        date_entry.pack(side="left", padx=5, pady=5, fill='x')
+        self.date_start.pack(side="left", padx=5, pady=5, fill='x')
 
         # Client observations
         client_obs_label = tk.Label(frame_details_repair_1_a, text="Observaciones del Cliente:",
@@ -223,15 +223,24 @@ class FormEditRepair(BaseFrame):
         scrollbar_client.config(command=self.client_obs.yview)
         self.client_obs.config(yscrollcommand=scrollbar_client.set)
 
+        # Status
+        status_label = tk.Label(frame_details_repair_2_a_a, text="Estado:", font='Helvetica 12 bold', anchor='w')
+        status_label.pack(side="left", padx=5, pady=5, fill='x')
+        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold',
+                                          state="readonly", textvariable=self.status_selected)
+        self.status_selected.set(self.data.get("status"))
+        self.status_chosen["values"] = ["EN TALLER", "FINALIZADO"]
+        self.status_chosen.pack(side="left", padx=5, pady=5, fill='x')
+
         # Date Exit
         date_exit_label = tk.Label(frame_details_repair_1_b_a, text="Fecha de salida:", font='Helvetica 12 bold',
                                    anchor='w')
         date_exit_label.pack(side="left", padx=5, pady=5, fill='x')
-        date_exit = DateEntry(frame_details_repair_1_b_a, width=10, background='darkblue', foreground='white',
+        self.date_end = DateEntry(frame_details_repair_1_b_a, width=10, background='darkblue', foreground='white',
                               borderwidth=1,
                               date_pattern='dd/mm/y', font='Helvetica 12 bold', textvariable=self.date_exit)
         self.date_exit.set(self.data.get("date_exit"))
-        date_exit.pack(side="left", padx=5, pady=5, fill='x')
+        self.date_end.pack(side="left", padx=5, pady=5, fill='x')
 
         # Mechanical observations
         mechanical_obs_label = tk.Label(frame_details_repair_1_b, text="Observaciones del Mecanico:",
@@ -244,15 +253,6 @@ class FormEditRepair(BaseFrame):
         scrollbar_mechanical.pack(side="left", fill="y")
         scrollbar_mechanical.config(command=self.mechanical_obs.yview)
         self.mechanical_obs.config(yscrollcommand=scrollbar_mechanical.set)
-
-        # Status
-        status_label = tk.Label(frame_details_repair_2_a_a, text="Estado:", font='Helvetica 12 bold', anchor='w')
-        status_label.pack(side="left", padx=5, pady=5, fill='x')
-        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold',
-                                          state="readonly", textvariable=self.status_selected)
-        self.status_selected.set(self.data.get("status"))
-        self.status_chosen["values"] = ["EN TALLER", "FINALIZADO"]
-        self.status_chosen.pack(side="left", padx=5, pady=5, fill='x')
 
         # Price
         price_label = tk.Label(frame_details_repair_2_b_a, text="Precio:", font='Helvetica 12 bold')
@@ -267,6 +267,12 @@ class FormEditRepair(BaseFrame):
         final_obs_label.pack(side="top", fill='x', expand=True)
         self.final_obs = tk.Text(frame_details_repair_3_a, height=3)
         self.final_obs.insert(tk.END, self.data.get("final_observations"))
+
+        if self.status_selected.get() == "EN TALLER":
+            print("hello")
+            self.final_obs.config(state="disabled")
+            print("hello2")
+            # self.final_obs.config(state="disabled")
         self.final_obs.pack(side="left", fill="x", expand=True)
         scrollbar_final = tk.Scrollbar(frame_details_repair_3_a)
         scrollbar_final.pack(side="left", fill="y")

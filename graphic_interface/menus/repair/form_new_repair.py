@@ -230,12 +230,23 @@ class FormNewRepair(BaseFrame):
         scrollbar_client.config(command=self.client_obs.yview)
         self.client_obs.config(yscrollcommand=scrollbar_client.set)
 
+        # Status
+        status_label = tk.Label(frame_details_repair_2_a_a, text="Estado:", font='Helvetica 12 bold', anchor='w')
+        status_label.pack(side="left", padx=5, pady=5, fill='x')
+        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold',
+                                          state="readonly", textvariable=self.status_selected)
+        self.status_chosen["values"] = ["EN TALLER"]
+        self.status_chosen.current(0)
+        self.status_chosen.pack(side="left", padx=5, pady=5, fill='x')
+
         # Date Exit
         date_exit_label = tk.Label(frame_details_repair_1_b_a, text="Fecha de salida:", font='Helvetica 12 bold',
                                    anchor='w')
         date_exit_label.pack(side="left", padx=5, pady=5, fill='x')
         date_exit = DateEntry(frame_details_repair_1_b_a, width=10, background='darkblue', foreground='white', borderwidth=1,
                               date_pattern='dd/mm/y', font='Helvetica 12 bold', textvariable=self.date_exit)
+        date_exit.delete(0, "end")
+        date_exit.config(state="disabled")
         date_exit.pack(side="left", padx=5, pady=5, fill='x')
 
         # Mechanical observations
@@ -248,13 +259,6 @@ class FormNewRepair(BaseFrame):
         scrollbar_mechanical.config(command=self.mechanical_obs.yview)
         self.mechanical_obs.config(yscrollcommand=scrollbar_mechanical.set)
 
-        # Status
-        status_label = tk.Label(frame_details_repair_2_a_a, text="Estado:", font='Helvetica 12 bold', anchor='w')
-        status_label.pack(side="left", padx=5, pady=5, fill='x')
-        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold', state="readonly", textvariable=self.status_selected)
-        self.status_chosen["values"] = ["EN TALLER", "FINALIZADO"]
-        self.status_chosen.pack(side="left", padx=5, pady=5, fill='x')
-
         # Price
         price_label = tk.Label(frame_details_repair_2_b_a, text="Precio:", font='Helvetica 12 bold')
         price_label.pack(side="left", padx=5, pady=5)
@@ -265,6 +269,7 @@ class FormNewRepair(BaseFrame):
         final_obs_label = tk.Label(frame_details_repair_3_a, text="Observacion final:", font='Helvetica 12 bold', anchor='w')
         final_obs_label.pack(side="top",  fill='x', expand=True)
         self.final_obs = tk.Text(frame_details_repair_3_a, height=3)
+        self.final_obs.configure(state='disabled')
         self.final_obs.pack(side="left", fill="x", expand=True)
         scrollbar_final = tk.Scrollbar(frame_details_repair_3_a)
         scrollbar_final.pack(side="left", fill="y")

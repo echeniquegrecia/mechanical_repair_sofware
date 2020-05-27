@@ -31,3 +31,8 @@ class BaseFrame(BaseDatabase):
         """Show error."""
         tk.messagebox.showerror("Popup Window(Title)", message)
         self.root.mainloop()
+
+    def askquestion(self, message_1, message_2, response_positive=None, response_negative=None):
+        """Ask question dialog."""
+        result = tk.messagebox.askquestion(message_1, message_2, icon='warning')
+        return True if result == "yes" else False

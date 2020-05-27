@@ -2,7 +2,7 @@ CLIENTS = "CREATE TABLE IF NOT EXISTS CLIENTS (" \
                           "client_id integer PRIMARY KEY UNIQUE NOT NULL," \
                           "name text NOT NULL," \
                           "last_name text NOT NULL," \
-                          "identity_card text," \
+                          "identity_card text UNIQUE," \
                           "email text," \
                           "phone_1 text," \
                           "phone_2 text," \
@@ -21,7 +21,7 @@ VEHICLES = "CREATE TABLE IF NOT EXISTS VEHICLES (" \
                           "vehicle_id integer PRIMARY KEY UNIQUE NOT NULL," \
                           "client_id integer NOT NULL," \
                           "vehicle_type_id integer NOT NULL," \
-                          "identity text NOT NULL," \
+                          "identity text UNIQUE NOT NULL," \
                           "color text NOT NULL, " \
                           "FOREIGN KEY (client_id) REFERENCES CLIENTS (client_id)" \
                           "FOREIGN KEY (vehicle_type_id) REFERENCES VEHICLES_TYPE(vehicle_type_id)" \
