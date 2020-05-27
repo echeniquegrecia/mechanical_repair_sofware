@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.repair.form_edit_repair import FormEditRepair
-from graphic_interface.menus.repair.form_finish_repair import FormFinishRepair
 from graphic_interface.menus.repair.form_new_repair import FormNewRepair
 
 
@@ -35,10 +34,10 @@ class MenuRepair(BaseFrame):
         button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15, command=self.edit_repair)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_2, text="Finalizar", font='Helvetica 20 bold', width=15, command= self.finish_repair)
+        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_repair)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold')
+        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', width=15, command=self.update_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
@@ -270,27 +269,18 @@ class MenuRepair(BaseFrame):
         values = self.get_values()
         if not values:
             self.show_error(message="Por favor seleccione un vehiculo.")
-        # if values[1] == "FINALIZADO":
-        #     self.show_error(message="No se puede editar una reparacion finalizada.")
         else:
             self.new_window = tk.Toplevel(self.root)
             self.app = FormEditRepair(root=self.new_window, connection=self.connection, master=self, values=values)
 
-    def finish_repair(self):
-        """Open Form Finish Repair."""
+    def delete_repair(self):
+        """Delete repair."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
-        self.new_window = tk.Toplevel(self.root)
-        self.app = FormFinishRepair(root=self.new_window, connection=self.connection, master=self, values=values)
-
-    def delete_vehicle(self):
-        """Delete vehicle."""
-        values = self.get_values()
-        if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
+            self.show_error(message="Por favor seleccione una reparacion.")
         else:
-            vehicle_id = values[0]
-            identity = values[1]
-            self.vehicle.delete(vehicle_id=vehicle_id)
-            self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
+            repair_id = values[0]
+            self.repair.delete(repair_id=repair_id)
+            self.update_table()
+            print("hello")
+            self.show_info(message=f"La reparacion ha sido borrada exitosamente.")
