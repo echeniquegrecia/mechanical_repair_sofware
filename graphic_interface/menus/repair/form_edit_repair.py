@@ -226,8 +226,7 @@ class FormEditRepair(BaseFrame):
         # Status
         status_label = tk.Label(frame_details_repair_2_a_a, text="Estado:", font='Helvetica 12 bold', anchor='w')
         status_label.pack(side="left", padx=5, pady=5, fill='x')
-        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold',
-                                          state="readonly", textvariable=self.status_selected)
+        self.status_chosen = ttk.Combobox(frame_details_repair_2_a_a, width=12, font='Helvetica 12 bold', state="readonly", textvariable=self.status_selected)
         self.status_selected.set(self.data.get("status"))
         self.status_chosen["values"] = ["EN TALLER", "FINALIZADO"]
         self.status_chosen.pack(side="left", padx=5, pady=5, fill='x')
@@ -267,12 +266,6 @@ class FormEditRepair(BaseFrame):
         final_obs_label.pack(side="top", fill='x', expand=True)
         self.final_obs = tk.Text(frame_details_repair_3_a, height=3)
         self.final_obs.insert(tk.END, self.data.get("final_observations"))
-
-        if self.status_selected.get() == "EN TALLER":
-            print("hello")
-            self.final_obs.config(state="disabled")
-            print("hello2")
-            # self.final_obs.config(state="disabled")
         self.final_obs.pack(side="left", fill="x", expand=True)
         scrollbar_final = tk.Scrollbar(frame_details_repair_3_a)
         scrollbar_final.pack(side="left", fill="y")
