@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import filedialog
+import pandas as pd
 from PIL import Image, ImageTk
 
 from graphic_interface.menus.base_frame import BaseFrame
@@ -34,6 +36,12 @@ class MenuHome(BaseFrame):
 
         button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', command=self.menu_repair)
         button_4.pack(fill='both', pady=10, padx=10)
+
+        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', command=self.export_data)
+        button_6.pack(fill='both', pady=10, padx=10)
+
+        button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', command=self.import_data)
+        button_7.pack(fill='both', pady=10, padx=10)
 
         frame_3 = tk.Frame(frame_1, height=100)
         frame_3.pack(fill='both', pady=10, padx=10, expand=True)
@@ -79,3 +87,53 @@ class MenuHome(BaseFrame):
         self.new_window = tk.Toplevel(self.root)
         self.app = MenuRepair(root=self.new_window, connection=self.connection, master=self)
 
+    def export_data(self):
+        """Export data."""
+        clients_data = self.client.get_all()
+        vehicle_types_data = self.vehicle_type.get_all()
+        vehicles_data = self.vehicle.get_all()
+        repairs_data = self.repair.get_all()
+
+        clients = pd.DataFrame.from_dict(clients_data)
+        vehicle_types = pd.DataFrame.from_dict(vehicle_types_data)
+        vehicles = pd.DataFrame.from_dict(vehicles_data)
+        repairs = pd.DataFrame.from_dict(repairs_data)
+
+        saving_path = filedialog.asksaveasfile(mode="w", defaultextension=".xlsx")
+
+        writer = pd.ExcelWriter(saving_path.name, engine='xlsxwriter')
+
+        clients.to_excel(writer, sheet_name='Clientes')
+        vehicle_types.to_excel(writer, sheet_name='Tipos de Vehiculo')
+        vehicles.to_excel(writer, sheet_name='Vehiculos')
+        repairs.to_excel(writer, sheet_name='Reparaciones')
+
+        writer.save()
+
+    def import_data(self):
+        """Import data."""
+        file_path = filedialog.askopenfilename()
+        clients = pd.read_excel(
+            file_path,
+            sheet_name='Clientes',
+            header=0)
+
+        vehicle_types = pd.read_excel(
+            file_path,
+            sheet_name='Tipos de Vehiculo',
+            header=0)
+
+        vehicles = pd.read_excel(
+            file_path,
+            sheet_name='Vehiculos',
+            header=0)
+
+        repairs = pd.read_excel(
+            file_path,
+            sheet_name='Reparaciones',
+            header=0)
+
+        clients.to_sql('CLIENTS', self.connection, if_exists='append', index=False)
+        vehicle_types.to_sql('VEHICLES_TYPE', self.connection, if_exists='append', index=False)
+        vehicles.to_sql('VEHICLES', self.connection, if_exists='append', index=False)
+        repairs.to_sql('REPAIRS', self.connection, if_exists='append', index=False)
