@@ -1,4 +1,6 @@
 import tkinter as tk
+
+from backend.Exceptions.client_exceptions import ClientUpdateException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -112,20 +114,27 @@ class FormEditClient(BaseFrame):
     def edit_client(self):
         """Create new client."""
         id = self.values.get("id")
-        data = {
-            "name": self.data["name"].get(),
-            "last_name": self.data["last_name"].get(),
-            "identity_card": self.data["identity_card"].get(),
-            "email": self.data["email"].get(),
-            "phone_1": self.data["phone_1"].get(),
-            "phone_2": self.data["phone_2"].get(),
-            "address": self.data["address"].get()
-        }
-        result = self.client.update(client_id=id, data=data)
-        if result:
+        name = self.data["name"].get()
+        last_name = self.data["last_name"].get()
+        identity_card = self.data["identity_card"].get()
+        email = self.data["email"].get()
+        phone_1 = self.data["phone_1"].get()
+        phone_2 = self.data["phone_2"].get()
+        address = self.data["address"].get()
+        try:
+            self.client.update(
+                client_id=id,
+                name=name,
+                last_name=last_name,
+                identity_card=identity_card,
+                email=email,
+                phone_1=phone_1,
+                phone_2=phone_2,
+                address=address
+            )
             self.show_info(message="El cliente ha sido registrado exitosamente")
-        else:
-            self.show_info(message="ERROR: El cliente no ha sido creado.")
+        except ClientUpdateException:
+            self.show_error(message="El cliente no ha sido registrado.")
 
     def go_back(self):
         """Go back to Menu Client."""

@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from backend.Exceptions.client_exceptions import ClientCreateException
 from graphic_interface.menus.base_frame import BaseFrame
 
 class FormNewClient(BaseFrame):
@@ -94,20 +95,27 @@ class FormNewClient(BaseFrame):
 
     def create_new_client(self):
         """Create new client."""
-        data = {
-            "name": self.data["name"].get(),
-            "last_name": self.data["last_name"].get(),
-            "identity_card": self.data["identity_card"].get(),
-            "email": self.data["email"].get(),
-            "phone_1": self.data["phone_1"].get(),
-            "phone_2": self.data["phone_2"].get(),
-            "address": self.data["address"].get()
-        }
-        result = self.client.create(data=data)
-        if result:
-            self.show_info(message="El cliente ha sido registrado exitosamente")
-        else:
-            self.show_info(message="ERROR: El cliente no ha sido creado.")
+        name = self.data["name"].get()
+        last_name = self.data["last_name"].get()
+        identity_card = self.data["identity_card"].get()
+        email = self.data["email"].get()
+        phone_1 = self.data["phone_1"].get()
+        phone_2 = self.data["phone_2"].get()
+        address = self.data["address"].get()
+        try:
+            self.client.create(
+                name=name,
+                last_name=last_name,
+                identity_card=identity_card,
+                email=email,
+                phone_1=phone_1,
+                phone_2=phone_2,
+                address=address
+            )
+            self.show_info(message="El cliente ha sido creado exitosamente.")
+        except ClientCreateException:
+            self.show_error(message="El cliente no ha sido creado.")
+            raise ClientCreateException
 
     def go_back(self):
         """Go back to Menu Client."""

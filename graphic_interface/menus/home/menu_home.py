@@ -19,7 +19,7 @@ class MenuHome(BaseFrame):
         super().__init__(root=root, connection=connection)
         self.root.state('zoomed')
 
-        frame_1 = tk.LabelFrame(self.root, text="Menu", width=100, height=10)
+        frame_1 = tk.LabelFrame(self.root, text="Menu", width=100, height=10, background='gray1', foreground="white")
         frame_1.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')
 
         frame_2 = tk.LabelFrame(self.root, width=300)
@@ -43,10 +43,10 @@ class MenuHome(BaseFrame):
         button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', command=self.import_data)
         button_7.pack(fill='both', pady=10, padx=10)
 
-        frame_3 = tk.Frame(frame_1, height=100)
+        frame_3 = tk.Frame(frame_1, height=100, background='gray1')
         frame_3.pack(fill='both', pady=10, padx=10, expand=True)
 
-        frame_4 = tk.Frame(frame_3)
+        frame_4 = tk.Frame(frame_3, background='gray1')
         frame_4.pack(side='bottom', fill='x')
 
         button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15)
@@ -133,7 +133,11 @@ class MenuHome(BaseFrame):
             sheet_name='Reparaciones',
             header=0)
 
-        clients.to_sql('CLIENTS', self.connection, if_exists='append', index=False)
-        vehicle_types.to_sql('VEHICLES_TYPE', self.connection, if_exists='append', index=False)
-        vehicles.to_sql('VEHICLES', self.connection, if_exists='append', index=False)
-        repairs.to_sql('REPAIRS', self.connection, if_exists='append', index=False)
+        try:
+            clients.to_sql('CLIENTS', self.connection, if_exists='append', index=False)
+            vehicle_types.to_sql('VEHICLES_TYPE', self.connection, if_exists='append', index=False)
+            vehicles.to_sql('VEHICLES', self.connection, if_exists='append', index=False)
+            repairs.to_sql('REPAIRS', self.connection, if_exists='append', index=False)
+        except Exception:
+            self.show_error(message="Error al importar los datos, verifique que los datos y el formato del archivo son correctos")
+        self.show_info(message="Los datos fueron importados a la base de datos exitosamente.")

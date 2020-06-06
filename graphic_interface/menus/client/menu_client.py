@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from backend.Exceptions.client_exceptions import ClientDeleteException, ClientGetItemException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.form_edit_client import FormEditClient
 from graphic_interface.menus.client.form_new_client import FormNewClient
@@ -41,7 +42,7 @@ class MenuClient(BaseFrame):
                              command=self.delete_client)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
+        button_4 = tk.Button(frame_2, text="Refrescar tabla", font='Helvetica 20 bold', command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         frame_4 = tk.Frame(frame_2)
@@ -145,21 +146,28 @@ class MenuClient(BaseFrame):
         if not values:
             self.show_error(message="Por favor seleccione un cliente.")
         id = values[0]
-        name = values[1]
-        last_name = values[2]
-        identity_card = values[3]
-        self.client.delete(client_id=id)
-        self.show_info(message=f"El client: {name} {last_name}, con cédula: {identity_card} ha sido borrado exitosamente.")
+        try:
+            self.client.delete(client_id=id)
+            self.refresh_table()
+            self.show_info(message=f"El client ha sido borrado exitosamente.")
+        except ClientDeleteException as error:
+            if "vehicle registered" in error.message:
+                self.show_error(message=f"El cliente tiene un vehiculo registrado. Por favor, borre el vehiculo y luego el cliente.")
+            self.show_error(message=f"Error al borrar el cliente.")
 
     def get_client_by_item(self):
         """Get client."""
-        item = {
-            "Nombre": self.client.get_by_name(name=self.entry_var.get()),
-            "Apellido": self.client.get_by_last_name(last_name=self.entry_var.get()),
-            "Cédula": self.client.get_by_identity_card(identity_card=self.entry_var.get()),
-            "Email": self.client.get_by_email(email=self.entry_var.get())
+        try:
+            item = {
+                "Nombre": self.client.get_by_name(name=self.entry_var.get()),
+                "Apellido": self.client.get_by_last_name(last_name=self.entry_var.get()),
+                "Cédula": self.client.get_by_identity_card(identity_card=self.entry_var.get()),
+                "Email": self.client.get_by_email(email=self.entry_var.get())
 
-        }
+            }
+        except ClientGetItemException:
+            self.show_error(message=f"Error al buscar cliente.")
+            raise ClientGetItemException
         return item[self.option_var.get()]
 
     def search_client_by_category(self):
@@ -200,8 +208,8 @@ class MenuClient(BaseFrame):
         self.hide()
         self.master.show()
 
-    def update_table(self):
-        """Update table."""
+    def refresh_table(self):
+        """Refresh table."""
         clients = self.client.get_all()
         id = [client.get("client_id") for client in clients]
         name = [client.get("name") for client in clients]
