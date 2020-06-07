@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from backend.Exceptions.client_exceptions import ClientDeleteException, ClientGetItemException
+from backend.exceptions.client_exceptions import ClientDeleteException, ClientGetItemException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.form_edit_client import FormEditClient
 from graphic_interface.menus.client.form_new_client import FormNewClient

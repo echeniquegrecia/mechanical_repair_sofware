@@ -1,8 +1,11 @@
-from backend.Exceptions.client_exceptions import ClientDeleteException
-from backend.Exceptions.client_exceptions import ClientUpdateException
-from backend.Exceptions.client_exceptions import ClientCreateException
-from backend.Exceptions.client_exceptions import ClientGetItemException
-from backend.Exceptions.client_exceptions import ClientGetAllException
+from backend.exceptions.client_exceptions import ClientDeleteException
+from backend.exceptions.client_exceptions import ClientUpdateException
+from backend.exceptions.client_exceptions import ClientCreateException
+from backend.exceptions.client_exceptions import ClientGetItemException
+from backend.exceptions.client_exceptions import ClientGetAllException
+from backend.exceptions.client_exceptions import ClientFormatDataException
+from backend.service.check_client_data import CheckClientDataFormat
+from backend.service.convert_uppercase import convert_uppercase
 
 
 class Client:
@@ -39,6 +42,7 @@ class Client:
 
     def get_by_name(self, name: str):
         """Get a client by name."""
+        name = convert_uppercase(param=name)
         try:
             self.sql = "SELECT * FROM CLIENTS WHERE name=?"
             values = self.cursor.execute(self.sql, (name,))
@@ -50,6 +54,7 @@ class Client:
 
     def get_by_last_name(self, last_name: str):
         """Get a client by last name."""
+        last_name = convert_uppercase(param=last_name)
         try:
             self.sql = "SELECT * FROM CLIENTS WHERE last_name=?"
             values = self.cursor.execute(self.sql, (last_name,))
@@ -61,6 +66,7 @@ class Client:
 
     def get_by_identity_card(self, identity_card: str):
         """Get a client by identity card."""
+        identity_card = convert_uppercase(param=identity_card)
         try:
             self.sql = "SELECT * FROM CLIENTS WHERE identity_card=?"
             values = self.cursor.execute(self.sql, (identity_card,))
@@ -72,6 +78,7 @@ class Client:
 
     def get_by_email(self, email: str):
         """Get a client by email."""
+        email = convert_uppercase(param=email)
         try:
             self.sql = "SELECT * FROM CLIENTS WHERE email=?"
             values = self.cursor.execute(self.sql, (email,))
@@ -93,7 +100,11 @@ class Client:
         phone_2: client phone 2
         address: client address.
         """
-
+        try:
+            CheckClientDataFormat(client_data=kwargs)
+        except ClientFormatDataException as error:
+            raise ClientFormatDataException(message=error.message)
+        kwargs = convert_uppercase(param=kwargs)
         columns = ",".join([*kwargs.keys()])
         values = list(kwargs.values())
         placeholders = ','.join(['?'] * len(kwargs))
@@ -114,9 +125,14 @@ class Client:
         identity_card: client identity card
         email: client email
         phone_1: client phone 1
-        phone_2: client phone 2
+        phone_2: client phone 2s
         address: client address.
         """
+        try:
+            CheckClientDataFormat(client_data=kwargs)
+        except ClientFormatDataException as error:
+            raise ClientFormatDataException(message=error.message)
+        kwargs = convert_uppercase(param=kwargs)
         values = list(kwargs.values())
         values.append(kwargs.get("client_id"))
         columns = list(kwargs.keys())

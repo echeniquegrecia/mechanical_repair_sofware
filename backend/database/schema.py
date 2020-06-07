@@ -2,7 +2,7 @@ CLIENTS = "CREATE TABLE IF NOT EXISTS CLIENTS (" \
                           "client_id integer PRIMARY KEY UNIQUE NOT NULL," \
                           "name text NOT NULL," \
                           "last_name text NOT NULL," \
-                          "identity_card text UNIQUE," \
+                          "identity_card text UNIQUE NOT NULL," \
                           "email text," \
                           "phone_1 text," \
                           "phone_2 text," \

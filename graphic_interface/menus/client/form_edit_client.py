@@ -1,6 +1,7 @@
 import tkinter as tk
 
-from backend.Exceptions.client_exceptions import ClientUpdateException
+from backend.exceptions.client_exceptions import ClientUpdateException
+from backend.exceptions.client_exceptions import ClientFormatDataException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -132,9 +133,32 @@ class FormEditClient(BaseFrame):
                 phone_2=phone_2,
                 address=address
             )
-            self.show_info(message="El cliente ha sido registrado exitosamente")
+            self.show_info(message="El cliente ha sido editado exitosamente")
         except ClientUpdateException:
-            self.show_error(message="El cliente no ha sido registrado.")
+            self.show_error(message="El cliente no ha sido editado.")
+        except ClientFormatDataException as error:
+            if "identity card" in error.message:
+                self.show_error(
+                    message=
+                    """El formato de la cédula es incorrecta. \n \n"""
+                    """Por favor verifique que la cédula corresponda a uno de los siguientes formatos: \n\n"""
+                    """V-00.000.000 \n"""
+                    """E-00.000.000"""
+                )
+            if "email" in error.message:
+                self.show_error(
+                    message=
+                    """El formato del email es incorrecto. \n \n"""
+                    """Por favor verifique que el email corresponda al formato: \n\n"""
+                    """test@gmail.com"""
+                )
+            if "phone" in error.message:
+                self.show_error(
+                    message=
+                    """El formato del teléfono o célular es incorrecto. \n \n"""
+                    """Por favor verifique que ambos correspondan al formato: \n\n"""
+                    """0000-0000000"""
+                )
 
     def go_back(self):
         """Go back to Menu Client."""
