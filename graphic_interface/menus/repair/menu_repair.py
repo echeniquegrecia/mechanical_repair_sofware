@@ -300,7 +300,7 @@ class MenuRepair(BaseFrame):
             self.show_error(message="Por favor seleccione una reparacion.")
         else:
             repair_id = values[0]
-            response = self.askquestion(
+            response = self.ask_question(
                 message_1="Borrar reparacion",
                 message_2="Esta seguro de eliminar esta reparacion?",
                 response_positive="La reparacion ha sido borrada exitosamente"

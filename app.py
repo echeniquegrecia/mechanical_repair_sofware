@@ -19,7 +19,7 @@ connection = database.get_connection()
 
 #
 #
-# client = Client(connection=connection)
+client = Client(connection=connection)
 # client_data= {
 #     "name": "grecia",
 #     "last_name": "echenique",
@@ -62,7 +62,7 @@ vehicle = Vehicle(connection=connection)
 # vehicle.create(data=vehicle_data)
 # # # vehicle.create(data=vehicle_data_2)
 # # # vehicle.create(data=vehicle_data_3)
-# print(vehicle.get_all())
+vehicle.get_by_client_id(client_id=7)
 # print(vehicle.get_vehicles_with_type_details())
 # # # print(vehicle.get_vehicles_with_clients_details())
 #
@@ -87,11 +87,11 @@ repair = Repair(connection=connection)
 # print(repair.get_all_repairs_with_details())
 # print(repair.get_all())
 # print(repair.get_by_id(repair_id=8))
-print(repair.get_by_id_test(repair_id=8))
+# print(repair.get_by_id_test(repair_id=8))
 # # print(repair.get_by_status(repair_status=0))
 # # print(repair.get_by_status(repair_status=1))
 # print(repair.get_by_date_entry(date_entry="2020-05-15"))
-# # print(repair.get_all())
+# print(repair.get_all())
 # # print(repair.get_repairs_by_date_entry_with_details(date_entry="2020-03-01"))
 # # print(repair.get_repairs_by_date_exit_with_details(date_exit="2020-03-15"))
 # # print(repair.get_repairs_by_date_exit_with_details(date_exit=""))

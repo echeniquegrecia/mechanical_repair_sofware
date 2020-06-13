@@ -24,15 +24,15 @@ class BaseFrame(BaseDatabase):
 
     def show_info(self, message):
         """Show info."""
-        tk.messagebox.showinfo("Popup Window(Title)", message)
+        tk.messagebox.showinfo("Informacion", message)
         self.root.mainloop()
 
     def show_error(self, message):
         """Show error."""
-        tk.messagebox.showerror("Popup Window(Title)", message)
+        tk.messagebox.showerror("Error", message)
         self.root.mainloop()
 
-    def askquestion(self, message_1, message_2, response_positive=None, response_negative=None):
+    def ask_question(self, message_1, message_2, response_positive=None, response_negative=None):
         """Ask question dialog."""
         result = tk.messagebox.askquestion(message_1, message_2, icon='warning')
         return True if result == "yes" else False

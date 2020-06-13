@@ -13,18 +13,16 @@ class ClientUpdateException(BaseException):
     message = "Error to update a client."
 
 
-from backend.exceptions.base_exception import BaseException
-
 class ClientCreateException(BaseException):
     """Exception when there is an error in creating client."""
 
     message = "Error to create a client."
 
 
-class ClientGetItemException(BaseException):
+class ClientGetCategoryException(BaseException):
     """Exception when there is an error to get a specific item."""
 
-    message = "Error to get item of a client."
+    message = "Error to get category of a client."
 
 
 class ClientGetAllException(BaseException):

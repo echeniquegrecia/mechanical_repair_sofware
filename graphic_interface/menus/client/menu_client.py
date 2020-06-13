@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from backend.exceptions.client_exceptions import ClientDeleteException, ClientGetItemException
+from backend.exceptions.client_exceptions import ClientDeleteException, ClientGetCategoryException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.form_edit_client import FormEditClient
 from graphic_interface.menus.client.form_new_client import FormNewClient
@@ -149,30 +149,30 @@ class MenuClient(BaseFrame):
         try:
             self.client.delete(client_id=id)
             self.refresh_table()
-            self.show_info(message=f"El client ha sido borrado exitosamente.")
+            self.show_info(message=f"El cliente ha sido borrado exitosamente.")
         except ClientDeleteException as error:
             if "vehicle registered" in error.message:
                 self.show_error(message=f"El cliente tiene un vehiculo registrado. Por favor, borre el vehiculo y luego el cliente.")
             self.show_error(message=f"Error al borrar el cliente.")
 
-    def get_client_by_item(self):
-        """Get client."""
+    def get_client_by_category(self):
+        """Get client by category."""
         try:
-            item = {
+            category = {
                 "Nombre": self.client.get_by_name(name=self.entry_var.get()),
                 "Apellido": self.client.get_by_last_name(last_name=self.entry_var.get()),
                 "Cédula": self.client.get_by_identity_card(identity_card=self.entry_var.get()),
                 "Email": self.client.get_by_email(email=self.entry_var.get())
 
             }
-        except ClientGetItemException:
+        except ClientGetCategoryException:
             self.show_error(message=f"Error al buscar cliente.")
-            raise ClientGetItemException
-        return item[self.option_var.get()]
+            raise ClientGetCategoryException()
+        return category[self.option_var.get()]
 
     def search_client_by_category(self):
         """Search client by category."""
-        clients = self.get_client_by_item()
+        clients = self.get_client_by_category()
         id = [client.get("client_id") for client in clients]
         name = [client.get("name") for client in clients]
         last_name = [client.get("last_name") for client in clients]

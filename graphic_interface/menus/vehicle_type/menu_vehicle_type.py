@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeDeleteException, VehicleTypeGetCategoryException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.vehicle_type.form_edit_vehicle_type import FormEditVehicleType
 from graphic_interface.menus.vehicle_type.form_new_vehicle_type import FormNewVehicleType
@@ -37,7 +39,7 @@ class MenuVehicleType(BaseFrame):
         button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
+        button_4 = tk.Button(frame_2, text="Refrescar Tabla", font='Helvetica 20 bold', command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         frame_4 = tk.Frame(frame_2)
@@ -45,7 +47,6 @@ class MenuVehicleType(BaseFrame):
 
         button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
         button_5.pack(side='left', pady=10, padx=10)
-
 
         # Define search frame
         self.option_var = tk.StringVar()
@@ -124,27 +125,33 @@ class MenuVehicleType(BaseFrame):
         """Delete Vehicle Edit."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un cliente.")
+            self.show_error(message="Por favor seleccione un tipo de vehiulo.")
         id = values[0]
-        brand = values[1]
-        model = values[2]
-        year = values[3]
-        self.vehicle_type.delete(vehicle_type_id=id)
-        self.show_error(message=f"El tipo de vehiculo: {brand} {model} {year} ha sido borrado exitosamente.")
+        try:
+            self.vehicle_type.delete(vehicle_type_id=id)
+            self.refresh_table()
+            self.show_info(message=f"El tipo de vehiculo ha sido borrado exitosamente.")
+        except VehicleTypeDeleteException as error:
+            if "vehicle registered" in error.message:
+                self.show_error(message=f"Hay un(unos) vehiculo(s) registrado(s) con este tipo de vehiculo. Por favor, borre el vehiculo y luego el tipo de vehiculo.")
+            self.show_error(message=f"Error al borrar el tipo de vehiculo.")
 
-    def get_vehicle_type_by_item(self):
-        """Get client."""
-        item = {
-            "Marca": self.vehicle_type.get_by_brand(brand=self.entry_var.get()),
-            "Modelo": self.vehicle_type.get_by_model(model=self.entry_var.get()),
-            "Año": self.vehicle_type.get_by_year(year=self.entry_var.get())
-        }
+    def get_vehicle_type_by_category(self):
+        """Get vehicle type by category."""
+        try:
+            item = {
+                "Marca": self.vehicle_type.get_by_brand(brand=self.entry_var.get()),
+                "Modelo": self.vehicle_type.get_by_model(model=self.entry_var.get()),
+                "Año": self.vehicle_type.get_by_year(year=self.entry_var.get())
+            }
+        except VehicleTypeGetCategoryException:
+            self.show_error(message=f"Error al buscar el tipo de vehiculo.")
+            raise VehicleTypeGetCategoryException()
         return item[self.option_var.get()]
-
 
     def search_vehicle_type_by_category(self):
         """Search vehicle type by category."""
-        vehicle_types = self.get_vehicle_type_by_item()
+        vehicle_types = self.get_vehicle_type_by_category()
         id = [vehicle_type.get("vehicle_type_id") for vehicle_type in vehicle_types]
         brand = [vehicle_type.get("brand") for vehicle_type in vehicle_types]
         model = [vehicle_type.get("model") for vehicle_type in vehicle_types]
@@ -172,8 +179,8 @@ class MenuVehicleType(BaseFrame):
         self.hide()
         self.master.show()
 
-    def update_table(self):
-        """Update table."""
+    def refresh_table(self):
+        """Refresh table."""
         vehicle_types = self.vehicle_type.get_all()
         id = [vehicle_type.get("vehicle_type_id") for vehicle_type in vehicle_types]
         brand = [vehicle_type.get("brand") for vehicle_type in vehicle_types]

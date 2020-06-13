@@ -1,4 +1,6 @@
 import tkinter as tk
+
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeCreateException, VehicleTypeFormatDataException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -60,16 +62,27 @@ class FormEditVehicleType(BaseFrame):
     def edit_vehicle_type(self):
         """Edit vehicle type."""
         id = self.values.get("id")
-        data = {
-            "brand": self.data["brand"].get(),
-            "model": self.data["model"].get(),
-            "year": self.data["year"].get()
-        }
-        result = self.vehicle_type.update(vehicle_type_id=id, data=data)
-        if result:
-            self.show_info(message="El tipo de vehiculo ha sido editado exitosamente")
-        else:
-            self.show_info(message="ERROR: El tipo de vehiculo no ha sido editado.")
+        brand = self.data["brand"].get()
+        model = self.data["model"].get()
+        year = self.data["year"].get()
+
+        try:
+            self.vehicle_type.create(
+                brand=brand,
+                model=model,
+                year=year
+            )
+            self.show_info(message="El tipo de vehiculo ha sido registrado exitosamente")
+        except VehicleTypeCreateException:
+            self.show_error(
+                message="ERROR: El tipo de vehiculo no ha sido creado. Por favor verifique que todos los datos estan completos")
+        except VehicleTypeFormatDataException as error:
+            if "brand" in error.message:
+                self.show_error(message="ERROR: El formato de la marca es incorrecta.")
+            if "model" in error.message:
+                self.show_error(message="ERROR: El formato del modelo es incorrecta.")
+            if "year" in error.message:
+                self.show_error(message="ERROR: El formato del año es incorrecta.")
 
     def go_back(self):
         """Go back to Menu Client."""

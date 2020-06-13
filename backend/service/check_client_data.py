@@ -1,12 +1,12 @@
 import re
-
 from backend.exceptions.client_exceptions import ClientFormatDataException
 
-class CheckClientDataFormat:
 
+class CheckClientDataFormat:
+    """Check th Client Data Format"""
 
     def __init__(self, client_data: dict):
-        """Update client details
+        """Check Client Data Format Init.
 
         **client_data:
         id: client id
@@ -31,7 +31,7 @@ class CheckClientDataFormat:
                     self.phone(phone=value)
             except ClientFormatDataException as error:
                 raise ClientFormatDataException(message=error.message)
-
+            client_data[key] = None if value == "" else value
 
     @staticmethod
     def identity_card(identity_card: str):

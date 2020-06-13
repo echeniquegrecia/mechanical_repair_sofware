@@ -1,7 +1,7 @@
 from backend.exceptions.client_exceptions import ClientDeleteException
 from backend.exceptions.client_exceptions import ClientUpdateException
 from backend.exceptions.client_exceptions import ClientCreateException
-from backend.exceptions.client_exceptions import ClientGetItemException
+from backend.exceptions.client_exceptions import ClientGetCategoryException
 from backend.exceptions.client_exceptions import ClientGetAllException
 from backend.exceptions.client_exceptions import ClientFormatDataException
 from backend.service.check_client_data import CheckClientDataFormat
@@ -35,7 +35,7 @@ class Client:
             self.sql = "SELECT * FROM CLIENTS WHERE client_id=?"
             values = list(self.cursor.execute(self.sql, (client_id,)))
         except Exception:
-            raise ClientGetItemException()
+            raise ClientGetCategoryException()
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
@@ -47,7 +47,7 @@ class Client:
             self.sql = "SELECT * FROM CLIENTS WHERE name=?"
             values = self.cursor.execute(self.sql, (name,))
         except Exception:
-            raise ClientGetItemException()
+            raise ClientGetCategoryException()
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
@@ -59,7 +59,7 @@ class Client:
             self.sql = "SELECT * FROM CLIENTS WHERE last_name=?"
             values = self.cursor.execute(self.sql, (last_name,))
         except Exception:
-            raise ClientGetItemException()
+            raise ClientGetCategoryException()
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
@@ -71,7 +71,7 @@ class Client:
             self.sql = "SELECT * FROM CLIENTS WHERE identity_card=?"
             values = self.cursor.execute(self.sql, (identity_card,))
         except Exception:
-            raise ClientGetItemException()
+            raise ClientGetCategoryException()
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients
@@ -83,7 +83,7 @@ class Client:
             self.sql = "SELECT * FROM CLIENTS WHERE email=?"
             values = self.cursor.execute(self.sql, (email,))
         except Exception:
-            raise ClientGetItemException()
+            raise ClientGetCategoryException()
         columns = list(map(lambda x: x[0], self.cursor.description))
         clients = [dict(zip(columns, value)) for value in values]
         return clients

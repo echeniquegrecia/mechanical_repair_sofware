@@ -1,6 +1,9 @@
 import tkinter as tk
 
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeCreateException
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeFormatDataException
 from graphic_interface.menus.base_frame import BaseFrame
+
 
 class FormNewVehicleType(BaseFrame):
     """Class for New Vehicle Type Window."""
@@ -8,7 +11,6 @@ class FormNewVehicleType(BaseFrame):
     def __init__(self, root, connection, master):
         """New Client Window init."""
         super().__init__(root=root, connection=connection)
-        #self.root.state('zoomed')
         self.master = master
         self.data = {
             "brand": tk.StringVar(),
@@ -50,16 +52,26 @@ class FormNewVehicleType(BaseFrame):
 
     def create_new_vehicle_type(self):
         """Create new vehicle type."""
-        data = {
-            "brand": self.data["brand"].get(),
-            "model": self.data["model"].get(),
-            "year": self.data["year"].get()
-        }
-        result = self.vehicle_type.create(data=data)
-        if result:
+        brand = self.data["brand"].get()
+        model = self.data["model"].get()
+        year = self.data["year"].get()
+
+        try:
+            self.vehicle_type.create(
+                brand=brand,
+                model=model,
+                year=year
+            )
             self.show_info(message="El tipo de vehiculo ha sido registrado exitosamente")
-        else:
-            self.show_info(message="ERROR: El tipo de vehiculo no ha sido creado.")
+        except VehicleTypeCreateException:
+            self.show_error(message="ERROR: El tipo de vehiculo no ha sido creado. Por favor verifique que todos los datos estan completos")
+        except VehicleTypeFormatDataException as error:
+            if "brand" in error.message:
+                self.show_error(message="ERROR: El formato de la marca es incorrecta.")
+            if "model" in error.message:
+                self.show_error(message="ERROR: El formato del modelo es incorrecta.")
+            if "year" in error.message:
+                self.show_error(message="ERROR: El formato del año es incorrecta.")
 
     def go_back(self):
         """Go back to Menu Client."""
