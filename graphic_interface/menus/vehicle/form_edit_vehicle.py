@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+from backend.exceptions.vehicle_exceptions import VehicleUpdateException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -199,19 +201,23 @@ class FormEditVehicle(BaseFrame):
             model=self.model.get(),
             year=int(self.year.get())
         )
-        data = {
-            "client_id": self.client_id.get(),
-            "vehicle_type_id": vehicle_type_id,
-            "identity": self.identity.get(),
-            "color": self.color.get()
-        }
-        vehicle = self.vehicle.update(vehicle_id=self.vehicle_id, data=data)
+        client_id = self.client_id.get()
+        vehicle_type_id = vehicle_type_id
+        identity = self.identity.get()
+        color = self.color.get()
 
-        if vehicle:
-            self.show_info(message=f"Los datos del vehiculo han sido actualizados exitosamente.")
-        else:
+        try:
+            self.vehicle.update(
+                vehicle_id=self.vehicle_id,
+                client_id=client_id,
+                vehicle_type_id=vehicle_type_id,
+                identity=identity,
+                color=color
+            )
+        except VehicleUpdateException:
             self.show_error(message="ERROR: El vehiculo no ha podido ser actualizado.")
-
+            raise VehicleUpdateException()
+        self.show_info(message=f"Los datos del vehiculo han sido actualizados exitosamente.")
 
     def get_vehicle_type_brands(self):
         """Get the vehicle type brands."""

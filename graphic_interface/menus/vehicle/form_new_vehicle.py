@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+from backend.exceptions.vehicle_exceptions import VehicleCreateException
 from graphic_interface.menus.base_frame import BaseFrame
 
 class FormNewVehicle(BaseFrame):
@@ -175,18 +177,21 @@ class FormNewVehicle(BaseFrame):
             model=self.model.get(),
             year=int(self.year.get())
         )
-        data = {
-            "client_id": self.client_id.get(),
-            "vehicle_type_id": vehicle_type_id,
-            "identity": self.identity.get(),
-            "color": self.color.get()
-        }
-        vehicle = self.vehicle.create(data=data)
-        if vehicle:
-            self.show_info(message="El vehiculo ha sido registrado exitosamente")
-        else:
-            self.show_info(message="ERROR: El vehiculo no ha sido creado.")
-
+        client_id = self.client_id.get()
+        vehicle_type_id = vehicle_type_id
+        identity = self.identity.get()
+        color= self.color.get()
+        try:
+            self.vehicle.create(
+                client_id=client_id,
+                vehicle_type_id=vehicle_type_id,
+                identity=identity,
+                color=color
+            )
+        except VehicleCreateException:
+            self.show_error(message="ERROR: El vehiculo no ha sido creado.")
+            raise VehicleCreateException()
+        self.show_info(message="El vehiculo ha sido registrado exitosamente")
 
     def get_vehicle_type_brands(self):
         """Get the vehicle type brands."""
@@ -201,16 +206,19 @@ class FormNewVehicle(BaseFrame):
         for vehicle_type in self.vehicle_type.get_all():
             if vehicle_type.get("brand") == brand:
                 models.append(vehicle_type.get("model"))
-        return models
+        filter_models = set(models)
+        model_list = [*filter_models]
+        return model_list
 
     def get_vehicle_type_year(self, model:str):
         """Get the vehicle type tear."""
-        models = []
+        years = []
         for vehicle_type in self.vehicle_type.get_all():
             if vehicle_type.get("model") == model:
-                models.append(vehicle_type.get("year"))
-        return models
-
+                years.append(vehicle_type.get("year"))
+        filter_years = set(years)
+        year_list = [*filter_years]
+        return year_list
 
     def callback(self, *args):
         brand = self.brand.get()
@@ -236,8 +244,8 @@ class FormNewVehicle(BaseFrame):
         self.hide()
         self.master.show()
 
-
     def get_clients(self):
+        """Get clients."""
         list = []
         clients = self.client.get_all()
         for client in clients:
@@ -250,4 +258,3 @@ class FormNewVehicle(BaseFrame):
                 client.get("address")
             ])
         return list
-

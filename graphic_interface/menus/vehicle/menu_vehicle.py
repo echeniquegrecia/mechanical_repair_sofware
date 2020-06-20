@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+from backend.exceptions.vehicle_exceptions import VehicleGetCategoryException, VehicleDeleteException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.vehicle.form_edit_vehicle import FormEditVehicle
 from graphic_interface.menus.vehicle.form_new_vehicle import FormNewVehicle
@@ -37,7 +39,7 @@ class MenuVehicle(BaseFrame):
         button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_vehicle)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.update_table)
+        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
@@ -144,26 +146,31 @@ class MenuVehicle(BaseFrame):
             self.show_error(message=f"ERROR: El valor: {value} no corresponde con la categoria: {item}.")
         return value
 
-    def get_vehicle_by_item(self):
-        """Get vehicle by item."""
-        item = {
-            "Placa": "vehicle_identity",
-            "Color": "color",
-            "Modelo": "model",
-            "Marca": "brand",
-            "Año": "year",
-            "Nombre": "client_name",
-            "Apellido": "client_last_name",
-            "Cedula": "client_identity",
-        }
-        item = item.get(self.option_var.get(), "")
+    def get_vehicle_by_category(self):
+        """Get vehicle by category."""
+        category = None
+        try:
+            category = {
+                "Placa": "vehicle_identity",
+                "Color": "color",
+                "Modelo": "model",
+                "Marca": "brand",
+                "Año": "year",
+                "Nombre": "client_name",
+                "Apellido": "client_last_name",
+                "Cedula": "client_identity",
+            }
+            category = category.get(self.option_var.get(), "")
+        except VehicleGetCategoryException:
+            self.show_error(message=f"Error al buscar el vehiculo.")
+            raise VehicleGetCategoryException()
         value = self.get_entry_value()
-        vehicles = self.vehicle.get_vehicles_by_item(item=item, value=value)
+        vehicles = self.vehicle.get_vehicles_by_category(category=category, value=value)
         return vehicles
 
     def search_vehicle_by_category(self):
         """Search vehicle by category."""
-        vehicles = self.get_vehicle_by_item()
+        vehicles = self.get_vehicle_by_category()
         vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
         color = [vehicle.get("color") for vehicle in vehicles]
@@ -204,8 +211,8 @@ class MenuVehicle(BaseFrame):
         self.hide()
         self.master.show()
 
-    def update_table(self):
-        """Update table."""
+    def refresh_table(self):
+        """Refresh table."""
         vehicles = self.vehicle.get_vehicles_with_clients_details()
         vehicle_id = [vehicle.get("vehicle_id") for vehicle in vehicles]
         vehicle_identity = [vehicle.get("vehicle_identity") for vehicle in vehicles]
@@ -251,5 +258,13 @@ class MenuVehicle(BaseFrame):
         else:
             vehicle_id = values[0]
             identity = values[1]
-            self.vehicle.delete(vehicle_id=vehicle_id)
+            try:
+                self.vehicle.delete(vehicle_id=vehicle_id)
+                self.refresh_table()
+            except VehicleDeleteException:
+                self.show_error(
+                    message=f"El vehiculo tiene una reparacion registrada. Por favor, borre la reparacion y luego el vehiculo."
+                )
+                raise VehicleDeleteException()
             self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
+

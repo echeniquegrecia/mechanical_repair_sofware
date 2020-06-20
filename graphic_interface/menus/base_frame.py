@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.messagebox
-from backend.core.client import Client
 from graphic_interface.menus.base_connection import BaseDatabase
 
 

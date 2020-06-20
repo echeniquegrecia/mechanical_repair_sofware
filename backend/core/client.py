@@ -125,7 +125,7 @@ class Client:
         identity_card: client identity card
         email: client email
         phone_1: client phone 1
-        phone_2: client phone 2s
+        phone_2: client phone 2
         address: client address.
         """
         try:
