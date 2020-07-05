@@ -20,6 +20,7 @@ class BaseFrame(BaseDatabase):
         """Show a window."""
         self.root.update()
         self.root.deiconify()
+        self.root.state('zoomed')
 
     def show_info(self, message):
         """Show info."""
