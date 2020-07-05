@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+
+from backend.exceptions.repair_exceptions import RepairDeleteException, RepairGetCategoryException
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.repair.form_check_details_repair import FormCheckDetailsRepair
 from graphic_interface.menus.repair.form_edit_repair import FormEditRepair
@@ -41,7 +43,7 @@ class MenuRepair(BaseFrame):
         button_5 = tk.Button(frame_2, text="Ver Detalles", font='Helvetica 20 bold', width=15, command=self.check_details_repair)
         button_5.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', width=15, command=self.update_table)
+        button_4 = tk.Button(frame_2, text="Refrescar tabla", font='Helvetica 20 bold', width=15, command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         button_6 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
@@ -172,28 +174,33 @@ class MenuRepair(BaseFrame):
             self.show_error(message=f"ERROR: El valor: {value} no corresponde con la categoria: {item}.")
         return value
 
-    def get_repair_by_item(self):
+    def get_repair_by_category(self):
         """Get repair by item."""
-        item = {
-            "Estado": "status",
-            "Fecha de entrada": "date_entry",
-            "Fecha de salida": "date_exit",
-            "Placa": "identity",
-            "Modelo": "model",
-            "Marca": "brand",
-            "Año": "year",
-            "Nombre": "name",
-            "Apellido": "last_name",
-            "Cedula": "identity_card"
-        }
-        item = item.get(self.option_var.get(), "")
+        category = None
+        try:
+            category = {
+                "Estado": "status",
+                "Fecha de entrada": "date_entry",
+                "Fecha de salida": "date_exit",
+                "Placa": "identity",
+                "Modelo": "model",
+                "Marca": "brand",
+                "Año": "year",
+                "Nombre": "name",
+                "Apellido": "last_name",
+                "Cedula": "identity_card"
+            }
+            category = category.get(self.option_var.get(), "")
+        except RepairGetCategoryException:
+            self.show_error(message=f"Error al buscar la reparacion.")
+            raise RepairGetCategoryException()
         value = self.get_entry_value()
-        repairs = self.repair.get_repairs_by_item(item=item, value=value)
+        repairs = self.repair.get_repairs_by_category(category=category, value=value)
         return repairs
 
     def search_repair_by_category(self):
         """Search repair by category."""
-        repairs = self.get_repair_by_item()
+        repairs = self.get_repair_by_category()
         repair_id = [repair.get("repair_id") for repair in repairs]
         status = [repair.get("status") for repair in repairs]
         date_entry = [repair.get("date_entry") for repair in repairs]
@@ -239,8 +246,8 @@ class MenuRepair(BaseFrame):
         self.hide()
         self.master.show()
 
-    def update_table(self):
-        """Update table."""
+    def refresh_table(self):
+        """Refresh table."""
         repairs = self.repair.get_all_repairs_with_details()
         repair_id = [repair.get("repair_id") for repair in repairs]
         status = [repair.get("status") for repair in repairs]
@@ -302,10 +309,17 @@ class MenuRepair(BaseFrame):
             repair_id = values[0]
             response = self.ask_question(
                 message_1="Borrar reparacion",
-                message_2="Esta seguro de eliminar esta reparacion?",
-                response_positive="La reparacion ha sido borrada exitosamente"
+                message_2="Esta seguro de eliminar esta reparacion?"
             )
-
             if response:
-                self.repair.delete(repair_id=repair_id)
-                self.update_table()
+                try:
+                    self.repair.delete(repair_id=repair_id)
+                    self.refresh_table()
+                except RepairDeleteException:
+                    self.show_error(
+                        message=f"Error al borrar la reparacion."
+                    )
+                    raise RepairDeleteException()
+                self.show_info(
+                    message=f"La reparacion ha sido borrada exitosamente."
+                )

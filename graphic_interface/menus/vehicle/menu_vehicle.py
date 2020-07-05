@@ -258,13 +258,18 @@ class MenuVehicle(BaseFrame):
         else:
             vehicle_id = values[0]
             identity = values[1]
-            try:
-                self.vehicle.delete(vehicle_id=vehicle_id)
-                self.refresh_table()
-            except VehicleDeleteException:
-                self.show_error(
-                    message=f"El vehiculo tiene una reparacion registrada. Por favor, borre la reparacion y luego el vehiculo."
-                )
-                raise VehicleDeleteException()
-            self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
+            response = self.ask_question(
+                message_1="Borrar reparacion",
+                message_2="Esta seguro de eliminar este vehiculo?"
+            )
+            if response:
+                try:
+                    self.vehicle.delete(vehicle_id=vehicle_id)
+                    self.refresh_table()
+                except VehicleDeleteException:
+                    self.show_error(
+                        message=f"El vehiculo tiene una reparacion registrada. Por favor, borre la reparacion y luego el vehiculo."
+                    )
+                    raise VehicleDeleteException()
+                self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
 

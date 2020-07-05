@@ -121,8 +121,8 @@ class FormNewClient(BaseFrame):
                     message=
                     """El formato de la cédula es incorrecta. \n \n"""
                     """Por favor verifique que la cédula corresponda a uno de los siguientes formatos: \n\n"""
-                    """V-00.000.000 \n"""
-                    """E-00.000.000"""
+                    """V-00000000 \n"""
+                    """E-00000000"""
                 )
             if "email" in error.message:
                 self.show_error(

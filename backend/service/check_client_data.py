@@ -36,7 +36,7 @@ class CheckClientDataFormat:
     @staticmethod
     def identity_card(identity_card: str):
         """Check identity card format."""
-        pattern = "^[vVeE][-][0-9]{2}[.][0-9]{3}[.][0-9]{3}$"
+        pattern = "^[vVeE][-][0-9]{2}[0-9]{3}[0-9]{3}$"
         identity_card_format = re.compile(pattern)
         result = identity_card_format.match(identity_card)
         if not result:

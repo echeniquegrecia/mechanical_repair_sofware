@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
+
+from backend.exceptions.repair_exceptions import RepairUpdateException, RepairFormatDataException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -277,7 +279,7 @@ class FormEditRepair(BaseFrame):
         frame_buttons.pack(side="bottom", fill='x')
 
         button_1 = tk.Button(frame_buttons, text="Guardar", font='Helvetica 12 bold', width=15,
-                             command=self.update_repair)
+                             command=self.edit_repair)
         button_1.pack(side='right', fil='x', padx=5, pady=5)
 
         button_2 = tk.Button(frame_buttons, text="Regresar", font='Helvetica 12 bold', width=15, command=self.go_back)
@@ -319,22 +321,56 @@ class FormEditRepair(BaseFrame):
                 ])
         return list
 
-    def update_repair(self):
-        """Update repair."""
-        repair_data = {
-            "vehicle_id": self.data.get("vehicle_id"),
-            "mileage": self.mileage.get(),
-            "client_observations": self.client_obs.get("1.0", "end"),
-            "mechanical_observations": self.mechanical_obs.get("1.0", "end"),
-            "final_observations": self.final_obs.get("1.0", "end"),
-            "date_entry": self.date_entry.get(),
-            "date_exit": self.date_exit.get(),
-            "price": self.price.get(),
-            "status": self.status_selected.get()
-        }
+    def edit_repair(self):
+        """Edit repair."""
+        vehicle_id= self.data.get("vehicle_id")
+        mileage = self.mileage.get()
+        client_observations = self.client_obs.get("1.0", "end")
+        mechanical_observations = self.mechanical_obs.get("1.0", "end")
+        final_observations = self.final_obs.get("1.0", "end")
+        date_entry = self.date_entry.get()
+        date_exit = self.date_exit.get()
+        price = self.price.get()
+        status = self.status_selected.get()
 
-        repair = self.repair.update(repair_id=self.repair_id, data=repair_data)
-        if repair:
-            self.show_info(message="La reparacion ha sido registrada exitosamente.")
-        else:
+        try:
+            self.repair.update(
+                repair_id=self.repair_id,
+                vehicle_id=vehicle_id,
+                mileage=mileage,
+                client_observations=client_observations,
+                mechanical_observations=mechanical_observations,
+                final_observations=final_observations,
+                date_entry=date_entry,
+                date_exit=date_exit,
+                price=price,
+                status=status
+            )
+        except RepairFormatDataException as error:
+            if error.message == "Date entry can not be newer than Date exit.":
+                self.show_error(
+                    message="ERROR: La fecha de entrada no puede ser mayor que la fecha de salida."
+                )
+            if error.message == "The status value is not in [EN TALLER, FINALIZADO]":
+                self.show_error(
+                    message="ERROR: El valor del estado no es correcto."
+                )
+            if error.message == "The mileage value is not correct":
+                self.show_error(
+                    message="ERROR: El valor del kilometraje no es correcto."
+                )
+            if error.message == "The price value is not correct":
+                self.show_error(
+                    message="ERROR: El valor del precio no es correcto."
+                )
+            if error.message == "Date exit is missing":
+                self.show_error(
+                    message="ERROR: Inserte la Fecha de salida."
+                )
+            if error.message == "Status must be closed":
+                self.show_error(
+                    message="ERROR: Cambie el estado a FINALIZADO."
+                )
             self.show_error(message="ERROR: La reparacion no ha sido creada.")
+            raise RepairUpdateException()
+        self.show_info(message="La reparacion ha sido registrada exitosamente.")

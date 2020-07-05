@@ -69,7 +69,7 @@ class Vehicle:
         vehicles = [dict(zip(columns, value)) for value in values]
         return vehicles
 
-    def get_by_color(self, color:str):
+    def get_by_color(self, color: str):
         """Get vehicle by color."""
         try:
             self.sql = "SELECT * FROM VEHICLES WHERE color=?"
@@ -105,14 +105,14 @@ class Vehicle:
         """Get vehicles with type details."""
         try:
             self.sql = "" \
-            "SELECT VEHICLES.vehicle_id," \
-                    "identity," \
-                    "color," \
-                    "brand," \
-                    "model," \
-                    "year " \
-            "FROM VEHICLES "\
-            "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_type_id;"
+                       "SELECT VEHICLES.vehicle_id," \
+                       "identity," \
+                       "color," \
+                       "brand," \
+                       "model," \
+                       "year " \
+                       "FROM VEHICLES "\
+                       "INNER JOIN VEHICLES_TYPE ON VEHICLES_TYPE.vehicle_type_id = VEHICLES.vehicle_type_id;"
             self.cursor.execute(self.sql)
             values = list(self.cursor.fetchall())
         except Exception:

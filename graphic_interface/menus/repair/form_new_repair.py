@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkcalendar import DateEntry
+
+from backend.exceptions.repair_exceptions import RepairCreateException
 from graphic_interface.menus.base_frame import BaseFrame
 
 class FormNewRepair(BaseFrame):
@@ -350,20 +352,45 @@ class FormNewRepair(BaseFrame):
 
     def create_repair(self):
         """Create repair."""
-        repair_data = {
-            "vehicle_id": self.vehicle_id.get(),
-            "mileage": self.mileage.get(),
-            "client_observations": self.client_obs.get("1.0", "end"),
-            "mechanical_observations": self.mechanical_obs.get("1.0", "end"),
-            "final_observations": self.final_obs.get("1.0", "end"),
-            "date_entry": self.date_entry.get(),
-            "date_exit": self.date_exit.get(),
-            "price": self.price.get(),
-            "status": self.status_selected.get()
-        }
+        vehicle_id = self.vehicle_id.get()
+        mileage = self.mileage.get()
+        client_observations = self.client_obs.get("1.0", "end")
+        mechanical_observations = self.mechanical_obs.get("1.0", "end")
+        final_observations = self.final_obs.get("1.0", "end")
+        date_entry = self.date_entry.get()
+        date_exit = self.date_exit.get()
+        price = self.price.get()
+        status = self.status_selected.get()
 
-        repair = self.repair.create(data=repair_data)
-        if repair:
-            self.show_info(message="La reparacion ha sido registrada exitosamente.")
-        else:
+        try:
+            self.repair.create(
+                vehicle_id=vehicle_id,
+                mileage=mileage,
+                client_observations=client_observations,
+                mechanical_observations=mechanical_observations,
+                final_observations=final_observations,
+                date_entry=date_entry,
+                date_exit=date_exit,
+                price=price,
+                status=status
+            )
+        except RepairCreateException as error:
+            if error.message == "Date entry can not be newer than Date exit.":
+                self.show_error(
+                    message="ERROR: La fecha de entrada no puede ser mayor que la fecha de salida."
+                )
+            if error.message == "The status value is not in [EN TALLER, FINALIZADO]":
+                self.show_error(
+                    message="ERROR: El valor del estado no es correcto."
+                )
+            if error.message == "The mileage value is not correct":
+                self.show_error(
+                    message="ERROR: El valor del kilometraje no es correcto."
+                )
+            if error.message == "The price value is not correct":
+                self.show_error(
+                    message="ERROR: El valor del precio no es correcto."
+                )
             self.show_error(message="ERROR: La reparacion no ha sido creada.")
+            raise RepairCreateException()
+        self.show_info(message="La reparacion ha sido registrada exitosamente.")
