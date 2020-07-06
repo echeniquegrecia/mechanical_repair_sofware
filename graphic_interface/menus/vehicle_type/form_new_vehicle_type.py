@@ -12,40 +12,41 @@ class FormNewVehicleType(BaseFrame):
         """New Client Window init."""
         super().__init__(root=root, connection=connection)
         self.master = master
+        self.root['bg'] = 'black'
         self.data = {
             "brand": tk.StringVar(),
             "model": tk.StringVar(),
             "year": tk.StringVar()
         }
 
-        frame_1 = tk.LabelFrame(self.root, text="Nuevo Tipo de Vehiculo")
+        frame_1 = tk.LabelFrame(self.root, text="Nuevo Tipo de Vehiculo", bg="black", foreground="white", font='bold')
         frame_1.pack(side="left",padx=5, pady=5, fill='both', expand=True)
 
-        frame_2 = tk.Frame(frame_1)
+        frame_2 = tk.Frame(frame_1, bg='black')
         frame_2.pack(side="top", padx=5, pady=5, fill='x')
 
-        frame_3 = tk.Frame(frame_1)
+        frame_3 = tk.Frame(frame_1, bg='black')
         frame_3.pack(side="bottom", padx=5, pady=5, fill='x')
 
-        brand_label = tk.Label(frame_2, text="Marca", font='Helvetica 18 bold', anchor='w')
+        brand_label = tk.Label(frame_2, text="Marca", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         brand_label.pack(padx=5, pady=5, fill='both')
         brand_entry = tk.Entry(frame_2, font = "Helvetica 17", textvariable=self.data["brand"])
         brand_entry.pack(padx=5, pady=5, fill='both')
 
-        model_label = tk.Label(frame_2, text="Modelo", font='Helvetica 18 bold', anchor='w')
+        model_label = tk.Label(frame_2, text="Modelo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         model_label.pack(padx=5, pady=5, fill='both')
         model_entry = tk.Entry(frame_2, font = "Helvetica 17", textvariable=self.data["model"])
         model_entry.pack(padx=5, pady=5, fill='both')
 
-        year_label = tk.Label(frame_2, text="Año", font='Helvetica 18 bold', anchor='w')
+        year_label = tk.Label(frame_2, text="Año", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         year_label.pack(padx=5, pady=5, fill='both')
         year_entry = tk.Entry(frame_2, font="Helvetica 17", textvariable=self.data["year"])
         year_entry.pack(padx=5, pady=5, fill='both')
 
-        button_1 = tk.Button(frame_3, text="Crear", font='Helvetica 15 bold', width=15, command=self.create_new_vehicle_type)
+        button_1 = tk.Button(frame_3, text="Crear", font='Helvetica 15 bold', width=15, bg="gold2", command=self.create_new_vehicle_type)
         button_1.pack(side='right', fil='x')
 
-        button_2 = tk.Button(frame_3, text="Regresar", font='Helvetica 15 bold', width=15, command=self.go_back)
+        button_2 = tk.Button(frame_3, text="Regresar", font='Helvetica 15 bold', width=15, bg="gold2", command=self.go_back)
         button_2.pack(side='right', fil='x')
 
         self.root.mainloop()

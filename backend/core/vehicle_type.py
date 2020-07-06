@@ -77,11 +77,14 @@ class VehicleType:
         """Get vehicle type id by the brand, model and year."""
         vehicle_type_id = None
         vehicle_types = self.get_all()
-        for vehicle_type in vehicle_types:
-            if vehicle_type.get("brand") == brand:
-                if vehicle_type.get("model") == model:
-                    if vehicle_type.get("year") == year:
-                        vehicle_type_id = vehicle_type.get("vehicle_type_id")
+        try:
+            for vehicle_type in vehicle_types:
+                if vehicle_type.get("brand") == brand:
+                    if vehicle_type.get("model") == model:
+                        if vehicle_type.get("year") == year:
+                            vehicle_type_id = vehicle_type.get("vehicle_type_id")
+        except Exception:
+            raise VehicleTypeGetCategoryException()
         return vehicle_type_id
 
     def create(self, **kwargs):

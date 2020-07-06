@@ -159,3 +159,12 @@ class Client:
             self.connection.commit()
         except Exception:
             raise ClientDeleteException()
+
+
+    def drop_table(self):
+        """Drop table Clients."""
+        self.sql = "DROP TABLE CLIENTS"
+        self.cursor.execute(self.sql)
+        self.connection.commit()
+
+

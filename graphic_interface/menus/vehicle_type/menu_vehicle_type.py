@@ -14,6 +14,7 @@ class MenuVehicleType(BaseFrame):
         """Edit Vehicle Type Window init."""
         super().__init__(root=root, connection=connection)
         self.root.state('zoomed')
+        self.root['bg'] = 'black'
         self.master = master
         self.data = {
             "brand": tk.StringVar(),
@@ -21,31 +22,31 @@ class MenuVehicleType(BaseFrame):
             "year": tk.StringVar()
         }
 
-        frame_1 = tk.LabelFrame(self.root, text="Menu Tipo de Vehiculo", width=100, height=10)
+        frame_1 = tk.LabelFrame(self.root, text="Menu Tipo de Vehiculo", width=100, height=10, bg="black", foreground="white", font='bold')
         frame_1.pack(side='top', padx=5, pady=5, fill='x')
 
-        frame_2 = tk.LabelFrame(self.root, width=100, height=10)
+        frame_2 = tk.LabelFrame(self.root, width=100, height=10, bg='black')
         frame_2.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')
 
-        frame_3 = tk.LabelFrame(self.root)
+        frame_3 = tk.LabelFrame(self.root, bg='black')
         frame_3.pack(side='left', padx=5, pady=5, fill='both', expand=True)
 
-        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, command=self.create_new_vehicle_type)
+        button_1 = tk.Button(frame_2, text="Nuevo", font='Helvetica 20 bold', width=15, bg="gold2", command=self.create_new_vehicle_type)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15, command=self.form_edit_vehicle_type)
+        button_2 = tk.Button(frame_2, text="Editar", font='Helvetica 20 bold', width=15, bg="gold2", command=self.form_edit_vehicle_type)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, command=self.delete_vehicle_type)
+        button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, bg="gold2", command=self.delete_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Refrescar Tabla", font='Helvetica 20 bold', command=self.refresh_table)
+        button_4 = tk.Button(frame_2, text="Refrescar Tabla", font='Helvetica 20 bold', bg="gold2", command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
-        frame_4 = tk.Frame(frame_2)
+        frame_4 = tk.Frame(frame_2, bg='black')
         frame_4.pack(side='bottom', fill='x')
 
-        button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', command=self.go_back)
+        button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', bg="gold2", command=self.go_back)
         button_5.pack(side='left', pady=10, padx=10)
 
         # Define search frame
@@ -53,14 +54,14 @@ class MenuVehicleType(BaseFrame):
         self.option_var.set("--Seleccione una busqueda--")
         contents = {"Marca", "Modelo", "Año"}
         self.options = tk.OptionMenu(frame_1, self.option_var, *contents)
-        self.options.config(font=('Helvetica', 15))
+        self.options.config(font=('Helvetica', 15), bg="gold2")
         self.options.pack(side='left', pady=10, padx=10, fill='x')
 
         self.entry_var = tk.StringVar()
         entry = tk.Entry(frame_1, font="Helvetica 15", textvariable=self.entry_var)
         entry.pack(side='left', pady=10, padx=10, fill='x')
 
-        button_6 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', command=self.search_vehicle_type_by_category)
+        button_6 = tk.Button(frame_1, text="Buscar", font='Helvetica 15 bold', bg="gold2", command=self.search_vehicle_type_by_category)
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table

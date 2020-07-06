@@ -20,6 +20,7 @@ class CheckClientDataFormat:
         """
 
         for key, value in client_data.items():
+            client_data[key] = None if value == "" else value
             try:
                 if key == "identity_card":
                     self.identity_card(identity_card=value)
@@ -31,7 +32,6 @@ class CheckClientDataFormat:
                     self.phone(phone=value)
             except ClientFormatDataException as error:
                 raise ClientFormatDataException(message=error.message)
-            client_data[key] = None if value == "" else value
 
     @staticmethod
     def identity_card(identity_card: str):

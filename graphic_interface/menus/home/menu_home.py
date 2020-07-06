@@ -18,45 +18,46 @@ class MenuHome(BaseFrame):
         """MenuHome init."""
         super().__init__(root=root, connection=connection)
         self.root.state('zoomed')
+        self.root['bg'] = 'black'
 
-        frame_1 = tk.LabelFrame(self.root, text="Menu", width=100, height=10)
+        frame_1 = tk.LabelFrame(self.root, text="Menu Principal", width=100, height=10, bg="black", foreground="white", font='bold')
         frame_1.pack(side='left', ipadx=100, padx=5, pady=5, fill='y')
 
         frame_2 = tk.LabelFrame(self.root, width=300)
         frame_2.pack(side='right', ipadx=320, padx=5, pady=11, fill='both')
 
-        button_1 = tk.Button(frame_1, text="Clientes", font='Helvetica 20 bold', command=self.menu_client)
+        button_1 = tk.Button(frame_1, text="Clientes", font='Helvetica 20 bold', bg="gold2", command=self.menu_client)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_1, text="Vehiculos", font='Helvetica 20 bold', command=self.menu_vehicle)
+        button_2 = tk.Button(frame_1, text="Vehiculos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_1, text="Tipo de Vehiculos", font='Helvetica 20 bold', command=self.menu_vehicle_type)
+        button_3 = tk.Button(frame_1, text="Tipo de Vehiculos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', command=self.menu_repair)
+        button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', bg="gold2", command=self.menu_repair)
         button_4.pack(fill='both', pady=10, padx=10)
 
-        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', command=self.export_data)
+        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', bg="gold2", command=self.export_data)
         button_6.pack(fill='both', pady=10, padx=10)
 
-        button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', command=self.import_data)
+        button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', bg="gold2", command=self.import_data)
         button_7.pack(fill='both', pady=10, padx=10)
 
-        frame_3 = tk.Frame(frame_1, height=100)
+        frame_3 = tk.Frame(frame_1, height=100, bg='black')
         frame_3.pack(fill='both', pady=10, padx=10, expand=True)
 
-        frame_4 = tk.Frame(frame_3)
+        frame_4 = tk.Frame(frame_3, bg='black')
         frame_4.pack(side='bottom', fill='x')
 
-        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15)
+        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', bg="gold2", width=15)
         button_5.pack(side='right', fil='x')
 
-        button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', width=15)
+        button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', width=15, bg="gold2", command=self.reset)
         button_5.pack(side='left', fil='x')
 
         image = Image.open(IMAGE_MENU)
-        image = image.resize((950, 920), Image.ANTIALIAS)
+        image = image.resize((910, 880), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
         label = tk.Label(frame_2, image=image)
         label.pack(side='right', fill='both', expand=True)
@@ -141,3 +142,7 @@ class MenuHome(BaseFrame):
         except Exception:
             self.show_error(message="Error al importar los datos, verifique que los datos y el formato del archivo son correctos")
         self.show_info(message="Los datos fueron importados a la base de datos exitosamente.")
+
+
+    def reset(self):
+        self.client.drop_table()
