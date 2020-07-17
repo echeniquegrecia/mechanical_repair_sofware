@@ -127,15 +127,21 @@ class MenuVehicleType(BaseFrame):
         values = self.get_values()
         if not values:
             self.show_error(message="Por favor seleccione un tipo de vehiulo.")
-        id = values[0]
-        try:
-            self.vehicle_type.delete(vehicle_type_id=id)
-            self.refresh_table()
-            self.show_info(message=f"El tipo de vehiculo ha sido borrado exitosamente.")
-        except VehicleTypeDeleteException as error:
-            if "vehicle registered" in error.message:
-                self.show_error(message=f"Hay un(unos) vehiculo(s) registrado(s) con este tipo de vehiculo. Por favor, borre el vehiculo y luego el tipo de vehiculo.")
-            self.show_error(message=f"Error al borrar el tipo de vehiculo.")
+        else:
+            id = values[0]
+            response = self.ask_question(
+                message_1="Borrar tipo de vehiculo",
+                message_2="Esta seguro de eliminar este tipo de vehiculo?"
+            )
+            if response:
+                try:
+                    self.vehicle_type.delete(vehicle_type_id=id)
+                    self.refresh_table()
+                    self.show_info(message=f"El tipo de vehiculo ha sido borrado exitosamente.")
+                except VehicleTypeDeleteException as error:
+                    if "vehicle registered" in error.message:
+                        self.show_error(message=f"Hay un(unos) vehiculo(s) registrado(s) con este tipo de vehiculo. Por favor, borre el vehiculo y luego el tipo de vehiculo.")
+                    self.show_error(message=f"Error al borrar el tipo de vehiculo.")
 
     def get_vehicle_type_by_category(self):
         """Get vehicle type by category."""

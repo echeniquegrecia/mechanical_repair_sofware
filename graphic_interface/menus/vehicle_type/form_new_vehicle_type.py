@@ -1,6 +1,7 @@
 import tkinter as tk
 
-from backend.exceptions.vehicle_type_exceptions import VehicleTypeCreateException
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeCreateException, VehicleTypeAlreadyExistsException, \
+    VehicleTypeMissingMandatoryDataException
 from backend.exceptions.vehicle_type_exceptions import VehicleTypeFormatDataException
 from graphic_interface.menus.base_frame import BaseFrame
 
@@ -73,6 +74,12 @@ class FormNewVehicleType(BaseFrame):
                 self.show_error(message="ERROR: El formato del modelo es incorrecta.")
             if "year" in error.message:
                 self.show_error(message="ERROR: El formato del año es incorrecta.")
+        except VehicleTypeAlreadyExistsException:
+            self.show_error(message="ERROR: El tipo de vehiculo ya existe.")
+        except VehicleTypeMissingMandatoryDataException:
+            self.show_error(message=
+                            "ERROR: Falta algunos datos obligatorios."
+                            "Por favor verifique el ingreso del Modelo, Marca y Ano.")
 
     def go_back(self):
         """Go back to Menu Client."""

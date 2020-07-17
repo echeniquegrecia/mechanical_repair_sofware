@@ -1,3 +1,4 @@
+import sqlite3
 import tkinter as tk
 
 from backend.exceptions.client_exceptions import ClientUpdateException
@@ -137,6 +138,12 @@ class FormEditClient(BaseFrame):
             self.show_info(message="El cliente ha sido editado exitosamente")
         except ClientUpdateException:
             self.show_error(message="El cliente no ha sido editado.")
+        except sqlite3.IntegrityError:
+            self.show_error(
+                message=
+                """La cédula de identidad ya esta registrada en la base de datos con otro cliente. \n \n"""
+                """Por favor verifique la cédula nuevamente. \n\n"""
+            )
         except ClientFormatDataException as error:
             if "identity card" in error.message:
                 self.show_error(
@@ -159,6 +166,12 @@ class FormEditClient(BaseFrame):
                     """El formato del teléfono o célular es incorrecto. \n \n"""
                     """Por favor verifique que ambos correspondan al formato: \n\n"""
                     """0000-0000000"""
+                )
+            if "Missing Mandatory Data" in error.message:
+                self.show_error(
+                    message=
+                    """Faltan datos obligatorios \n \n"""
+                    """Verifique tener: Nombre, Apellido, Cédula de Identidad y Direccion. \n\n"""
                 )
 
     def go_back(self):

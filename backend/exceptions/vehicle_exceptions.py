@@ -35,3 +35,9 @@ class VehicleFormatDataException(BaseException):
     """Exception when there is an error in format data."""
 
     message = "Error in format data vehicle."
+
+
+class VehicleMissingMandatoryDataException(BaseException):
+    """Exception when Missing mandatory vehicle data."""
+
+    message = "Error when missing vehicle data."

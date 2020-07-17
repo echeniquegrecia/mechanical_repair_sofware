@@ -40,7 +40,7 @@ class MenuVehicle(BaseFrame):
         button_3 = tk.Button(frame_2, text="Borrar", font='Helvetica 20 bold', width=15, bg="gold2", command=self.delete_vehicle)
         button_3.pack(fill='both', pady=10, padx=10)
 
-        button_4 = tk.Button(frame_2, text="Actualizar", font='Helvetica 20 bold', bg="gold2", command=self.refresh_table)
+        button_4 = tk.Button(frame_2, text="Refrescar tabla", font='Helvetica 20 bold', bg="gold2", command=self.refresh_table)
         button_4.pack(fill='both', pady=10, padx=10)
 
         button_5 = tk.Button(frame_4, text="Regresar", font='Helvetica 15 bold', bg="gold2", command=self.go_back)

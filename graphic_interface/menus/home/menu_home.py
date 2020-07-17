@@ -1,7 +1,8 @@
 import tkinter as tk
-from tkinter import filedialog
 import pandas as pd
+import sys
 from PIL import Image, ImageTk
+from tkinter import filedialog
 
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.menu_client import MenuClient
@@ -9,6 +10,7 @@ from graphic_interface.menus.repair.menu_repair import MenuRepair
 from graphic_interface.menus.vehicle.menu_vehicle import MenuVehicle
 from graphic_interface.menus.vehicle_type.menu_vehicle_type import MenuVehicleType
 from settings import IMAGE_MENU
+from settings import DATABASE
 
 
 class MenuHome(BaseFrame):
@@ -50,10 +52,10 @@ class MenuHome(BaseFrame):
         frame_4 = tk.Frame(frame_3, bg='black')
         frame_4.pack(side='bottom', fill='x')
 
-        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', bg="gold2", width=15)
+        button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', bg="gold2", width=15, command=self.reset)
         button_5.pack(side='right', fil='x')
 
-        button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', width=15, bg="gold2", command=self.reset)
+        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15, bg="gold2", command=self.close)
         button_5.pack(side='left', fil='x')
 
         image = Image.open(IMAGE_MENU)
@@ -117,22 +119,22 @@ class MenuHome(BaseFrame):
         clients = pd.read_excel(
             file_path,
             sheet_name='Clientes',
-            header=0)
+            header=0).fillna('')
 
         vehicle_types = pd.read_excel(
             file_path,
             sheet_name='Tipos de Vehiculo',
-            header=0)
+            header=0).fillna('')
 
         vehicles = pd.read_excel(
             file_path,
             sheet_name='Vehiculos',
-            header=0)
+            header=0).fillna('')
 
         repairs = pd.read_excel(
             file_path,
             sheet_name='Reparaciones',
-            header=0)
+            header=0).fillna('')
 
         try:
             clients.to_sql('CLIENTS', self.connection, if_exists='append', index=False)
@@ -143,6 +145,16 @@ class MenuHome(BaseFrame):
             self.show_error(message="Error al importar los datos, verifique que los datos y el formato del archivo son correctos")
         self.show_info(message="Los datos fueron importados a la base de datos exitosamente.")
 
-
     def reset(self):
+        """Reset the database."""
         self.client.drop_table()
+        self.vehicle.drop_table()
+        self.vehicle_type.drop_table()
+        self.repair.drop_table()
+        import os
+        os.remove(DATABASE)
+        sys.exit()
+
+    def close(self):
+        """Close the app."""
+        sys.exit()

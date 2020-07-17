@@ -1,3 +1,5 @@
+import sqlite3
+
 from backend.exceptions.client_exceptions import ClientDeleteException
 from backend.exceptions.client_exceptions import ClientUpdateException
 from backend.exceptions.client_exceptions import ClientCreateException
@@ -20,7 +22,7 @@ class Client:
     def get_all(self):
         """Get all the clients."""
         try:
-            self.sql = "SELECT * FROM CLIENTS"
+            self.sql = "SELECT * FROM CLIENTS ORDER BY name"
             self.cursor.execute(self.sql)
             values = list(self.cursor.fetchall())
         except Exception:
@@ -100,6 +102,7 @@ class Client:
         phone_2: client phone 2
         address: client address.
         """
+
         try:
             CheckClientDataFormat(client_data=kwargs)
         except ClientFormatDataException as error:
@@ -112,6 +115,8 @@ class Client:
             self.sql = f"INSERT INTO CLIENTS({columns}) VALUES({placeholders})"
             self.cursor.execute(self.sql, values)
             self.connection.commit()
+        except sqlite3.IntegrityError:
+            raise sqlite3.IntegrityError()
         except Exception:
             raise ClientCreateException()
 
@@ -142,6 +147,8 @@ class Client:
             self.sql = f"UPDATE CLIENTS SET {columns} WHERE client_id = ?"
             self.cursor.execute(self.sql, values)
             self.connection.commit()
+        except sqlite3.IntegrityError:
+            raise sqlite3.IntegrityError()
         except Exception:
             raise ClientUpdateException()
 
@@ -160,11 +167,8 @@ class Client:
         except Exception:
             raise ClientDeleteException()
 
-
     def drop_table(self):
         """Drop table Clients."""
         self.sql = "DROP TABLE CLIENTS"
         self.cursor.execute(self.sql)
         self.connection.commit()
-
-

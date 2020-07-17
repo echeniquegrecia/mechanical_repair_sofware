@@ -19,19 +19,24 @@ class CheckClientDataFormat:
         address: client address.
         """
 
+        # Check missing mandatory data
+        CheckClientDataFormat.missing_mandatory_data(
+            client_data=client_data
+        )
+
         for key, value in client_data.items():
-            client_data[key] = None if value == "" else value
-            try:
-                if key == "identity_card":
-                    self.identity_card(identity_card=value)
-                if key == "email":
-                    self.email(email=value)
-                if key == "phone_1":
-                    self.phone(phone=value)
-                if key == "phone_2":
-                    self.phone(phone=value)
-            except ClientFormatDataException as error:
-                raise ClientFormatDataException(message=error.message)
+            if value:
+                try:
+                    if key == "identity_card":
+                        self.identity_card(identity_card=value)
+                    if key == "email":
+                        self.email(email=value)
+                    if key == "phone_1":
+                        self.phone(phone=value)
+                    if key == "phone_2":
+                        self.phone(phone=value)
+                except ClientFormatDataException as error:
+                    raise ClientFormatDataException(message=error.message)
 
     @staticmethod
     def identity_card(identity_card: str):
@@ -62,3 +67,13 @@ class CheckClientDataFormat:
         if not result:
             message = "Format phone incorrect."
             raise ClientFormatDataException(message=message)
+
+    @staticmethod
+    def missing_mandatory_data(client_data: dict):
+        """Missing Mandatory Data."""
+        mandatory_data = ["name", "last_name", "identity_card", "address"]
+        for key, value in client_data.items():
+            if key in mandatory_data:
+                if not value:
+                    message = f"Missing Mandatory Data: {key}"
+                    raise ClientFormatDataException(message=message)

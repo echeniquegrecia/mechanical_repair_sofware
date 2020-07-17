@@ -18,9 +18,6 @@ class CheckRepairDataFormat:
         price:
         status: "EN TALLER", "FINALIZADO".
         """
-        for key, value in repair_data.items():
-            repair_data[key] = None if value == "" else value
-
         # Check dates
         self.dates(
             date_entry=repair_data["date_entry"],
@@ -38,13 +35,13 @@ class CheckRepairDataFormat:
             date_exit=repair_data["date_exit"]
         )
 
+
     @staticmethod
     def dates(date_entry: str, date_exit: str):
         """Check entry and exit dates."""
-        date_entry = time.strptime(date_entry, "%d/%m/%Y")
-        date_exit = time.strptime(date_exit, "%d/%m/%Y")
-
-        if date_entry != "NONE" and date_exit != "NONE":
+        if date_entry and date_exit:
+            date_entry = time.strptime(date_entry, "%d/%m/%Y")
+            date_exit = time.strptime(date_exit, "%d/%m/%Y")
             if date_entry > date_exit:
                 message = "Date entry can not be newer than Date exit."
                 raise RepairFormatDataException(message=message)
@@ -59,28 +56,30 @@ class CheckRepairDataFormat:
     @staticmethod
     def mileage(mileage: str):
         """Check mileage."""
-        try:
-            float(mileage)
-        except:
-            message = "The mileage value is not correct"
-            raise RepairFormatDataException(message=message)
+        if mileage:
+            try:
+                float(mileage)
+            except:
+                message = "The mileage value is not correct"
+                raise RepairFormatDataException(message=message)
 
     @staticmethod
     def price(price: str):
         """Check price."""
-        try:
-            float(price)
-        except:
-            message = "The price value is not correct"
-            raise RepairFormatDataException(message=message)
+        if price:
+            try:
+                float(price)
+            except:
+                message = "The price value is not correct"
+                raise RepairFormatDataException(message=message)
 
     @staticmethod
     def status_and_date_exit(status: str, date_exit: str):
         """Check status and date exit."""
-        if status != "FINALIZADO" and date_exit != "NONE":
+        if status != "FINALIZADO" and date_exit:
             message = "Status must be closed"
             raise RepairFormatDataException(message=message)
 
-        if status == "FINALIZADO" and date_exit == "NONE":
+        if status == "FINALIZADO" and not date_exit:
             message = "Date exit is missing"
             raise RepairFormatDataException(message=message)

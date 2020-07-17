@@ -143,15 +143,21 @@ class MenuClient(BaseFrame):
         values = self.get_values()
         if not values:
             self.show_error(message="Por favor seleccione un cliente.")
-        id = values[0]
-        try:
-            self.client.delete(client_id=id)
-            self.refresh_table()
-            self.show_info(message=f"El cliente ha sido borrado exitosamente.")
-        except ClientDeleteException as error:
-            if "vehicle registered" in error.message:
-                self.show_error(message=f"El cliente tiene un vehiculo registrado. Por favor, borre el vehiculo y luego el cliente.")
-            self.show_error(message=f"Error al borrar el cliente.")
+        else:
+            id = values[0]
+            response = self.ask_question(
+                message_1="Borrar cliente",
+                message_2="Esta seguro de eliminar este cliente?"
+            )
+            if response:
+                try:
+                    self.client.delete(client_id=id)
+                    self.refresh_table()
+                    self.show_info(message=f"El cliente ha sido borrado exitosamente.")
+                except ClientDeleteException as error:
+                    if "vehicle registered" in error.message:
+                        self.show_error(message=f"El cliente tiene un vehiculo registrado. Por favor, borre el vehiculo y luego el cliente.")
+                    self.show_error(message=f"Error al borrar el cliente.")
 
     def get_client_by_category(self):
         """Get client by category."""

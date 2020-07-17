@@ -1,7 +1,8 @@
+import sqlite3
 import tkinter as tk
 from tkinter import ttk
 
-from backend.exceptions.vehicle_exceptions import VehicleUpdateException
+from backend.exceptions.vehicle_exceptions import VehicleUpdateException, VehicleMissingMandatoryDataException
 from graphic_interface.menus.base_frame import BaseFrame
 
 
@@ -215,9 +216,18 @@ class FormEditVehicle(BaseFrame):
                 identity=identity,
                 color=color
             )
+        except sqlite3.IntegrityError:
+            self.show_error(
+                message=
+                """La placa ya esta registrada en otro vehiculo. \n \n"""
+                """Por favor verifique la placa nuevamente. \n\n"""
+            )
         except VehicleUpdateException:
             self.show_error(message="ERROR: El vehiculo no ha podido ser actualizado.")
             raise VehicleUpdateException()
+        except VehicleMissingMandatoryDataException:
+            self.show_error(message="ERROR: Faltan datos obligatorios. Por favor verifique tener la placa, color y tipo de vehiculo")
+            raise VehicleMissingMandatoryDataException()
         self.show_info(message=f"Los datos del vehiculo han sido actualizados exitosamente.")
 
     def get_vehicle_type_brands(self):

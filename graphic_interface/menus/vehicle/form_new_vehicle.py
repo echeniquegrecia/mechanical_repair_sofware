@@ -1,7 +1,8 @@
+import sqlite3
 import tkinter as tk
 from tkinter import ttk
 
-from backend.exceptions.vehicle_exceptions import VehicleCreateException
+from backend.exceptions.vehicle_exceptions import VehicleCreateException, VehicleMissingMandatoryDataException
 from backend.exceptions.vehicle_type_exceptions import VehicleTypeGetCategoryException
 from graphic_interface.menus.base_frame import BaseFrame
 
@@ -181,22 +182,31 @@ class FormNewVehicle(BaseFrame):
                 year=int(self.year.get())
             )
         except Exception:
-            self.show_error(message="ERROR: El vehiculo no ha sido creado.")
+            self.show_error(message="ERROR: Por favor seleccione el tipo de vehiculo.")
             raise VehicleCreateException()
-        client_id = self.client_id.get()
-        vehicle_type_id = vehicle_type_id
-        identity = self.identity.get()
-        color= self.color.get()
         try:
+            client_id = self.client_id.get()
+            vehicle_type_id = vehicle_type_id
+            identity = self.identity.get()
+            color = self.color.get()
             self.vehicle.create(
                 client_id=client_id,
                 vehicle_type_id=vehicle_type_id,
                 identity=identity,
                 color=color
             )
+        except sqlite3.IntegrityError:
+            self.show_error(
+                message=
+                """La placa ya esta registrada en otro vehiculo. \n \n"""
+                """Por favor verifique la placa nuevamente. \n\n"""
+            )
         except VehicleCreateException:
             self.show_error(message="ERROR: El vehiculo no ha sido creado.")
             raise VehicleCreateException()
+        except VehicleMissingMandatoryDataException:
+            self.show_error(message="ERROR: Faltan datos obligatorios. Por favor verifique tener la placa, color y tipo de vehiculo")
+            raise VehicleMissingMandatoryDataException()
         self.show_info(message="El vehiculo ha sido registrado exitosamente")
 
     def get_vehicle_type_brands(self):
@@ -260,7 +270,5 @@ class FormNewVehicle(BaseFrame):
                 client.get("name"),
                 client.get("last_name"),
                 client.get("identity_card"),
-                client.get("email"),
-                client.get("address")
             ])
         return list

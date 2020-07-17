@@ -1,4 +1,5 @@
-from backend.exceptions.vehicle_type_exceptions import VehicleTypeFormatDataException
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeFormatDataException, \
+    VehicleTypeMissingMandatoryDataException
 
 
 class CheckVehicleTypeDataFormat:
@@ -11,8 +12,9 @@ class CheckVehicleTypeDataFormat:
         model: str vehicle model
         year: str vehicle year.
         """
-
-        for key, value in vehicle_type_data.items():
+        self.vehicle_type_data = vehicle_type_data
+        self.missing_data_mandatory()
+        for key, value in self.vehicle_type_data.items():
             try:
                 if key == "brand":
                     isinstance(value, str)
@@ -23,4 +25,9 @@ class CheckVehicleTypeDataFormat:
             except Exception:
                 message = f"Invalid Format in {key}"
                 raise VehicleTypeFormatDataException(message=message)
-            vehicle_type_data[key] = None if value == "" else value
+
+    def missing_data_mandatory(self):
+        """Check missing data mandatory."""
+        for key, value in self.vehicle_type_data.items():
+            if not value:
+                raise VehicleTypeMissingMandatoryDataException()

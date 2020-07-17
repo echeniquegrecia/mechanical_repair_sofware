@@ -30,7 +30,7 @@ VEHICLES = "CREATE TABLE IF NOT EXISTS VEHICLES (" \
 REPAIRS = "CREATE TABLE IF NOT EXISTS REPAIRS (" \
                           "repair_id integer PRIMARY KEY UNIQUE NOT NULL," \
                           "vehicle_id integer NOT NULL," \
-                          "mileage real, " \
+                          "mileage float, " \
                           "client_observations TEXT," \
                           "mechanical_observations TEXT," \
                           "final_observations TEXT," \

@@ -344,7 +344,7 @@ class FormEditRepair(BaseFrame):
         except RepairFormatDataException as error:
             if error.message == "Date entry can not be newer than Date exit.":
                 self.show_error(
-                    message="ERROR: La fecha de entrada no puede ser mayor que la fecha de salida."
+                    message="ERROR: La fecha de salida no puede ser antes que la fecha de entrada."
                 )
             if error.message == "The status value is not in [EN TALLER, FINALIZADO]":
                 self.show_error(

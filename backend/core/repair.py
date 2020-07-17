@@ -408,3 +408,9 @@ class Repair:
             self.connection.commit()
         except Exception:
             raise RepairDeleteException()
+
+    def drop_table(self):
+        """Drop table repair."""
+        self.sql = "DROP TABLE REPAIRS"
+        self.cursor.execute(self.sql)
+        self.connection.commit()

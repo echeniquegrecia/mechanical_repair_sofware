@@ -35,3 +35,15 @@ class VehicleTypeGetAllException(BaseException):
     """Exception when there is an error to get all the vehicle types."""
 
     message = "Error to get all the vehicle types."
+
+
+class VehicleTypeAlreadyExistsException(BaseException):
+    """Exception when the vehicle type already exists."""
+
+    message = "Error when the vehicle type already exists."
+
+
+class VehicleTypeMissingMandatoryDataException(BaseException):
+    """Exception when Missing mandatory vehicle type data."""
+
+    message = "Error when missing vehicle type data."

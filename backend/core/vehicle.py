@@ -1,3 +1,5 @@
+import sqlite3
+
 from backend.exceptions.vehicle_exceptions import VehicleDeleteException, VehicleUpdateException, \
     VehicleCreateException, VehicleGetAllException, VehicleGetCategoryException
 from backend.service.check_vehicle_data import CheckVehicleDataFormat
@@ -211,6 +213,8 @@ class Vehicle:
             self.sql = f"INSERT INTO VEHICLES({columns}) VALUES({placeholders})"
             self.cursor.execute(self.sql, values)
             self.connection.commit()
+        except sqlite3.IntegrityError:
+            raise sqlite3.IntegrityError()
         except Exception:
             raise VehicleCreateException()
 
@@ -233,6 +237,8 @@ class Vehicle:
             self.sql = f"UPDATE VEHICLES SET {columns} WHERE vehicle_id = ?"
             self.cursor.execute(self.sql, (values))
             self.connection.commit()
+        except sqlite3.IntegrityError:
+            raise sqlite3.IntegrityError()
         except Exception:
             raise VehicleUpdateException()
 
@@ -250,3 +256,9 @@ class Vehicle:
             self.connection.commit()
         except Exception:
             raise VehicleDeleteException()
+
+    def drop_table(self):
+        """Drop table vehicle."""
+        self.sql = "DROP TABLE VEHICLES"
+        self.cursor.execute(self.sql)
+        self.connection.commit()

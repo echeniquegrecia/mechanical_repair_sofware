@@ -1,4 +1,4 @@
-from backend.exceptions.vehicle_type_exceptions import VehicleTypeUpdateException
+from backend.exceptions.vehicle_type_exceptions import VehicleTypeUpdateException, VehicleTypeAlreadyExistsException
 from backend.exceptions.vehicle_type_exceptions import VehicleTypeGetAllException
 from backend.exceptions.vehicle_type_exceptions import VehicleTypeGetCategoryException
 from backend.exceptions.vehicle_type_exceptions import VehicleTypeFormatDataException
@@ -20,7 +20,7 @@ class VehicleType:
     def get_all(self):
         """Get all vehicles type."""
         try:
-            self.sql = "SELECT * FROM VEHICLES_TYPE"
+            self.sql = "SELECT * FROM VEHICLES_TYPE ORDER BY model"
             self.cursor.execute(self.sql)
             values = list(self.cursor.fetchall())
         except Exception:
@@ -96,11 +96,19 @@ class VehicleType:
         year: vehicle year.
         """
 
+        kwargs = convert_uppercase(param=kwargs)
         try:
             CheckVehicleTypeDataFormat(vehicle_type_data=kwargs)
         except VehicleTypeFormatDataException as error:
             raise VehicleTypeFormatDataException(message=error.message)
-        kwargs = convert_uppercase(param=kwargs)
+        # Check if the vehicle type already exists
+        vehicle_type_id = self.get_vehicle_type_id(
+            brand=kwargs["brand"],
+            model=kwargs["model"],
+            year=int(kwargs["year"])
+        )
+        if vehicle_type_id:
+            raise VehicleTypeAlreadyExistsException()
         columns = ",".join([*kwargs.keys()])
         values = list(kwargs.values())
         placeholders = ','.join(['?'] * len(kwargs))
@@ -120,11 +128,19 @@ class VehicleType:
         year: vehicle year.
         """
 
+        kwargs = convert_uppercase(param=kwargs)
         try:
             CheckVehicleTypeDataFormat(vehicle_type_data=kwargs)
         except VehicleTypeFormatDataException as error:
             raise VehicleTypeFormatDataException(message=error.message)
-        kwargs = convert_uppercase(param=kwargs)
+        # Check if the vehicle type already exists
+        vehicle_type_id = self.get_vehicle_type_id(
+            brand=kwargs["brand"],
+            model=kwargs["model"],
+            year=int(kwargs["year"])
+        )
+        if vehicle_type_id:
+            raise VehicleTypeAlreadyExistsException()
         values = list(kwargs.values())
         values.append(vehicle_type_id)
         columns = list(kwargs.keys())
@@ -151,3 +167,9 @@ class VehicleType:
             self.connection.commit()
         except Exception:
             raise VehicleTypeDeleteException()
+
+    def drop_table(self):
+        """Drop table repair."""
+        self.sql = "DROP TABLE VEHICLES_TYPE"
+        self.cursor.execute(self.sql)
+        self.connection.commit()
