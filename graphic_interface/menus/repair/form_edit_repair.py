@@ -366,6 +366,6 @@ class FormEditRepair(BaseFrame):
                 self.show_error(
                     message="ERROR: Cambie el estado a FINALIZADO."
                 )
-            self.show_error(message="ERROR: La reparacion no ha sido creada.")
+            self.show_error(message="ERROR: La reparación no ha sido creada.")
             raise RepairUpdateException()
-        self.show_info(message="La reparacion ha sido registrada exitosamente.")
+        self.show_info(message="La reparación ha sido registrada exitosamente.")

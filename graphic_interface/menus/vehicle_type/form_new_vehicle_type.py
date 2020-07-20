@@ -20,7 +20,7 @@ class FormNewVehicleType(BaseFrame):
             "year": tk.StringVar()
         }
 
-        frame_1 = tk.LabelFrame(self.root, text="Nuevo Tipo de Vehiculo", bg="black", foreground="white", font='bold')
+        frame_1 = tk.LabelFrame(self.root, text="Nuevo Tipo de Vehículo", bg="black", foreground="white", font='bold')
         frame_1.pack(side="left",padx=5, pady=5, fill='both', expand=True)
 
         frame_2 = tk.Frame(frame_1, bg='black')
@@ -64,22 +64,22 @@ class FormNewVehicleType(BaseFrame):
                 model=model,
                 year=year
             )
-            self.show_info(message="El tipo de vehiculo ha sido registrado exitosamente")
+            self.show_info(message="El tipo de vehículo ha sido registrado éxitosamente")
         except VehicleTypeCreateException:
-            self.show_error(message="ERROR: El tipo de vehiculo no ha sido creado. Por favor verifique que todos los datos estan completos")
+            self.show_error(message="ERROR: El tipo de vehículo no ha sido creado. Por favor verifique que todos los datos estan completos")
         except VehicleTypeFormatDataException as error:
             if "brand" in error.message:
-                self.show_error(message="ERROR: El formato de la marca es incorrecta.")
+                self.show_error(message="ERROR: El formato de la marca es incorrecto.")
             if "model" in error.message:
-                self.show_error(message="ERROR: El formato del modelo es incorrecta.")
+                self.show_error(message="ERROR: El formato del modelo es incorrecto.")
             if "year" in error.message:
-                self.show_error(message="ERROR: El formato del año es incorrecta.")
+                self.show_error(message="ERROR: El formato del año es incorrecto.")
         except VehicleTypeAlreadyExistsException:
-            self.show_error(message="ERROR: El tipo de vehiculo ya existe.")
+            self.show_error(message="ERROR: El tipo de vehículo ya existe.")
         except VehicleTypeMissingMandatoryDataException:
             self.show_error(message=
                             "ERROR: Falta algunos datos obligatorios."
-                            "Por favor verifique el ingreso del Modelo, Marca y Ano.")
+                            "Por favor verifique el ingreso del Modelo, Marca y Año.")
 
     def go_back(self):
         """Go back to Menu Client."""

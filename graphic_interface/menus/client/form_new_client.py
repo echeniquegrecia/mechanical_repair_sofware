@@ -62,7 +62,7 @@ class FormNewClient(BaseFrame):
         last_name_entry = tk.Entry(frame_6, font = "Helvetica 17", textvariable=self.data["last_name"])
         last_name_entry.pack(padx=5, pady=5, fill='both')
 
-        identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        identity_card_label = tk.Label(frame_3, text="Cédula", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         identity_card_label.pack(padx=5, pady=5, fill='both')
         identity_card_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data["identity_card"])
         identity_card_entry.pack(padx=5, pady=5, fill='both')
@@ -72,7 +72,7 @@ class FormNewClient(BaseFrame):
         email_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.data["email"])
         email_entry.pack(padx=5, pady=5, fill='both')
 
-        phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        phone_1_label = tk.Label(frame_3, text="Teléfono fijo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         phone_1_label.pack(padx=5, pady=5, fill='both')
         phone_1_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.data["phone_1"])
         phone_1_entry.pack(padx=5, pady=5, fill='both')
@@ -114,11 +114,11 @@ class FormNewClient(BaseFrame):
                 phone_2=phone_2,
                 address=address
             )
-            self.show_info(message="El cliente ha sido creado exitosamente.")
+            self.show_info(message="El cliente ha sido creado éxitosamente.")
         except sqlite3.IntegrityError:
             self.show_error(
                 message=
-                """La cédula de identidad ya esta registrada en la base de datos con otro cliente. \n \n"""
+                """La cédula de identidad ya está registrada en la base de datos con otro cliente. \n \n"""
                 """Por favor verifique la cédula nuevamente. \n\n"""
             )
         except ClientCreateException:
@@ -146,7 +146,7 @@ class FormNewClient(BaseFrame):
             if "phone" in error.message:
                 self.show_error(
                     message=
-                    """El formato del teléfono o célular es incorrecto. \n \n"""
+                    """El formato del teléfono o celular es incorrecto. \n \n"""
                     """Por favor verifique que ambos correspondan al formato: \n\n"""
                     """0000-0000000"""
                 )

@@ -59,7 +59,7 @@ class FormNewVehicle(BaseFrame):
         frame_9.pack(side="left", fill='x', expand=True)
 
         # Frame Vehicle
-        frame_10 = tk.LabelFrame(self.root, text="Inserte los datos del Vehiculo", bg="black", foreground="white", font='bold')
+        frame_10 = tk.LabelFrame(self.root, text="Inserte los datos del Vehículo", bg="black", foreground="white", font='bold')
         frame_10.pack(side="top", padx=5, pady=5, fill='x')
 
         frame_11 = tk.Frame(frame_10, bg='black')
@@ -104,7 +104,7 @@ class FormNewVehicle(BaseFrame):
         last_name_entry.config(state='readonly')
         last_name_entry.pack(padx=5, pady=5, fill='both')
 
-        identity_card_label = tk.Label(frame_3, text="Cedula", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        identity_card_label = tk.Label(frame_3, text="Cédula", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         identity_card_label.pack(padx=5, pady=5, fill='both')
         identity_card_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.identity_card)
         identity_card_entry.config(state='readonly')
@@ -116,19 +116,19 @@ class FormNewVehicle(BaseFrame):
         email_entry.config(state='readonly')
         email_entry.pack(padx=5, pady=5, fill='both')
 
-        phone_1_label = tk.Label(frame_3, text="Telefono fijo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        phone_1_label = tk.Label(frame_3, text="Teléfono fijo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         phone_1_label.pack(padx=5, pady=5, fill='both')
         phone_1_entry = tk.Entry(frame_4, font="Helvetica 17", textvariable=self.phone_1)
         phone_1_entry.config(state='readonly')
         phone_1_entry.pack(padx=5, pady=5, fill='both')
 
-        phone_2_label = tk.Label(frame_5, text="Celular", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        phone_2_label = tk.Label(frame_5, text="Célular", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         phone_2_label.pack(padx=5, pady=5, fill='both')
         phone_2_entry = tk.Entry(frame_6, font="Helvetica 17", textvariable=self.phone_2)
         phone_2_entry.config(state='readonly')
         phone_2_entry.pack(padx=5, pady=5, fill='both')
 
-        address_label = tk.Label(frame_8, text="Direccion", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        address_label = tk.Label(frame_8, text="Dirección", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         address_label.pack(padx=5, pady=5, fill='both')
         address_entry = tk.Entry(frame_9, font="Helvetica 17", textvariable=self.address)
         address_entry.config(state='readonly')
@@ -145,7 +145,7 @@ class FormNewVehicle(BaseFrame):
         color_entry = tk.Entry(frame_15, font="Helvetica 17", textvariable=self.color)
         color_entry.pack(padx=5, pady=5, fill='both')
 
-        number_label = tk.Label(frame_16, text="Tipo de Vehiculo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
+        number_label = tk.Label(frame_16, text="Tipo de Vehículo", font='Helvetica 18 bold', anchor='w', foreground="gold2", bg= "black")
         number_label.pack(side='left', padx=5, pady=5, fill='both')
 
         # Vehicle Type Data
@@ -182,7 +182,7 @@ class FormNewVehicle(BaseFrame):
                 year=int(self.year.get())
             )
         except Exception:
-            self.show_error(message="ERROR: Por favor seleccione el tipo de vehiculo.")
+            self.show_error(message="ERROR: Por favor seleccione el tipo de vehículo.")
             raise VehicleCreateException()
         try:
             client_id = self.client_id.get()
@@ -198,16 +198,16 @@ class FormNewVehicle(BaseFrame):
         except sqlite3.IntegrityError:
             self.show_error(
                 message=
-                """La placa ya esta registrada en otro vehiculo. \n \n"""
+                """La placa ya está registrada en otro vehículo. \n \n"""
                 """Por favor verifique la placa nuevamente. \n\n"""
             )
         except VehicleCreateException:
-            self.show_error(message="ERROR: El vehiculo no ha sido creado.")
+            self.show_error(message="ERROR: El vehículo no ha sido creado.")
             raise VehicleCreateException()
         except VehicleMissingMandatoryDataException:
-            self.show_error(message="ERROR: Faltan datos obligatorios. Por favor verifique tener la placa, color y tipo de vehiculo")
+            self.show_error(message="ERROR: Faltan datos obligatorios. Por favor verifique tener la placa, color y tipo de vehículo")
             raise VehicleMissingMandatoryDataException()
-        self.show_info(message="El vehiculo ha sido registrado exitosamente")
+        self.show_info(message="El vehículo ha sido registrado éxitosamente")
 
     def get_vehicle_type_brands(self):
         """Get the vehicle type brands."""

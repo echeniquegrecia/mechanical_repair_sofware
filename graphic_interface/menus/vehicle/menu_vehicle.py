@@ -48,7 +48,7 @@ class MenuVehicle(BaseFrame):
 
         # Define search frame
         self.option_var.set("--Seleccione una busqueda--")
-        contents = {"Placa", "Color", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cedula"}
+        contents = {"Placa", "Color", "Modelo", "Marca", "Año", "Nombre", "Apellido", "Cédula"}
         self.options = tk.OptionMenu(frame_1, self.option_var, *contents)
         self.options.config(font=('Helvetica', 15), bg="gold2")
         self.options.pack(side='left', pady=10, padx=10, fill='x')
@@ -58,9 +58,9 @@ class MenuVehicle(BaseFrame):
         button_6.pack(side='left', pady=10, padx=10, fill='x')
 
         # Define Heading table
-        columns = ("Vehiculo Id", "Placa", "Color", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cedula")
+        columns = ("Vehículo Id", "Placa", "Color", "Modelo", "Marca", "Año", "Client Id", "Nombre", "Apellido", "Cédula")
         self.treeview = ttk.Treeview(frame_3, height=18, show="headings", columns=columns)
-        self.treeview.heading("Vehiculo Id", text="Vehiculo Id")
+        self.treeview.heading("Vehículo Id", text="Vehículo Id")
         self.treeview.heading("Placa", text="Placa")
         self.treeview.heading("Color", text="Color")
         self.treeview.heading("Modelo", text="Modelo")
@@ -69,10 +69,10 @@ class MenuVehicle(BaseFrame):
         self.treeview.heading("Client Id", text="Client Id")
         self.treeview.heading("Nombre", text="Nombre")
         self.treeview.heading("Apellido", text="Apellido")
-        self.treeview.heading("Cedula", text="Cedula")
+        self.treeview.heading("Cédula", text="Cédula")
 
         # Define Columns table
-        self.treeview.column("Vehiculo Id", stretch=0, width=80, anchor='center')
+        self.treeview.column("Vehículo Id", stretch=0, width=80, anchor='center')
         self.treeview.column("Placa",width=150, anchor='center')
         self.treeview.column("Color", width=150, anchor='center')
         self.treeview.column("Modelo", width=150, anchor='center')
@@ -81,7 +81,7 @@ class MenuVehicle(BaseFrame):
         self.treeview.column("Client Id", stretch=0, width=80, anchor='center')
         self.treeview.column("Nombre", width=150, anchor='center')
         self.treeview.column("Apellido", width=150, anchor='center')
-        self.treeview.column("Cedula", width=150, anchor='center')
+        self.treeview.column("Cédula", width=150, anchor='center')
 
         # Insert Data
         vehicles = self.vehicle.get_vehicles_with_clients_details()
@@ -159,7 +159,7 @@ class MenuVehicle(BaseFrame):
                 "Año": "year",
                 "Nombre": "client_name",
                 "Apellido": "client_last_name",
-                "Cedula": "client_identity",
+                "Cédula": "client_identity",
             }
             category = category.get(self.option_var.get(), "")
         except VehicleGetCategoryException:
@@ -247,7 +247,7 @@ class MenuVehicle(BaseFrame):
         """Open Form Edit Vehicle."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
+            self.show_error(message="Por favor seleccione un vehículo.")
         self.new_window = tk.Toplevel(self.root)
         self.app = FormEditVehicle(root=self.new_window, connection=self.connection, master=self, values=values)
 
@@ -255,13 +255,13 @@ class MenuVehicle(BaseFrame):
         """Delete vehicle."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
+            self.show_error(message="Por favor seleccione un vehículo.")
         else:
             vehicle_id = values[0]
             identity = values[1]
             response = self.ask_question(
-                message_1="Borrar reparacion",
-                message_2="Esta seguro de eliminar este vehiculo?"
+                message_1="Borrar reparación",
+                message_2="Está seguro de eliminar este vehículo?"
             )
             if response:
                 try:
@@ -269,8 +269,7 @@ class MenuVehicle(BaseFrame):
                     self.refresh_table()
                 except VehicleDeleteException:
                     self.show_error(
-                        message=f"El vehiculo tiene una reparacion registrada. Por favor, borre la reparacion y luego el vehiculo."
+                        message=f"El vehículo tiene una reparación registrada. Por favor, borre la reparación y luego el vehículo."
                     )
                     raise VehicleDeleteException()
-                self.show_info(message=f"El vehiculo con placa: {identity} ha sido borrado exitosamente.")
-
+                self.show_info(message=f"El vehículo con placa: {identity} ha sido borrado éxitosamente.")

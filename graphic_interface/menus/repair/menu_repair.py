@@ -287,7 +287,7 @@ class MenuRepair(BaseFrame):
         """Open Form Edit Repair."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
+            self.show_error(message="Por favor seleccione un vehículo.")
         else:
             self.new_window = tk.Toplevel(self.root)
             self.app = FormEditRepair(root=self.new_window, connection=self.connection, master=self, values=values)
@@ -296,7 +296,7 @@ class MenuRepair(BaseFrame):
         """Open Form Edit Repair."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione un vehiculo.")
+            self.show_error(message="Por favor seleccione un vehículo.")
         else:
             self.new_window = tk.Toplevel(self.root)
             self.app = FormCheckDetailsRepair(root=self.new_window, connection=self.connection, master=self, values=values)
@@ -305,12 +305,12 @@ class MenuRepair(BaseFrame):
         """Delete repair."""
         values = self.get_values()
         if not values:
-            self.show_error(message="Por favor seleccione una reparacion.")
+            self.show_error(message="Por favor seleccione una reparación.")
         else:
             repair_id = values[0]
             response = self.ask_question(
-                message_1="Borrar reparacion",
-                message_2="Esta seguro de eliminar esta reparacion?"
+                message_1="Borrar reparación",
+                message_2="Está seguro de eliminar esta reparación?"
             )
             if response:
                 try:
@@ -318,9 +318,9 @@ class MenuRepair(BaseFrame):
                     self.refresh_table()
                 except RepairDeleteException:
                     self.show_error(
-                        message=f"Error al borrar la reparacion."
+                        message=f"Error al borrar la reparación."
                     )
                     raise RepairDeleteException()
                 self.show_info(
-                    message=f"La reparacion ha sido borrada exitosamente."
+                    message=f"La reparación ha sido borrada éxitosamente."
                 )

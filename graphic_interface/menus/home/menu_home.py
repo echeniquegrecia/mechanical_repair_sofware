@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 from PIL import Image, ImageTk
 from tkinter import filedialog
+from tkinter.ttk import Progressbar
 
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.menu_client import MenuClient
@@ -31,16 +32,16 @@ class MenuHome(BaseFrame):
         button_1 = tk.Button(frame_1, text="Clientes", font='Helvetica 20 bold', bg="gold2", command=self.menu_client)
         button_1.pack(fill='both', pady=10, padx=10)
 
-        button_2 = tk.Button(frame_1, text="Vehiculos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle)
+        button_2 = tk.Button(frame_1, text="Vehículos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle)
         button_2.pack(fill='both', pady=10, padx=10)
 
-        button_3 = tk.Button(frame_1, text="Tipo de Vehiculos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle_type)
+        button_3 = tk.Button(frame_1, text="Tipo de Vehículos", font='Helvetica 20 bold', bg="gold2", command=self.menu_vehicle_type)
         button_3.pack(fill='both', pady=10, padx=10)
 
         button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', bg="gold2", command=self.menu_repair)
         button_4.pack(fill='both', pady=10, padx=10)
 
-        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', bg="gold2", command=self.export_data)
+        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', bg="gold2", command=self.progress_bar)
         button_6.pack(fill='both', pady=10, padx=10)
 
         button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', bg="gold2", command=self.import_data)
@@ -52,16 +53,13 @@ class MenuHome(BaseFrame):
         frame_4 = tk.Frame(frame_3, bg='black')
         frame_4.pack(side='bottom', fill='x')
 
-        button_5 = tk.Button(frame_4, text="Reset", font='Helvetica 15 bold', bg="gold2", width=15, command=self.reset)
-        button_5.pack(side='right', fil='x')
-
-        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=15, bg="gold2", command=self.close)
+        button_5 = tk.Button(frame_4, text="Salir", font='Helvetica 15 bold', width=10, bg="gold2", command=self.close)
         button_5.pack(side='left', fil='x')
 
         image = Image.open(IMAGE_MENU)
-        image = image.resize((910, 880), Image.ANTIALIAS)
+        image = image.resize((995, 880), Image.ANTIALIAS)
         image = ImageTk.PhotoImage(image)
-        label = tk.Label(frame_2, image=image)
+        label = tk.Label(frame_2, image=image, bg="black")
         label.pack(side='right', fill='both', expand=True)
 
         self.root.mainloop()
@@ -123,12 +121,12 @@ class MenuHome(BaseFrame):
 
         vehicle_types = pd.read_excel(
             file_path,
-            sheet_name='Tipos de Vehiculo',
+            sheet_name='Tipos de Vehículo',
             header=0).fillna('')
 
         vehicles = pd.read_excel(
             file_path,
-            sheet_name='Vehiculos',
+            sheet_name='Vehículos',
             header=0).fillna('')
 
         repairs = pd.read_excel(
@@ -142,19 +140,14 @@ class MenuHome(BaseFrame):
             vehicles.to_sql('VEHICLES', self.connection, if_exists='append', index=False)
             repairs.to_sql('REPAIRS', self.connection, if_exists='append', index=False)
         except Exception:
-            self.show_error(message="Error al importar los datos, verifique que los datos y el formato del archivo son correctos")
+            self.show_error(message="Error al importar. Por favor verifique que los datos y el formato del archivo son correctos")
         self.show_info(message="Los datos fueron importados a la base de datos exitosamente.")
-
-    def reset(self):
-        """Reset the database."""
-        self.client.drop_table()
-        self.vehicle.drop_table()
-        self.vehicle_type.drop_table()
-        self.repair.drop_table()
-        import os
-        os.remove(DATABASE)
-        sys.exit()
 
     def close(self):
         """Close the app."""
         sys.exit()
+
+    def progress_bar(self):
+        """Progress bar."""
+        self.progressbar = Progressbar(self, orient=tk.HORIZONTAL,length=100,  mode='indeterminate')
+        self.progressbar.place(x=30, y=60, width=200)

@@ -10,7 +10,7 @@ class BaseFrame(BaseDatabase):
         """BaseFrame init."""
         super().__init__(connection=connection)
         self.root = root
-        self.root.title('Taller Mecanico Echenique - Programa de gestion')
+        self.root.title('Taller Mecánico Echenique - Programa de gestión')
 
     def hide(self):
         """Hide a window."""
@@ -24,7 +24,7 @@ class BaseFrame(BaseDatabase):
 
     def show_info(self, message):
         """Show info."""
-        tk.messagebox.showinfo("Informacion", message)
+        tk.messagebox.showinfo("Información", message)
         self.root.mainloop()
 
     def show_error(self, message):

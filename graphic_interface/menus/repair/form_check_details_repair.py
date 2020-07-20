@@ -169,7 +169,7 @@ class FormCheckDetailsRepair(BaseFrame):
         mileage_entry.pack(padx=5, pady=5, fill='both')
 
         # Repair details
-        frame_details_repair = tk.LabelFrame(self.root, text="Detalles de la Reparacion", bg="black", foreground="white", font='Helvetica 12 bold')
+        frame_details_repair = tk.LabelFrame(self.root, text="Detalles de la Reparación", bg="black", foreground="white", font='Helvetica 12 bold')
         frame_details_repair.pack(side="top", padx=5, pady=5, fill='both')
 
         frame_details_repair_1 = tk.Frame(frame_details_repair, bg="black")
@@ -234,7 +234,7 @@ class FormCheckDetailsRepair(BaseFrame):
         date_exit.pack(side="left", padx=5, pady=5, fill='x')
 
         # Mechanical observations
-        mechanical_obs_label = tk.Label(frame_details_repair_1_b, text="Observaciones del Mecanico:",
+        mechanical_obs_label = tk.Label(frame_details_repair_1_b, text="Observaciones del Mecánico:",
                                         font='Helvetica 12 bold', anchor='w', foreground="gold2", bg= "black")
         mechanical_obs_label.pack(side="top", fill='x', expand=True)
         scrollbar_mechanical = tk.Scrollbar(frame_details_repair_1_b)
@@ -264,7 +264,7 @@ class FormCheckDetailsRepair(BaseFrame):
         price_entry.pack(side="left", padx=5, pady=5, fill='x', expand=True)
 
         # Final observations
-        final_obs_label = tk.Label(frame_details_repair_3_a, text="Observacion final:", font='Helvetica 12 bold', anchor='w', foreground="gold2", bg= "black")
+        final_obs_label = tk.Label(frame_details_repair_3_a, text="Observación final:", font='Helvetica 12 bold', anchor='w', foreground="gold2", bg= "black")
         final_obs_label.pack(side="top", fill='x', expand=True)
         self.final_obs = tk.Text(frame_details_repair_3_a, height=3)
         self.final_obs.insert(tk.END, self.data.get("final_observations"))
@@ -338,6 +338,6 @@ class FormCheckDetailsRepair(BaseFrame):
 
         repair = self.repair.update(repair_id=self.repair_id, data=repair_data)
         if repair:
-            self.show_info(message="La reparacion ha sido registrada exitosamente.")
+            self.show_info(message="La reparación ha sido registrada éxitosamente.")
         else:
-            self.show_error(message="ERROR: La reparacion no ha sido creada.")
+            self.show_error(message="ERROR: La reparación no ha sido creada.")
