@@ -3,7 +3,6 @@ import pandas as pd
 import sys
 from PIL import Image, ImageTk
 from tkinter import filedialog
-from tkinter.ttk import Progressbar
 
 from graphic_interface.menus.base_frame import BaseFrame
 from graphic_interface.menus.client.menu_client import MenuClient
@@ -41,7 +40,7 @@ class MenuHome(BaseFrame):
         button_4 = tk.Button(frame_1, text="Reparaciones", font='Helvetica 20 bold', bg="gold2", command=self.menu_repair)
         button_4.pack(fill='both', pady=10, padx=10)
 
-        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', bg="gold2", command=self.progress_bar)
+        button_6 = tk.Button(frame_1, text="Exportar datos", font='Helvetica 20 bold', bg="gold2", command=self.export_data)
         button_6.pack(fill='both', pady=10, padx=10)
 
         button_7 = tk.Button(frame_1, text="Importar datos", font='Helvetica 20 bold', bg="gold2", command=self.import_data)
@@ -146,8 +145,3 @@ class MenuHome(BaseFrame):
     def close(self):
         """Close the app."""
         sys.exit()
-
-    def progress_bar(self):
-        """Progress bar."""
-        self.progressbar = Progressbar(self, orient=tk.HORIZONTAL,length=100,  mode='indeterminate')
-        self.progressbar.place(x=30, y=60, width=200)
