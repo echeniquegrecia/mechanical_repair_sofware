@@ -28,7 +28,7 @@ class DatabaseConnection(metaclass=Singleton):
         self.connection = self.get_connection()
 
     def get_connection(self):
-        """Get Database connection."""
+        """Get database connection."""
         try:
             if not os.path.isfile(self.database_path):
                 # Create db and tables in case they do not exist.
@@ -47,10 +47,40 @@ class DatabaseConnection(metaclass=Singleton):
         return connection
 
     def create_table(self, connection, table):
-        """Create a table in Database."""
+        """Create a table in database."""
         try:
             connection.cursor().execute(table)
         except ConnectionError as error:
             logging.error(f"Database creation table error: {error}.")
+            raise error
+
+    def execute_query(self, *args, **kwargs):
+        """Execute query in database."""
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(*args, **kwargs)
+        except Exception as error:
+            raise error
+
+    def fetch_all(self, *args, **kwargs):
+        """Fetches all rows from a table."""
+        try:
+            cursor = self.execute_query(self, *args, **kwargs)
+            cursor.fetchall()
+        except Exception as error:
+            raise error
+
+    def commit(self):
+        """Commit recorder changes."""
+        try:
+            self.connection.commit()
+        except Exception as error:
+            raise error
+
+    def get_description(self):
+        """Get Description from a table."""
+        try:
+            self.connection.cursor().description
+        except Exception as error:
             raise error
 
